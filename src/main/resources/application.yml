@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      host: 118.33.122.32
+      host: localhost
       port: 27017
-      database: ms
-      username: mock
-      password: Kona!234
+      database: ams
+      username: ams
+      password: ams1234
