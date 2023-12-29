@@ -4,10 +4,8 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "student")
-class StudentDocument(
+data class StudentDocumentV1(
     @Id
-    private val id: String,
-    private val name: String
-) {
-    fun getName() = this.name
-}
+    val id: String? = null,
+    val name: String
+)
