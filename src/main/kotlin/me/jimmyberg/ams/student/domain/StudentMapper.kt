@@ -7,7 +7,18 @@ import org.springframework.stereotype.Component
 class StudentMapper {
 
     fun documentToDomain(document: StudentDocumentV1): Student {
-        return Student(name = document.name)
+        return Student(
+            id = document.id!!,
+            name = document.name,
+            phone = document.phone,
+            birthday = document.birthday,
+            gender = document.gender,
+            address = document.address,
+            schoolName = document.schoolName,
+            schoolType = document.schoolType,
+            grade = document.grade,
+            status = document.status,
+        )
     }
 
 }
