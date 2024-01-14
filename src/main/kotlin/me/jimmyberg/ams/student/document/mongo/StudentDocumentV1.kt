@@ -17,11 +17,11 @@ data class StudentDocumentV1(
     val birthday: String,
     @Enumerated(EnumType.STRING)
     val gender: Gender,
-    val address: String?,
+    val address: String? = null,
     val schoolName: String,
     @Enumerated(EnumType.STRING)
     val schoolType: SchoolType,
     val grade: Int,
     @Enumerated(EnumType.STRING)
-    val status: StudentStatus
+    val status: StudentStatus = StudentStatus.REGISTER_WAITING
 )
