@@ -1,0 +1,46 @@
+package me.jimmyberg.ams.student.repository
+
+import me.jimmyberg.ams.student.document.mongo.StudentDocumentV1
+import me.jimmyberg.ams.student.domain.*
+import me.jimmyberg.ams.student.repository.mongo.StudentMongoRepository
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+
+@SpringBootTest
+class StudentRepositoryBootTest(
+    @Autowired private val studentMongoRepository: StudentMongoRepository,
+    @Autowired private val studentMapper: StudentMapper
+) {
+    
+    @Test
+    fun `Student domain 정보 전달받아 DB 저장한다`() {
+        // given
+        val student = Student(
+            name = "김모아",
+            phone = "01012341234",
+            birthday = "19900202",
+            gender = Gender.FEMALE,
+            schoolName = "여의도중학교",
+            schoolType = SchoolType.MIDDLE,
+            grade = 1,
+            status = StudentStatus.REGISTER_WAITING
+        )
+
+        // when
+        val saved = saveStudent(student)
+
+        // then
+        assertNotNull(saved)
+        assertNotNull(saved.id)
+        assertEquals(saved.name, student.name)
+    }
+
+    private fun saveStudent(domain: Student): StudentDocumentV1 {
+        return studentMapper
+            .domainToDocumentV1(domain)
+            .let(studentMongoRepository::save)
+    }
+    
+}

@@ -19,7 +19,7 @@ class StudentMongoRepositoryTest(
         // given
         val document = StudentDocumentV1(
             name = "김모건",
-            phone = "",
+            phone = "01012341234",
             birthday = "19900309",
             gender = Gender.MALE,
             schoolName = "신길초",
