@@ -1,9 +1,14 @@
 package me.jimmyberg.ams.student.repository
 
+import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.student.document.mongo.StudentDocumentV1
-import me.jimmyberg.ams.student.domain.*
+import me.jimmyberg.ams.student.domain.Student
+import me.jimmyberg.ams.student.domain.StudentMapper
 import me.jimmyberg.ams.student.repository.mongo.StudentMongoRepository
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
