@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.student.controller
 
 import me.jimmyberg.ams.student.controller.model.SaveStudentRequest
-import me.jimmyberg.ams.student.domain.Gender
-import me.jimmyberg.ams.student.domain.SchoolType
+import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.student.domain.Student
 import me.jimmyberg.ams.student.service.SaveStudentService
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -21,12 +21,12 @@ class SaveStudentControllerBootTest(
         @JvmStatic
         fun saveStudentRequest(): Set<SaveStudentRequest> {
             return SaveStudentRequest(
-                name = "김모건",
+                name = "김모아",
                 phone = "01012341234",
-                birthday = "19900309",
-                gender = Gender.MALE,
-                schoolName = "신길초등학교",
-                schoolType = SchoolType.PRIMARY,
+                birthday = "19900202",
+                gender = Gender.FEMALE,
+                schoolName = "여의도중학교",
+                schoolType = SchoolType.MIDDLE,
                 grade = 1
             ).let { setOf(it) }
         }

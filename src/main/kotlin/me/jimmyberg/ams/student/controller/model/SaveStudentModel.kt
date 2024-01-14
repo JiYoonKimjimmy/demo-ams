@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.student.controller.model
 
-import me.jimmyberg.ams.student.domain.Gender
-import me.jimmyberg.ams.student.domain.SchoolType
-import me.jimmyberg.ams.student.domain.StudentStatus
+import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.common.enumerate.StudentStatus
 
 data class SaveStudentRequest(
     val name: String,

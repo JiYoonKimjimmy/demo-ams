@@ -1,5 +1,9 @@
 package me.jimmyberg.ams.student.domain
 
+import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.common.enumerate.StudentStatus
+
 data class Student(
     val id: String? = null,
     val name: String,
@@ -12,22 +16,3 @@ data class Student(
     val grade: Int,
     val status: StudentStatus
 )
-
-enum class SchoolType {
-    PRIMARY,
-    MIDDLE,
-    HIGH,
-    UNIVERSITY
-}
-
-enum class StudentStatus {
-    REGISTER_WAITING,
-    ACTIVATED,
-    INACTIVATED
-}
-
-enum class Gender {
-    MALE,
-    FEMALE,
-    NON_BINARY
-}

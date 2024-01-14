@@ -2,9 +2,9 @@ package me.jimmyberg.ams.student.document.mongo
 
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import me.jimmyberg.ams.student.domain.Gender
-import me.jimmyberg.ams.student.domain.SchoolType
-import me.jimmyberg.ams.student.domain.StudentStatus
+import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.common.enumerate.StudentStatus
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
