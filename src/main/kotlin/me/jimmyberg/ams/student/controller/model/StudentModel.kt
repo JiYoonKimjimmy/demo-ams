@@ -3,6 +3,8 @@ package me.jimmyberg.ams.student.controller.model
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.student.domain.Address
+import me.jimmyberg.ams.student.domain.School
 
 data class StudentModel(
     val id: String? = null,
@@ -10,9 +12,25 @@ data class StudentModel(
     val phone: String,
     val birthday: String,
     val gender: Gender,
-    var address: String? = null,
+    val zipCode: String? = null,
+    val baseAddress: String? = null,
+    val detailAddress: String? = null,
     val schoolName: String,
     val schoolType: SchoolType,
     val grade: Int,
     val status: StudentStatus = StudentStatus.REGISTER_WAITING
-)
+) {
+
+    val address: Address? by lazy {
+        if (zipCode != null && baseAddress != null && detailAddress != null) {
+            Address(zipCode, baseAddress, detailAddress)
+        } else {
+            null
+        }
+    }
+
+    val school: School by lazy {
+        School(schoolName, schoolType, grade)
+    }
+
+}

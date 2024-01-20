@@ -14,9 +14,7 @@ class StudentModelMapper {
             birthday = model.birthday,
             gender = model.gender,
             address = model.address,
-            schoolName = model.schoolName,
-            schoolType = model.schoolType,
-            grade = model.grade,
+            school = model.school,
             status = model.status
         )
     }
@@ -28,11 +26,14 @@ class StudentModelMapper {
             phone = domain.phone,
             birthday = domain.birthday,
             gender = domain.gender,
-            address = domain.address,
-            schoolName = domain.schoolName,
-            schoolType = domain.schoolType,
-            grade = domain.grade,
+            zipCode = domain.address?.zipCode,
+            baseAddress = domain.address?.detailAddress,
+            detailAddress = domain.address?.detailAddress,
+            schoolName = domain.school.schoolName,
+            schoolType = domain.school.schoolType,
+            grade = domain.school.grade,
             status = domain.status
         )
     }
+
 }

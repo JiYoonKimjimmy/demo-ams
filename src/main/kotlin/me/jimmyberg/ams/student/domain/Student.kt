@@ -10,9 +10,19 @@ data class Student(
     val phone: String,
     val birthday: String,
     val gender: Gender,
-    val address: String? = null,
+    val address: Address? = null,
+    val school: School,
+    val status: StudentStatus
+)
+
+class School(
     val schoolName: String,
     val schoolType: SchoolType,
     val grade: Int,
-    val status: StudentStatus
+)
+
+class Address(
+    val zipCode: String,
+    val baseAddress: String,
+    val detailAddress: String
 )

@@ -14,9 +14,7 @@ class StudentMapper {
             birthday = domain.birthday,
             gender = domain.gender,
             address = domain.address,
-            schoolName = domain.schoolName,
-            schoolType = domain.schoolType,
-            grade = domain.grade,
+            school = domain.school,
             status = domain.status,
         )
     }
@@ -29,9 +27,7 @@ class StudentMapper {
             birthday = document.birthday,
             gender = document.gender,
             address = document.address,
-            schoolName = document.schoolName,
-            schoolType = document.schoolType,
-            grade = document.grade,
+            school = document.school,
             status = document.status
         )
     }
