@@ -10,7 +10,7 @@ data class StudentModel(
     val phone: String,
     val birthday: String,
     val gender: Gender,
-    val address: String? = null,
+    var address: String? = null,
     val schoolName: String,
     val schoolType: SchoolType,
     val grade: Int,

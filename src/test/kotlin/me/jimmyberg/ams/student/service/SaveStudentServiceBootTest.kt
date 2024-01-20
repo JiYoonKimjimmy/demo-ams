@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class SaveStudentServiceBootTest(
-    @Autowired private val saveStudentService: SaveStudentService
+    @Autowired private val saveStudentService: SaveStudentServiceV1
 ) {
 
     companion object {

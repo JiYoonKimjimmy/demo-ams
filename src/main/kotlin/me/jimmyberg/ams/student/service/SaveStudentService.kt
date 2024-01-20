@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional
 class SaveStudentService(
     private val studentRepository: StudentRepository,
     private val mapper: StudentModelMapper
-) {
+) : SaveStudentServiceV1 {
 
     /**
      * 학생 정보 저장 처리
      */
-    fun save(student: Student): StudentModel {
+    override fun save(student: Student): StudentModel {
         return studentRepository.save(student).let(mapper::domainToModel)
     }
 
