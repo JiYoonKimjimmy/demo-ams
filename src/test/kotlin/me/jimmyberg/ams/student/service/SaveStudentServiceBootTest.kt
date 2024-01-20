@@ -3,6 +3,7 @@ package me.jimmyberg.ams.student.service
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.student.controller.model.SaveStudentRequest
+import me.jimmyberg.ams.student.controller.model.StudentModel
 import me.jimmyberg.ams.student.domain.Student
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -18,7 +19,7 @@ class SaveStudentServiceBootTest(
     companion object {
         @JvmStatic
         fun saveStudentRequest(): Set<SaveStudentRequest> {
-            return SaveStudentRequest(
+            val student = StudentModel(
                 name = "김모아",
                 phone = "01012341234",
                 birthday = "19900202",
@@ -26,7 +27,8 @@ class SaveStudentServiceBootTest(
                 schoolName = "여의도중학교",
                 schoolType = SchoolType.MIDDLE,
                 grade = 1
-            ).let { setOf(it) }
+            )
+            return setOf(SaveStudentRequest(student))
         }
     }
 
@@ -35,15 +37,15 @@ class SaveStudentServiceBootTest(
     fun `신규 학생 정보 입력받아 저장한다`(request: SaveStudentRequest) {
         // given
         val domain = Student(
-            name = request.name,
-            phone = request.phone,
-            birthday = request.birthday,
-            gender = request.gender,
-            address = request.address,
-            schoolName = request.schoolName,
-            schoolType = request.schoolType,
-            grade = request.grade,
-            status = request.status
+            name = request.student.name,
+            phone = request.student.phone,
+            birthday = request.student.birthday,
+            gender = request.student.gender,
+            address = request.student.address,
+            schoolName = request.student.schoolName,
+            schoolType = request.student.schoolType,
+            grade = request.student.grade,
+            status = request.student.status
         )
 
         // when
@@ -51,7 +53,7 @@ class SaveStudentServiceBootTest(
 
         // then
         assertNotNull(saved)
-        assertEquals(saved.name, request.name)
+        assertEquals(saved.name, request.student.name)
     }
 
 }
