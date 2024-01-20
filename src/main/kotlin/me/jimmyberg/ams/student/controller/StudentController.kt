@@ -1,7 +1,6 @@
 package me.jimmyberg.ams.student.controller
 
 import me.jimmyberg.ams.student.controller.model.*
-import me.jimmyberg.ams.student.domain.Student
 import me.jimmyberg.ams.student.service.FindStudentServiceV1
 import me.jimmyberg.ams.student.service.SaveStudentServiceV1
 import me.jimmyberg.ams.student.service.UpdateStudentServiceV1
@@ -14,22 +13,13 @@ import org.springframework.web.bind.annotation.*
 class StudentController(
     private val saveStudentService: SaveStudentServiceV1,
     private val findStudentService: FindStudentServiceV1,
-    private val updateStudentService: UpdateStudentServiceV1
+    private val updateStudentService: UpdateStudentServiceV1,
+    private val mapper: StudentModelMapper
 ) {
 
     @PostMapping
     fun saveStudent(@RequestBody request: SaveStudentRequest): ResponseEntity<SaveStudentResponse> {
-        val student = Student(
-            name = request.student.name,
-            phone = request.student.phone,
-            birthday = request.student.birthday,
-            gender = request.student.gender,
-            address = request.student.address,
-            schoolName = request.student.schoolName,
-            schoolType = request.student.schoolType,
-            grade = request.student.grade,
-            status = request.student.status
-        )
+        val student = mapper.modelToDomain(request.student)
         val response = SaveStudentResponse(student = saveStudentService.save(student))
         return ResponseEntity(response, HttpStatus.OK)
     }
@@ -46,19 +36,9 @@ class StudentController(
         return ResponseEntity(response, HttpStatus.OK)
     }
 
-    @PostMapping("/update")
+    @PutMapping
     fun update(@RequestBody request: UpdateStudentRequest): ResponseEntity<UpdateStudentResponse> {
-        val student = Student(
-            name = request.student.name,
-            phone = request.student.phone,
-            birthday = request.student.birthday,
-            gender = request.student.gender,
-            address = request.student.address,
-            schoolName = request.student.schoolName,
-            schoolType = request.student.schoolType,
-            grade = request.student.grade,
-            status = request.student.status
-        )
+        val student = mapper.modelToDomain(request.student)
         val response = UpdateStudentResponse(updateStudentService.update(student))
         return ResponseEntity(response, HttpStatus.OK)
     }
