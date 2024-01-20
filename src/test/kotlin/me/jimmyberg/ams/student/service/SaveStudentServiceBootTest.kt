@@ -1,19 +1,17 @@
-package me.jimmyberg.ams.student.controller
+package me.jimmyberg.ams.student.service
 
-import me.jimmyberg.ams.student.controller.model.SaveStudentRequest
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.student.controller.model.SaveStudentRequest
 import me.jimmyberg.ams.student.domain.Student
-import me.jimmyberg.ams.student.service.SaveStudentService
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class SaveStudentControllerBootTest(
+class SaveStudentServiceBootTest(
     @Autowired private val saveStudentService: SaveStudentService
 ) {
 

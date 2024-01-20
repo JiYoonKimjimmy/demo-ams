@@ -1,18 +1,18 @@
-package me.jimmyberg.ams.student.controller
+package me.jimmyberg.ams.student.service
 
-import me.jimmyberg.ams.student.service.FindStudentService
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class FindStudentControllerBootTest(
+class FindStudentServiceBootTest(
     @Autowired private val findStudentService: FindStudentService
 ) {
 
     @Test
-    fun `학생 정보 전제 조회한다`() {
+    fun `학생 정보 전제 조회 성공한다`() {
         // when
         val students = findStudentService.findAll()
 
