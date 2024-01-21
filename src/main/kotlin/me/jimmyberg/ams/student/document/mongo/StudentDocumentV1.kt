@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.student.document.mongo
 
+import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.StudentStatus
-import me.jimmyberg.ams.student.domain.Address
 import me.jimmyberg.ams.student.domain.School
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document

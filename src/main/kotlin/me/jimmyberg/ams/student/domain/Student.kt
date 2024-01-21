@@ -1,5 +1,6 @@
 package me.jimmyberg.ams.student.domain
 
+import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
@@ -19,10 +20,4 @@ class School(
     val schoolName: String,
     val schoolType: SchoolType,
     val grade: Int,
-)
-
-class Address(
-    val zipCode: String,
-    val baseAddress: String,
-    val detailAddress: String
 )

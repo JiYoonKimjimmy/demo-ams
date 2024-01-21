@@ -27,7 +27,7 @@ class StudentModelMapper {
             birthday = domain.birthday,
             gender = domain.gender,
             zipCode = domain.address?.zipCode,
-            baseAddress = domain.address?.detailAddress,
+            baseAddress = domain.address?.baseAddress,
             detailAddress = domain.address?.detailAddress,
             schoolName = domain.school.schoolName,
             schoolType = domain.school.schoolType,
