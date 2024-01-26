@@ -4,6 +4,7 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.student.document.mongo.StudentDocumentV1
+import me.jimmyberg.ams.student.domain.School
 import me.jimmyberg.ams.student.domain.Student
 import me.jimmyberg.ams.student.domain.StudentMapper
 import me.jimmyberg.ams.student.repository.mongo.StudentMongoRepository
@@ -27,9 +28,7 @@ class StudentRepositoryBootTest(
             phone = "01012341234",
             birthday = "19900202",
             gender = Gender.FEMALE,
-            schoolName = "여의도중학교",
-            schoolType = SchoolType.MIDDLE,
-            grade = 1,
+            school = School("여의도중학교", SchoolType.MIDDLE, 1),
             status = StudentStatus.REGISTER_WAITING
         )
 

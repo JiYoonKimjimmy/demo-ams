@@ -1,8 +1,9 @@
 package me.jimmyberg.ams.student.repository.mongo
 
-import me.jimmyberg.ams.student.document.mongo.StudentDocumentV1
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.student.document.mongo.StudentDocumentV1
+import me.jimmyberg.ams.student.domain.School
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -22,9 +23,7 @@ class StudentMongoRepositoryTest(
             phone = "01012341234",
             birthday = "19900309",
             gender = Gender.MALE,
-            schoolName = "신길초",
-            schoolType = SchoolType.PRIMARY,
-            grade = 1
+            school = School("신길초", SchoolType.PRIMARY, 1)
         )
 
         // when

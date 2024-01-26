@@ -5,7 +5,8 @@ import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.student.controller.model.SaveStudentRequest
 import me.jimmyberg.ams.student.controller.model.StudentModel
 import me.jimmyberg.ams.student.domain.Student
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,9 +43,7 @@ class SaveStudentServiceBootTest(
             birthday = request.student.birthday,
             gender = request.student.gender,
             address = request.student.address,
-            schoolName = request.student.schoolName,
-            schoolType = request.student.schoolType,
-            grade = request.student.grade,
+            school = request.student.school,
             status = request.student.status
         )
 

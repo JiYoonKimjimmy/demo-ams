@@ -13,9 +13,9 @@ data class StudentModel(
     val phone: String,
     val birthday: String,
     val gender: Gender,
-    val zipCode: String? = null,
-    val baseAddress: String? = null,
-    val detailAddress: String? = null,
+    var zipCode: String? = null,
+    var baseAddress: String? = null,
+    var detailAddress: String? = null,
     val schoolName: String,
     val schoolType: SchoolType,
     val grade: Int,
@@ -24,10 +24,10 @@ data class StudentModel(
 
     @get:JsonIgnore
     val address: Address? by lazy {
-        if (zipCode != null && baseAddress != null && detailAddress != null) {
-            Address(zipCode, baseAddress, detailAddress)
-        } else {
-            null
+        takeIf {
+            zipCode != null && baseAddress != null && detailAddress != null
+        }?.let {
+            Address(zipCode!!, baseAddress!!, detailAddress!!)
         }
     }
 
