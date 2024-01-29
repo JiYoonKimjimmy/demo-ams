@@ -1,6 +1,9 @@
 package study.singleton;
 
-public class Singleton {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Singleton implements Serializable {
 
     /**
      * LazyHolder Inner Class 를 활용한 Singleton 패턴 구현
@@ -39,8 +42,24 @@ public class Singleton {
         return INSTANCE;
     }
 
+    /**
+     * `readResolve()`: 역직렬화 과정의 객체 반환 함수
+     * `@Serial`: 직렬화 과정에서 사용되는 함수와 필드를 명시적 표시를 위한 애노테이션
+     */
+    @Serial
+    protected Object readResolve() {
+        return INSTANCE;
+    }
+
     public void print(int i) {
         System.out.println(i + " : " + this + " = " + VALUE);
     }
 
+    public void setValue(int value) {
+        VALUE = value;
+    }
+
+    public int getValue() {
+        return VALUE;
+    }
 }
