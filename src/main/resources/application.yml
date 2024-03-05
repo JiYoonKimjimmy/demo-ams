@@ -21,7 +21,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: office
+      on-profile: konai
   data:
     mongodb:
       host: 118.33.122.32
