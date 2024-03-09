@@ -14,9 +14,6 @@ class SaveStudentService(
     private val mapper: StudentModelMapper
 ) : SaveStudentServiceV1 {
 
-    /**
-     * 학생 정보 저장 처리
-     */
     override fun save(student: Student): StudentModel {
         return studentRepository.save(student).let(mapper::domainToModel)
     }

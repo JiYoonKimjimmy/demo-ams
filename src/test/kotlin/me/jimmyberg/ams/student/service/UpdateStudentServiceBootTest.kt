@@ -33,4 +33,5 @@ class UpdateStudentServiceBootTest(
         // then
         assertNotNull(result)
     }
+
 }
