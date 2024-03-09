@@ -12,8 +12,18 @@ class StudentRepository(
     private val studentMapper: StudentMapper
 ) {
 
+    private fun convertDomainToDocument(domain: Student): StudentDocumentV1 {
+        return studentMapper.domainToDocumentV1(domain)
+    }
+
     private fun convertDocumentToDomain(document: StudentDocumentV1): Student {
         return studentMapper.documentToDomain(document)
+    }
+
+    fun save(domain: Student): Student {
+        return convertDomainToDocument(domain)
+            .let(studentMongoRepository::save)
+            .let(this::convertDocumentToDomain)
     }
 
     fun findById(id: String): Student {
@@ -27,13 +37,6 @@ class StudentRepository(
         return studentMongoRepository
             .findAll()
             .map(this::convertDocumentToDomain)
-    }
-
-    fun save(domain: Student): Student {
-        return studentMapper
-            .domainToDocumentV1(domain)
-            .let(studentMongoRepository::save)
-            .let(this::convertDocumentToDomain)
     }
 
 }
