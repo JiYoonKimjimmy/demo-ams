@@ -1,12 +1,13 @@
 package me.jimmyberg.ams.student.service
 
-import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.student.controller.model.StudentModel
 import me.jimmyberg.ams.student.controller.model.StudentModelMapper
 import me.jimmyberg.ams.student.domain.School
 import me.jimmyberg.ams.student.domain.Student
+import me.jimmyberg.ams.student.repository.StudentRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.params.ParameterizedTest
@@ -16,8 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class UpdateStudentServiceBootTest(
-    @Autowired private val saveStudentService: SaveStudentServiceV1,
-    @Autowired private val updateStudentService: UpdateStudentServiceV1,
+    @Autowired private val studentRepository: StudentRepository,
     @Autowired private val mapper: StudentModelMapper
 ) {
 
@@ -40,21 +40,28 @@ class UpdateStudentServiceBootTest(
         }
     }
 
+    private fun saveStudent(student: Student): StudentModel {
+        return studentRepository.save(student).let(mapper::domainToModel)
+    }
+
+    private fun updateAddress(student: StudentModel): StudentModel {
+        return student
+            .apply {
+                this.zipCode = "12345"
+                this.baseAddress = "서울시 강서구 허준로"
+                this.detailAddress = "Hello World"
+            }
+    }
+
     @MethodSource("student")
     @ParameterizedTest
-    fun `학생 정보 조회 후 주소 변경하여 업데이트 저장한다`(domain: Student) {
+    fun `학생 정보 조회 후 주소 변경하여 업데이트 저장한다`(student: Student) {
         // given
-        val address = Address("12345", "서울시 영등포구 은행로 25", "Hello World")
-        val saved = saveStudentService.save(domain)
-        val student = saved
-            .apply {
-                this.zipCode = address.zipCode
-                this.baseAddress = address.baseAddress
-                this.detailAddress = address.detailAddress
-            }
+        val saved = saveStudent(student).let(this::updateAddress)
+        val domain = saved.let(this::updateAddress).let(mapper::modelToDomain)
 
         // when
-        val updated = updateStudentService.update(mapper.modelToDomain(student))
+        val updated = studentRepository.save(domain).let(mapper::domainToModel)
 
         // then
         assertNotNull(updated)
