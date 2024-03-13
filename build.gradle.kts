@@ -30,8 +30,10 @@ dependencies {
 
     runtimeOnly("com.h2database:h2")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.mockk:mockk:1.4.1")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") { exclude(module = "mockito-core") }
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks.withType<KotlinCompile> {
