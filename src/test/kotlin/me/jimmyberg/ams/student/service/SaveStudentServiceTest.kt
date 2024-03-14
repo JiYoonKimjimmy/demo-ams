@@ -7,29 +7,14 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.student.controller.model.StudentModel
-import me.jimmyberg.ams.student.domain.School
-import me.jimmyberg.ams.student.domain.Student
-import org.junit.jupiter.api.Assertions.*
+import me.jimmyberg.ams.student.domain.StudentMapper
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class SaveStudentServiceTest {
 
-    @Test
-    fun `학생 정보 신규 생성하여 저장한다`() {
-        // given
-        val domain = Student(
-            name = "김모아",
-            phone = "01012341234",
-            birthday = "19900202",
-            gender = Gender.FEMALE,
-            school = School(
-                schoolName = "여의도중학교",
-                schoolType = SchoolType.MIDDLE,
-                grade = 1
-            ),
-            status = StudentStatus.REGISTER_WAITING
-        )
-        val model = StudentModel(
+    private fun studentModel(): StudentModel {
+        return StudentModel(
             name = "김모아",
             phone = "01012341234",
             birthday = "19900202",
@@ -39,7 +24,14 @@ class SaveStudentServiceTest {
             grade = 1,
             status = StudentStatus.REGISTER_WAITING
         )
+    }
+
+    @Test
+    fun `학생 정보 신규 생성하여 저장한다`() {
+        // given
         val mock = mockk<SaveStudentService>()
+        val model = studentModel()
+        val domain = StudentMapper().modelToDomain(model)
 
         every { mock.save(any()) } returns model
 
