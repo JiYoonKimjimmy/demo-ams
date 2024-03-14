@@ -1,22 +1,16 @@
 package me.jimmyberg.ams.student.service
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.student.controller.model.StudentModel
-import me.jimmyberg.ams.student.controller.model.StudentModelMapper
 import me.jimmyberg.ams.student.domain.School
 import me.jimmyberg.ams.student.domain.Student
-import me.jimmyberg.ams.student.repository.StudentRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 
 class SaveStudentServiceTest {
 

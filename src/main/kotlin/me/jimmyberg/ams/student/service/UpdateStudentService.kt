@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.student.service
 
 import me.jimmyberg.ams.student.controller.model.StudentModel
-import me.jimmyberg.ams.student.controller.model.StudentModelMapper
 import me.jimmyberg.ams.student.domain.Student
+import me.jimmyberg.ams.student.domain.StudentMapper
 import me.jimmyberg.ams.student.repository.StudentRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UpdateStudentService(
     private val studentRepository: StudentRepository,
-    private val mapper: StudentModelMapper
+    private val mapper: StudentMapper
 ) : UpdateStudentServiceV1 {
 
     override fun update(student: Student): StudentModel {

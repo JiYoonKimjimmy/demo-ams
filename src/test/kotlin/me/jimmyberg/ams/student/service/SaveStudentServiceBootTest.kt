@@ -3,9 +3,9 @@ package me.jimmyberg.ams.student.service
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
-import me.jimmyberg.ams.student.controller.model.StudentModelMapper
 import me.jimmyberg.ams.student.domain.School
 import me.jimmyberg.ams.student.domain.Student
+import me.jimmyberg.ams.student.domain.StudentMapper
 import me.jimmyberg.ams.student.repository.StudentRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class SaveStudentServiceBootTest(
 //    @Autowired private val saveStudentService: SaveStudentServiceV1
     @Autowired private val studentRepository: StudentRepository,
-    @Autowired private val mapper: StudentModelMapper
+    @Autowired private val mapper: StudentMapper
 ) {
 
     companion object {

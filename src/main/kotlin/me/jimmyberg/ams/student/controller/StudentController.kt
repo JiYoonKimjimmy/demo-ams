@@ -1,6 +1,7 @@
 package me.jimmyberg.ams.student.controller
 
 import me.jimmyberg.ams.student.controller.model.*
+import me.jimmyberg.ams.student.domain.StudentMapper
 import me.jimmyberg.ams.student.service.FindStudentServiceV1
 import me.jimmyberg.ams.student.service.SaveStudentServiceV1
 import me.jimmyberg.ams.student.service.UpdateStudentServiceV1
@@ -14,7 +15,7 @@ class StudentController(
     private val saveStudentService: SaveStudentServiceV1,
     private val findStudentService: FindStudentServiceV1,
     private val updateStudentService: UpdateStudentServiceV1,
-    private val mapper: StudentModelMapper
+    private val mapper: StudentMapper
 ) {
 
     @PostMapping

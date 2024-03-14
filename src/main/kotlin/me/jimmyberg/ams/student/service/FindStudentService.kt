@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.student.service
 
 import me.jimmyberg.ams.student.controller.model.StudentModel
-import me.jimmyberg.ams.student.controller.model.StudentModelMapper
+import me.jimmyberg.ams.student.domain.StudentMapper
 import me.jimmyberg.ams.student.repository.StudentRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class FindStudentService(
     private val studentRepository: StudentRepository,
-    private val mapper: StudentModelMapper
+    private val mapper: StudentMapper
 ) : FindStudentServiceV1 {
 
     override fun findOne(id: String): StudentModel {
