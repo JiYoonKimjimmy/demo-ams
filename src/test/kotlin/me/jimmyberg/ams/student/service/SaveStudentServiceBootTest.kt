@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class SaveStudentServiceBootTest(
-//    @Autowired private val saveStudentService: SaveStudentServiceV1
     @Autowired private val studentRepository: StudentRepository,
     @Autowired private val mapper: StudentMapper
 ) {
