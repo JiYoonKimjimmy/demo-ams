@@ -33,7 +33,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") { exclude(module = "mockito-core") }
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("io.kotest:kotest-runner-junit5:5.8")
+    testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
