@@ -34,7 +34,6 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.12.6")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
