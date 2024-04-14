@@ -4,8 +4,10 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.student.document.mongo.StudentDocumentV1
 import me.jimmyberg.ams.student.domain.School
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
@@ -15,9 +17,10 @@ class StudentMongoRepositoryTest(
     @Autowired private val studentMongoRepository: StudentMongoRepository
 ) {
 
-    @Test
-    fun `신규 학생 정보를 생성하고 DB 저장한다`() {
-        // given
+    private lateinit var studentDocument: StudentDocumentV1
+
+    @BeforeEach
+    fun before() {
         val document = StudentDocumentV1(
             name = "김모건",
             phone = "01012341234",
@@ -25,15 +28,12 @@ class StudentMongoRepositoryTest(
             gender = Gender.MALE,
             school = School("신길초", SchoolType.PRIMARY, 1)
         )
+        studentDocument = studentMongoRepository.save(document)
+    }
 
-        // when
-        val saved = studentMongoRepository.save(document)
-
-        // then
-        val data = studentMongoRepository.findAll()
-        assertNotNull(data)
-        assertEquals(data.last().id, saved.id)
-        assertEquals(data.last().name, document.name)
+    @AfterEach
+    fun after() {
+        studentMongoRepository.delete(studentDocument)
     }
 
     @Test
