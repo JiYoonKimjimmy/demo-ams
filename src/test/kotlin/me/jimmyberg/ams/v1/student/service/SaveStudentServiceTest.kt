@@ -8,7 +8,6 @@ import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
 import me.jimmyberg.ams.v1.student.domain.StudentMapper
-import me.jimmyberg.ams.v1.student.service.SaveStudentService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

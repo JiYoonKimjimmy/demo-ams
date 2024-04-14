@@ -1,6 +1,5 @@
 package me.jimmyberg.ams.v1.student.service
 
-import me.jimmyberg.ams.v1.student.service.FindStudentService
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

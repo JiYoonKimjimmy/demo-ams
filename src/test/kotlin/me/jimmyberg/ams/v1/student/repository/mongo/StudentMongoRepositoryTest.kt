@@ -4,7 +4,6 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.v1.student.document.mongo.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.domain.School
-import me.jimmyberg.ams.v1.student.repository.mongo.StudentMongoRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
