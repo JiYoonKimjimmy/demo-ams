@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.v0.student.repository.fixture
+package me.jimmyberg.ams.v1.student.repository.fixture
 
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
