@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.v1.student.service
+package me.jimmyberg.ams.v0.student.service
 
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType

@@ -1,46 +1,20 @@
 package me.jimmyberg.ams.v1.student.service
 
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
-import me.jimmyberg.ams.common.enumerate.Gender
-import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.StudentStatus
-import me.jimmyberg.ams.v1.student.controller.model.StudentModel
-import me.jimmyberg.ams.v1.student.domain.StudentMapper
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.BehaviorSpec
 
-class SaveStudentServiceTest {
-
-    private fun studentModel(): StudentModel {
-        return StudentModel(
-            name = "김모아",
-            phone = "01012341234",
-            birthday = "19900202",
-            gender = Gender.FEMALE,
-            schoolName = "여의도중학교",
-            schoolType = SchoolType.MIDDLE,
-            grade = 1,
-            status = StudentStatus.REGISTER_WAITING
-        )
+class SaveStudentServiceTest : BehaviorSpec({
+    given("'김모건' 이란 학생 정보를 저장하는 경우") {
+        `when`("동일한 이름 & 생년월일 & 휴대폰번호 등록된 학생 정보가 있다면") {
+            then("중복 등록 예외 응답 처리한다.") {
+            }
+        }
+        `when`("이미 등록된 동일한 학생 이름이 있다면'") {
+            then("학생 표시 이름을 '김모건2' 로 저장하고 정상 응답 처리한다.") {
+            }
+        }
+        `when`("유효하고 정상적인 학생 정보라면") {
+            then("학생 정보를 저장하고 정상 응답 처리한다.") {
+            }
+        }
     }
-
-    @Test
-    fun `학생 정보 신규 생성하여 저장한다`() {
-        // given
-        val mock = mockk<SaveStudentService>()
-        val model = studentModel()
-        val domain = StudentMapper().modelToDomain(model)
-
-        every { mock.save(any()) } returns model
-
-        // when
-        val result = mock.save(domain)
-
-        // then
-        verify(exactly = 1) { mock.save(any()) }
-        assertEquals(result.name, domain.name)
-    }
-
-}
+})

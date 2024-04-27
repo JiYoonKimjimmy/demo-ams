@@ -4,11 +4,11 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import me.jimmyberg.ams.v1.student.repository.fixture.StudentRepositoryFixture
+import me.jimmyberg.ams.v0.student.repository.fixture.StudentRepositoryFixture
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import kotlin.jvm.optionals.getOrNull
 
-class FindStudentServiceBDDTest : BehaviorSpec({
+class FindStudentServiceTest : BehaviorSpec({
 
     val studentRepository = StudentRepositoryFixture()
 
