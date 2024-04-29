@@ -36,15 +36,6 @@ class StudentDocumentFixture {
                 gender = Gender.MALE,
                 school = School("신길초", SchoolType.PRIMARY, 6),
                 status = StudentStatus.ACTIVATED,
-            ),
-            StudentDocumentV1(
-                id = "4",
-                name = "김모군",
-                phone = "01012340001",
-                birth = "19900309",
-                gender = Gender.MALE,
-                school = School("신길초", SchoolType.PRIMARY, 6),
-                status = StudentStatus.ACTIVATED,
             )
         )
     }
