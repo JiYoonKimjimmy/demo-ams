@@ -8,6 +8,7 @@ import me.jimmyberg.ams.common.enumerate.StudentStatus
 data class Student(
     val id: String? = null,
     val name: String,
+    val indexOfName: Int? = null,
     val phone: String,
     val birth: String,
     val gender: Gender,

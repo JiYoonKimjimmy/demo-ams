@@ -54,6 +54,7 @@ class StudentMapper {
         return Student(
             id = document.id!!,
             name = document.name,
+            indexOfName = document.indexOfName,
             phone = document.phone,
             birth = document.birth,
             gender = document.gender,

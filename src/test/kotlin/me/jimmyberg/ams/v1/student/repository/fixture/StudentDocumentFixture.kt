@@ -5,13 +5,14 @@ import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.v1.student.document.mongo.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.domain.School
+import java.util.UUID
 
 class StudentDocumentFixture {
 
     companion object {
         val documents = mutableListOf(
             StudentDocumentV1(
-                id = "1",
+                id = UUID.randomUUID().toString(),
                 name = "김모건",
                 phone = "01012340001",
                 birth = "19900309",
@@ -20,7 +21,7 @@ class StudentDocumentFixture {
                 status = StudentStatus.ACTIVATED,
             ),
             StudentDocumentV1(
-                id = "2",
+                id = UUID.randomUUID().toString(),
                 name = "김모아",
                 phone = "01012340002",
                 birth = "19900202",
@@ -29,7 +30,7 @@ class StudentDocumentFixture {
                 status = StudentStatus.ACTIVATED,
             ),
             StudentDocumentV1(
-                id = "3",
+                id = UUID.randomUUID().toString(),
                 name = "김모군",
                 phone = "01012340001",
                 birth = "19900309",

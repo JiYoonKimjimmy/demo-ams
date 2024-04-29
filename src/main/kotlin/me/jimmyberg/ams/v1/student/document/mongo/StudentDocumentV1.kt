@@ -12,6 +12,7 @@ data class StudentDocumentV1(
     @Id
     var id: String? = null,
     val name: String,
+    val indexOfName: Int? = null,
     val phone: String,
     val birth: String,
     val gender: Gender,

@@ -20,9 +20,10 @@ class SaveStudentServiceTest : BehaviorSpec({
             phone = "01012340001",
             birth = "19900309",
             gender = Gender.MALE,
-            school = School("신길초", SchoolType.PRIMARY, 6),
+            school = School("여의도중", SchoolType.MIDDLE, 1),
             status = StudentStatus.REGISTER_WAITING
         )
+
         `when`("동일한 이름 & 생년월일 & 휴대폰번호 등록된 학생 정보가 있다면") {
             then("중복 등록 예외 응답 처리한다.") {
                 shouldThrow<IllegalArgumentException> {
@@ -30,13 +31,22 @@ class SaveStudentServiceTest : BehaviorSpec({
                 }
             }
         }
+
         `when`("이미 등록된 동일한 학생 이름이 있다면'") {
+            val students = studentRepository.findAllStudentByName(domain.name)
+            val lastIndexOfName = students.sortedBy { it.indexOfName }.last().indexOfName ?: 1
+            val newIndexOfName = lastIndexOfName.inc()
+
             then("학생 표시 이름을 '김모건2' 로 저장하고 정상 응답 처리한다.") {
+                newIndexOfName shouldBe 2
             }
         }
+
         `when`("유효하고 정상적인 학생 정보라면") {
+            val saved = studentRepository.saveStudent(domain)
+
             then("학생 정보를 저장하고 정상 응답 처리한다.") {
-                val result = studentRepository.saveStudent(domain)
+                val result = studentRepository.findStudentByNameAndSchoolName(saved.name, saved.school.schoolName).orElseThrow()
                 result.name shouldBe domain.name
             }
         }

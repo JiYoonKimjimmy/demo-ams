@@ -10,15 +10,8 @@ class StudentRepositoryFixture {
     private val studentMapper = StudentMapper()
     private val students = StudentDocumentFixture.documents
 
-    fun findStudentByName(name: String, schoolName: String): Optional<Student> {
-        val result = students.filter { it.name == name && it.school.schoolName == schoolName }
-        if (result.size > 1) {
-            throw IllegalArgumentException()
-        }
-        if (result.isEmpty()) {
-            throw NotFoundException()
-        }
-        return result.first().let { studentMapper.documentToDomain(it) }.let { Optional.of(it) }
+    fun findAllStudentByName(name: String): List<Student> {
+        return students.filter { it.name == name }.map { studentMapper.documentToDomain(it) }
     }
 
     fun findStudentByNameAndSchoolName(name: String, schoolName: String): Optional<Student> {
