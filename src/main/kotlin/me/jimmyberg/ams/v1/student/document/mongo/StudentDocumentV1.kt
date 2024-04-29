@@ -13,7 +13,7 @@ data class StudentDocumentV1(
     var id: String? = null,
     val name: String,
     val phone: String,
-    val birthday: String,
+    val birth: String,
     val gender: Gender,
     val address: Address? = null,
     val school: School,

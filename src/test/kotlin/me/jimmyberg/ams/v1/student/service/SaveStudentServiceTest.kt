@@ -1,9 +1,7 @@
 package me.jimmyberg.ams.v1.student.service
 
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNot
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
@@ -19,7 +17,7 @@ class SaveStudentServiceTest : BehaviorSpec({
         val domain = Student(
             name = "김모건",
             phone = "01012341234",
-            birthday = "19900309",
+            birth = "19900309",
             gender = Gender.MALE,
             school = School("신길초", SchoolType.PRIMARY, 6),
             status = StudentStatus.REGISTER_WAITING

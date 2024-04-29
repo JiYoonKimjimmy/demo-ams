@@ -21,6 +21,10 @@ class StudentRepositoryFixture {
         return result.first().let { studentMapper.documentToDomain(it) }.let { Optional.of(it) }
     }
 
+    fun findStudentByNameAndPhoneAndBirth() {
+
+    }
+
     fun saveStudent(student: Student): Student {
         val document = studentMapper.domainToDocumentV1(student)
         document.apply { id = UUID.randomUUID().toString() }

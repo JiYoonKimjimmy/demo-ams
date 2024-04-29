@@ -26,7 +26,7 @@ class StudentRepositoryBootTest(
         val student = Student(
             name = "김모아",
             phone = "01012341234",
-            birthday = "19900202",
+            birth = "19900202",
             gender = Gender.FEMALE,
             school = School("여의도중학교", SchoolType.MIDDLE, 1),
             status = StudentStatus.REGISTER_WAITING
