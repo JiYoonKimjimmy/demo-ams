@@ -44,9 +44,9 @@ class SaveStudentServiceTest : BehaviorSpec({
 
         `when`("유효하고 정상적인 학생 정보라면") {
             val saved = studentRepository.saveStudent(domain)
+            val result = studentRepository.findStudentByNameAndSchoolName(saved.name, saved.school.schoolName).orElseThrow()
 
             then("학생 정보를 저장하고 정상 응답 처리한다.") {
-                val result = studentRepository.findStudentByNameAndSchoolName(saved.name, saved.school.schoolName).orElseThrow()
                 result.name shouldBe domain.name
             }
         }
