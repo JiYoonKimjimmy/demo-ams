@@ -33,10 +33,20 @@ class StudentRepository(
             .let(this::convertDocumentToDomain)
     }
 
+    fun findAllByName(name: String): List<Student> {
+        return studentMongoRepository
+            .findAllByName(name)
+            .map(this::convertDocumentToDomain)
+    }
+
     fun findAll(): List<Student> {
         return studentMongoRepository
             .findAll()
             .map(this::convertDocumentToDomain)
+    }
+
+    fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birthDate: String): Boolean {
+        return studentMongoRepository.existsByNameAndPhoneAndBirth(name, phone, birthDate)
     }
 
 }

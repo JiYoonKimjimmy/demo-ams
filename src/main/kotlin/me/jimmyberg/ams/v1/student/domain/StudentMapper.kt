@@ -41,6 +41,7 @@ class StudentMapper {
         return StudentDocumentV1(
             id = domain.id,
             name = domain.name,
+            indexOfName = domain.indexOfName,
             phone = domain.phone,
             birth = domain.birth,
             gender = domain.gender,

@@ -43,11 +43,11 @@ class StudentMongoRepositoryTest(
         val name = "김모건"
 
         // when
-        val document = studentMongoRepository.findByName(name)
+        val document = studentMongoRepository.findByName(name).orElse(null)
 
         // then
         assertNotNull(document)
-        assertEquals(document?.name, name)
+        assertEquals(document.name, name)
     }
 
 }

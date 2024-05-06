@@ -15,7 +15,30 @@ class SaveStudentService(
 ) : SaveStudentServiceV1 {
 
     override fun save(student: Student): StudentModel {
-        return studentRepository.save(student).let(mapper::domainToModel)
+        return with(student) {
+            // 1. 동일한 이름 & 생년월일 & 휴대폰번호 학생 정보 등록 여부 확인
+            checkDuplicateStudentByNameAndPhoneAndBirth(this)
+            // 2. 동일한 이름 학생 정보 등록 여부 확인 & indexOfName 생성
+            checkDuplicateStudentByNameAndGetIndexOfName(this)
+            // 3. 학생 정보 저장 & 반환 처리
+            studentRepository.save(this).let(mapper::domainToModel)
+        }
+    }
+
+    private fun checkDuplicateStudentByNameAndPhoneAndBirth(student: Student) {
+        if (studentRepository.isExistByNameAndPhoneAndBirth(student.name, student.phone, student.birth)) {
+            throw IllegalArgumentException()
+        }
+    }
+
+    private fun checkDuplicateStudentByNameAndGetIndexOfName(student: Student): Student {
+        val students = studentRepository.findAllByName(student.name)
+        val indexOfName = if (students.isNotEmpty()) {
+            students.sortedBy { it.indexOfName }.last().indexOfName?.inc()
+        } else {
+            null
+        }
+        return student.apply { this.indexOfName = indexOfName }
     }
 
 }
