@@ -7,18 +7,21 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.v1.student.controller.model.SaveStudentRequest
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
-import org.springframework.beans.factory.annotation.Autowired
+import me.jimmyberg.ams.v1.student.repository.mongo.StudentMongoRepository
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatusCode
-import org.springframework.transaction.annotation.Transactional
 
-@Transactional
 @SpringBootTest
-class StudentControllerTest @Autowired constructor(
-    private val studentController: StudentController
+class StudentControllerTest(
+    private val studentController: StudentController,
+    private val studentMongoRepository: StudentMongoRepository
 ): BehaviorSpec({
 
-//    extension(SpringExtension)
+    lateinit var studentId: String
+
+    afterEach {
+        studentMongoRepository.deleteById(studentId)
+    }
 
     given("새로운 학생 정보 정상 입력하는 경우") {
         val request = SaveStudentRequest(
@@ -38,6 +41,7 @@ class StudentControllerTest @Autowired constructor(
             then("학생 정보 등록 정상 성공한다") {
                 response.shouldNotBeNull()
                 response.statusCode shouldBe HttpStatusCode.valueOf(200)
+                studentId = response.body!!.student.id!!
             }
         }
     }

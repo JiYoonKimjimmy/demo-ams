@@ -34,7 +34,7 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
-    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
