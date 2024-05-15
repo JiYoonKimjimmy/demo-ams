@@ -4,7 +4,7 @@ val javaVersion = JavaVersion.VERSION_21
 
 plugins {
     val springBootVersion = "3.2.3"
-    val kotlinVersion = "1.9.22"
+    val kotlinVersion = "1.9.24"
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm") version kotlinVersion
@@ -36,9 +36,11 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") { exclude(module = "mockito-core") }
     testImplementation("com.ninja-squad:springmockk:4.0.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
+
+    testImplementation("io.kotest:kotest-runner-junit5:5.9.0")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
