@@ -1,18 +1,22 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val javaVersion = JavaVersion.VERSION_21
+
 plugins {
-    id("org.springframework.boot") version "3.2.3"
+    val springBootVersion = "3.2.3"
+    val kotlinVersion = "1.9.22"
+    id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.spring") version "1.9.22"
-    kotlin("plugin.jpa") version "1.9.22"
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
+    kotlin("plugin.jpa") version kotlinVersion
 }
 
 group = "me.jimmyberg.ams"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = javaVersion
 }
 
 repositories {
@@ -41,7 +45,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "21"
+        jvmTarget = javaVersion.majorVersion
     }
 }
 
