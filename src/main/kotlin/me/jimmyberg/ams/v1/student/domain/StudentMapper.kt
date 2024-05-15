@@ -23,7 +23,7 @@ class StudentMapper {
     fun domainToModel(domain: Student): StudentModel {
         return StudentModel(
             id = domain.id,
-            name = domain.name,
+            name = "${domain.name}${domain.indexOfName ?: ""}",
             phone = domain.phone,
             birthday = domain.birth,
             gender = domain.gender,
