@@ -41,4 +41,22 @@ class StudentDocumentFixture {
         )
     }
 
+    fun make(
+        name: String = "김모건",
+        phone: String = "01012340001",
+        birth: String = "19900309",
+        gender: Gender = Gender.MALE,
+        school: School = School("신길초", SchoolType.PRIMARY, 6),
+        status: StudentStatus = StudentStatus.ACTIVATED,
+    ): StudentDocumentV1 {
+        return StudentDocumentV1(
+            name = name,
+            phone = phone,
+            birth = birth,
+            gender = gender,
+            school = school,
+            status = status,
+        )
+    }
+
 }

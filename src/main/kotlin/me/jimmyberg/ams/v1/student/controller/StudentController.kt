@@ -20,28 +20,36 @@ class StudentController(
 
     @PostMapping
     fun saveStudent(@RequestBody request: SaveStudentRequest): ResponseEntity<SaveStudentResponse> {
-        val student = mapper.modelToDomain(request.student)
-        val response = SaveStudentResponse(student = saveStudentService.save(student))
-        return ResponseEntity(response, HttpStatus.OK)
+        return mapper.modelToDomain(request.student)
+            .let { saveStudentService.save(it) }
+            .let { mapper.domainToModel(it) }
+            .let { SaveStudentResponse(it) }
+            .let { ResponseEntity(it, HttpStatus.CREATED) }
     }
 
     @GetMapping("/{id}")
     fun findOne(@PathVariable id: String): ResponseEntity<FindStudentResponse> {
-        val response = FindStudentResponse(findStudentService.findOne(id))
-        return ResponseEntity(response, HttpStatus.OK)
+        return findStudentService.findOne(id)
+            .let { mapper.domainToModel(it) }
+            .let { FindStudentResponse(it) }
+            .let { ResponseEntity(it, HttpStatus.OK) }
     }
 
     @GetMapping("/all")
     fun findAll(): ResponseEntity<FindAllStudentResponse> {
-        val response = FindAllStudentResponse(findStudentService.findAll())
-        return ResponseEntity(response, HttpStatus.OK)
+        return findStudentService.findAll()
+            .map { mapper.domainToModel(it) }
+            .let { FindAllStudentResponse(it) }
+            .let { ResponseEntity(it, HttpStatus.OK) }
     }
 
     @PutMapping
     fun update(@RequestBody request: UpdateStudentRequest): ResponseEntity<UpdateStudentResponse> {
-        val student = mapper.modelToDomain(request.student)
-        val response = UpdateStudentResponse(updateStudentService.update(student))
-        return ResponseEntity(response, HttpStatus.OK)
+        return mapper.modelToDomain(request.student)
+            .let { updateStudentService.update(it) }
+            .let { mapper.domainToModel(it) }
+            .let { UpdateStudentResponse(it) }
+            .let { ResponseEntity(it, HttpStatus.OK) }
     }
 
 }

@@ -1,17 +1,36 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.v1.student.domain.Student
+import me.jimmyberg.ams.v1.student.document.mongo.StudentDocumentV1
+import me.jimmyberg.ams.v1.student.repository.mongo.StudentMongoRepository
+import org.springframework.stereotype.Repository
 
-interface StudentRepository {
+@Repository
+class StudentRepository(
+    private val studentMongoRepository: StudentMongoRepository
+) : StudentRepositoryV1 {
 
-    fun save(domain: Student): Student
+    override fun save(document: StudentDocumentV1): StudentDocumentV1 {
+        return studentMongoRepository.save(document)
+    }
 
-    fun findById(id: String): Student
+    override fun findById(id: String): StudentDocumentV1 {
+        return studentMongoRepository
+            .findById(id)
+            .orElseThrow()
+    }
 
-    fun findAllByName(name: String): List<Student>
+    override fun findAllByName(name: String): List<StudentDocumentV1> {
+        return studentMongoRepository
+            .findAllByName(name)
+    }
 
-    fun findAll(): List<Student>
+    override fun findAll(): List<StudentDocumentV1> {
+        return studentMongoRepository
+            .findAll()
+    }
 
-    fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birthDate: String): Boolean
+    override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birthDate: String): Boolean {
+        return studentMongoRepository.existsByNameAndPhoneAndBirth(name, phone, birthDate)
+    }
 
 }
