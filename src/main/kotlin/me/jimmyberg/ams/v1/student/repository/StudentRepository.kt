@@ -1,52 +1,17 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.v1.student.document.mongo.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.domain.Student
-import me.jimmyberg.ams.v1.student.domain.StudentMapper
-import me.jimmyberg.ams.v1.student.repository.mongo.StudentMongoRepository
-import org.springframework.stereotype.Repository
 
-@Repository
-class StudentRepository(
-    private val studentMongoRepository: StudentMongoRepository,
-    private val studentMapper: StudentMapper
-) {
+interface StudentRepository {
 
-    private fun convertDomainToDocument(domain: Student): StudentDocumentV1 {
-        return studentMapper.domainToDocumentV1(domain)
-    }
+    fun save(domain: Student): Student
 
-    private fun convertDocumentToDomain(document: StudentDocumentV1): Student {
-        return studentMapper.documentToDomain(document)
-    }
+    fun findById(id: String): Student
 
-    fun save(domain: Student): Student {
-        return convertDomainToDocument(domain)
-            .let(studentMongoRepository::save)
-            .let(this::convertDocumentToDomain)
-    }
+    fun findAllByName(name: String): List<Student>
 
-    fun findById(id: String): Student {
-        return studentMongoRepository
-            .findById(id)
-            .orElseThrow()
-            .let(this::convertDocumentToDomain)
-    }
+    fun findAll(): List<Student>
 
-    fun findAllByName(name: String): List<Student> {
-        return studentMongoRepository
-            .findAllByName(name)
-            .map(this::convertDocumentToDomain)
-    }
-
-    fun findAll(): List<Student> {
-        return studentMongoRepository
-            .findAll()
-            .map(this::convertDocumentToDomain)
-    }
-
-    fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birthDate: String): Boolean {
-        return studentMongoRepository.existsByNameAndPhoneAndBirth(name, phone, birthDate)
-    }
+    fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birthDate: String): Boolean
 
 }
