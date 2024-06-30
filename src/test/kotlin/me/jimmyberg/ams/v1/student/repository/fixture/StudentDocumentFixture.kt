@@ -3,8 +3,8 @@ package me.jimmyberg.ams.v1.student.repository.fixture
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
-import me.jimmyberg.ams.v1.student.document.mongo.StudentDocumentV1
-import me.jimmyberg.ams.v1.student.domain.School
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
+import me.jimmyberg.ams.v1.student.service.domain.School
 import java.util.UUID
 
 class StudentDocumentFixture {

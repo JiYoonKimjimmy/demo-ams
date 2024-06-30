@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.v1.student.domain
+package me.jimmyberg.ams.v1.student.service.domain
 
 import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender

@@ -1,7 +1,6 @@
 package me.jimmyberg.ams.v1.student.repository
 
 import me.jimmyberg.ams.v1.student.repository.fixture.StudentDocumentFixture
-import me.jimmyberg.ams.v1.student.repository.mongo.StudentMongoRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Test

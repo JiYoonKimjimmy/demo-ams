@@ -1,7 +1,6 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.v1.student.document.mongo.StudentDocumentV1
-import me.jimmyberg.ams.v1.student.repository.mongo.StudentMongoRepository
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import org.springframework.stereotype.Repository
 
 @Repository

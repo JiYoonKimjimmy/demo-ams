@@ -1,7 +1,7 @@
-package me.jimmyberg.ams.v1.student.domain
+package me.jimmyberg.ams.v1.student.service.domain
 
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
-import me.jimmyberg.ams.v1.student.document.mongo.StudentDocumentV1
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import org.springframework.stereotype.Component
 
 @Component

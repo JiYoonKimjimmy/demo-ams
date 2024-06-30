@@ -5,7 +5,7 @@ import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
-import me.jimmyberg.ams.v1.student.domain.School
+import me.jimmyberg.ams.v1.student.service.domain.School
 
 data class StudentModel(
     val id: String? = null,

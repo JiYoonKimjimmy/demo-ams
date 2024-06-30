@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.v1.student.controller
 
 import me.jimmyberg.ams.v1.student.controller.model.*
-import me.jimmyberg.ams.v1.student.domain.StudentMapper
+import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
 import me.jimmyberg.ams.v1.student.service.FindStudentServiceV1
 import me.jimmyberg.ams.v1.student.service.SaveStudentServiceV1
 import me.jimmyberg.ams.v1.student.service.UpdateStudentServiceV1

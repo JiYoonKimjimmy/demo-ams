@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.v1.student.service
 
-import me.jimmyberg.ams.v1.student.domain.Student
+import me.jimmyberg.ams.v1.student.service.domain.Student
 
 interface UpdateStudentServiceV1 {
 

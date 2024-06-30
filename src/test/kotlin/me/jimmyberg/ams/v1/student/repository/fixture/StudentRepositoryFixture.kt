@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.v1.student.repository.fixture
 
-import me.jimmyberg.ams.v1.student.domain.Student
-import me.jimmyberg.ams.v1.student.domain.StudentMapper
+import me.jimmyberg.ams.v1.student.service.domain.Student
+import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import java.util.*
 
