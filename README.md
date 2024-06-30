@@ -32,12 +32,11 @@
 ### Project Propose
 
 - **클린 아키텍처** 개념 적용한 프로젝트 설계
-- **REST API** 표준 시스템 설계
+- **REST API** 프로젝트 설계 표준 정리
 - **단위** 테스트 코드 작성
 - **Kotlin with `Coroutine`** 활용한 병렬 처리 코드 작성
 - **Async & Non-Blocking** 동시성 트랜잭션 처리
 - **Docker** 기반 시스템 환경 구축
-
 
 ---
 
