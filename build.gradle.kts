@@ -3,13 +3,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val javaVersion = JavaVersion.VERSION_21
 
 plugins {
-    val springBootVersion = "3.2.3"
-    val kotlinVersion = "1.9.24"
-    id("org.springframework.boot") version springBootVersion
-    id("io.spring.dependency-management") version "1.1.4"
+    val kotlinVersion = "2.0.0"
+    val springBootVersion = "3.3.1"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
+    id("org.springframework.boot") version springBootVersion
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 group = "me.jimmyberg.ams"

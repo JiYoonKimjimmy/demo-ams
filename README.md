@@ -1,6 +1,6 @@
 # Academy Management Service Project
 
-## AMS <small>학원 관리 서비스 </small>
+## AMS <small>학원 관리 서비스</small>
 
 - 학원 운영을 위한 서비스 제공
 - 학원 구성원 및 수업 일정 관리 기능 제공
@@ -8,7 +8,7 @@
 
 ---
 
-### Project 기능
+### Project Features
 
 - 학원 구성원 정보 관리
   - 학생/학부모 정보 관리
@@ -22,24 +22,26 @@
 
 ---
 
-### Project 구성 Spec
+### Project Spec
 
-- Kotlin 1.8.22
-- Spring Boot 3.1.3
+- Kotlin 2.0.0
+- Spring Boot 3.3.1
 - MongoDB 7.0
-- Gradle 8.2.1
+- Gradle 8.6
 
-### Project 개발 목적
+### Project Propose
 
 - **클린 아키텍처** 개념 적용한 프로젝트 설계
+- **REST API** 표준 시스템 설계
 - **단위** 테스트 코드 작성
-- **Kotlin with Coroutine** 활용한 병렬 처리 코드 작성
-- 비동기 동시성 트랜잭션 처리
+- **Kotlin with `Coroutine`** 활용한 병렬 처리 코드 작성
+- **Async & Non-Blocking** 동시성 트랜잭션 처리
 - **Docker** 기반 시스템 환경 구축
+
 
 ---
 
-### Project 상세 기능
+### Project Details
 
 #### 학원 구성원 관리
 
