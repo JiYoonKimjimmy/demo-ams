@@ -36,7 +36,21 @@ class StudentRepositoryTest {
         val result = studentRepository.save(document)
 
         // then
-        assertThat(result.id).isNotNull()
+        assertThat(result.id).isNotNull
+    }
+
+    @Test
+    fun `'id' 기준 학생 정보 조회 성공한다`() {
+        // given
+        val document = studentDocumentFixture.make().let { studentRepository.save(it) }
+        val studentId = document.id
+
+        // when
+        val result = studentRepository.findById(studentId!!)
+
+        // then
+        assertThat(result).isNotNull
+        assertThat(result.id).isEqualTo(studentId)
     }
 
 }
