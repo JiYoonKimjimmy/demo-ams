@@ -43,6 +43,7 @@ class StudentDocumentFixture {
 
     fun make(
         name: String = "김모건",
+        indexOfName: Int? = null,
         phone: String = "01012340001",
         birth: String = "19900309",
         gender: Gender = Gender.MALE,
@@ -51,6 +52,7 @@ class StudentDocumentFixture {
     ): StudentDocumentV1 {
         return StudentDocumentV1(
             name = name,
+            indexOfName = indexOfName,
             phone = phone,
             birth = birth,
             gender = gender,

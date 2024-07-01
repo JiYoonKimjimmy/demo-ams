@@ -1,5 +1,6 @@
 package me.jimmyberg.ams.v1.student.repository
 
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.repository.fixture.StudentDocumentFixture
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -9,7 +10,7 @@ import org.springframework.test.context.TestPropertySource
 
 @TestPropertySource(properties = ["de.flapdoodle.mongodb.embedded.version=5.0.5"])
 @DataMongoTest
-class StudentRepositoryTest(
+class StudentMongoRepositoryTest(
     @Autowired private val studentMongoRepository: StudentMongoRepository
 ) {
 
@@ -39,6 +40,42 @@ class StudentRepositoryTest(
         // then
         assertThat(result).isNotNull
         assertThat(result.id).isEqualTo(studentId)
+    }
+
+    @Test
+    fun `'name' 기준 학생 정보 목록 조회 성공한다`() {
+        // given
+        saveSameNameStudents()
+        val name = "김모건"
+
+        // when
+        val result = studentMongoRepository.findAllByName(name)
+
+        // then
+        assertThat(result).hasSize(5)
+    }
+
+    private fun saveSameNameStudents() {
+        val students = mutableListOf<StudentDocumentV1>()
+        for (i in 1..5) {
+            students += studentDocumentFixture.make(name = "김모건", indexOfName = i)
+        }
+        studentMongoRepository.saveAll(students)
+    }
+
+    @Test
+    fun `동일한 'name', 'phone', 'birth' 정보를 가진 학생이 존재하는지 확인하여 'true' 조회 성공한다`() {
+        // given
+        val name = "김모건"
+        val phone = "01012341234"
+        val birth = "19900309"
+        studentDocumentFixture.make(name = name, phone = phone, birth = birth).let { studentMongoRepository.save(it) }
+
+        // when
+        val result = studentMongoRepository.existsByNameAndPhoneAndBirth(name, phone, birth)
+
+        // then
+        assertThat(result).isTrue()
     }
 
 }
