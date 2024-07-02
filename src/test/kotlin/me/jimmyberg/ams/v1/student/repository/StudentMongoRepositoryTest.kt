@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.test.context.TestPropertySource
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @TestPropertySource(properties = ["de.flapdoodle.mongodb.embedded.version=5.0.5"])
 @DataMongoTest
@@ -15,6 +17,10 @@ class StudentMongoRepositoryTest(
 ) {
 
     private val studentDocumentFixture = StudentDocumentFixture()
+
+    private fun save(document: StudentDocumentV1): StudentDocumentV1 {
+        return studentMongoRepository.save(document)
+    }
 
     @Test
     fun `학생 document 정보 생성하여 저장 성공한다`() {
@@ -31,7 +37,7 @@ class StudentMongoRepositoryTest(
     @Test
     fun `'id' 기준 학생 정보 조회 성공한다`() {
         // given
-        val document = studentDocumentFixture.make().let { studentMongoRepository.save(it) }
+        val document = save(studentDocumentFixture.make())
         val studentId = document.id
 
         // when
@@ -45,8 +51,8 @@ class StudentMongoRepositoryTest(
     @Test
     fun `'name' 기준 학생 정보 목록 조회 성공한다`() {
         // given
-        saveSameNameStudents()
-        val name = "김모건"
+        val name = "김모아${LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"))}"
+        saveSameNameStudents(name)
 
         // when
         val result = studentMongoRepository.findAllByName(name)
@@ -55,10 +61,10 @@ class StudentMongoRepositoryTest(
         assertThat(result).hasSize(5)
     }
 
-    private fun saveSameNameStudents() {
+    private fun saveSameNameStudents(name: String) {
         val students = mutableListOf<StudentDocumentV1>()
         for (i in 1..5) {
-            students += studentDocumentFixture.make(name = "김모건", indexOfName = i)
+            students += studentDocumentFixture.make(name = name, indexOfName = i)
         }
         studentMongoRepository.saveAll(students)
     }
@@ -69,7 +75,7 @@ class StudentMongoRepositoryTest(
         val name = "김모건"
         val phone = "01012341234"
         val birth = "19900309"
-        studentDocumentFixture.make(name = name, phone = phone, birth = birth).let { studentMongoRepository.save(it) }
+        save(studentDocumentFixture.make(name = name, phone = phone, birth = birth))
 
         // when
         val result = studentMongoRepository.existsByNameAndPhoneAndBirth(name, phone, birth)
