@@ -8,9 +8,7 @@ import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.v1.student.repository.StudentRepositoryV1
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.service.domain.School
-import me.jimmyberg.ams.v1.student.service.domain.Student
-import java.security.SecureRandom
-import java.util.UUID
+import java.util.*
 
 class StudentRepositoryFixture : StudentRepositoryV1 {
 
