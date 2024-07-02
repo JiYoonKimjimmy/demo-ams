@@ -12,11 +12,11 @@ data class StudentDocumentV1(
     @Id
     var id: String? = null,
     val name: String,
-    val indexOfName: Int? = null,
+    val indexOfName: Int?,
     val phone: String,
     val birth: String,
     val gender: Gender,
-    val address: Address? = null,
+    val address: Address?,
     val school: School,
-    val status: StudentStatus = StudentStatus.REGISTER_WAITING
+    val status: StudentStatus
 )

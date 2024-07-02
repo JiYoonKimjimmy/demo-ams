@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class SaveStudentService(
     private val studentRepository: StudentRepositoryV1,
-    private val mapper: StudentMapper
+    private val studentMapper: StudentMapper
 ) : SaveStudentServiceV1 {
 
     override fun save(student: Student): Student {
@@ -26,7 +26,7 @@ class SaveStudentService(
 
     private fun checkDuplicateStudentByNameAndPhoneAndBirth(student: Student) {
         if (studentRepository.isExistByNameAndPhoneAndBirth(student.name, student.phone, student.birth)) {
-            throw IllegalArgumentException()
+            throw IllegalArgumentException("Student with ${student.name}, ${student.phone}, ${student.birth} already exists.")
         }
     }
 
@@ -41,9 +41,9 @@ class SaveStudentService(
     }
 
     private fun saveStudentDocument(student: Student): Student {
-        return mapper.domainToDocumentV1(student)
+        return studentMapper.domainToDocumentV1(student)
             .let(studentRepository::save)
-            .let(mapper::documentToDomain)
+            .let(studentMapper::documentToDomain)
     }
 
 }

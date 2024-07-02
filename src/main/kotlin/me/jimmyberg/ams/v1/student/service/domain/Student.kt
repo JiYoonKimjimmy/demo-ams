@@ -14,7 +14,7 @@ data class Student(
     val gender: Gender,
     val address: Address? = null,
     val school: School,
-    val status: StudentStatus
+    val status: StudentStatus = StudentStatus.REGISTER_WAITING
 )
 
 class School(
