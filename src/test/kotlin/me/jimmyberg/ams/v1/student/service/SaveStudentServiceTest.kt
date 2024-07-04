@@ -1,22 +1,16 @@
 package me.jimmyberg.ams.v1.student.service
 
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus.REGISTER_WAITING
-import me.jimmyberg.ams.v1.student.repository.fixture.StudentRepositoryFixture
+import me.jimmyberg.ams.kotest.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.service.domain.School
 import me.jimmyberg.ams.v1.student.service.domain.Student
-import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
 
-class SaveStudentServiceTest : BehaviorSpec({
-
-    val studentRepository = StudentRepositoryFixture()
-    val studentMapper = StudentMapper()
-    val saveStudentService = SaveStudentService(studentRepository, studentMapper)
+class SaveStudentServiceTest : CustomBehaviorSpec({
 
     given("'김모건' 이란 학생 정보를 저장하는 경우") {
         val name = "김모건"
