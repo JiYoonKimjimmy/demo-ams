@@ -1,6 +1,7 @@
 package me.jimmyberg.ams.v1.student.repository
 
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 
 interface StudentRepositoryV1 {
 
@@ -13,5 +14,7 @@ interface StudentRepositoryV1 {
     fun findAll(): List<StudentDocumentV1>
 
     fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birthDate: String): Boolean
+
+    fun findByPredicate(predicate: StudentPredicate): StudentDocumentV1
 
 }

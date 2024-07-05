@@ -21,4 +21,18 @@ class School(
     val schoolName: String,
     val schoolType: SchoolType,
     val grade: Int,
-)
+) {
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is School) {
+            this.schoolName == other.schoolName && this.schoolType == other.schoolType && this.grade == other.grade
+        } else {
+            false
+        }
+    }
+
+    override fun hashCode(): Int {
+        return this.hashCode()
+    }
+
+}

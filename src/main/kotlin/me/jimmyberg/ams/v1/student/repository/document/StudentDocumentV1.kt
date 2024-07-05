@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "student")
-data class StudentDocumentV1(
+class StudentDocumentV1(
     @Id
     var id: String? = null,
     val name: String,
@@ -18,5 +18,5 @@ data class StudentDocumentV1(
     val gender: Gender,
     val address: Address?,
     val school: School,
-    val status: StudentStatus
+    val status: StudentStatus,
 )

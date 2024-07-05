@@ -10,15 +10,15 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class FindStudentService(
     private val studentRepository: StudentRepositoryV1,
-    private val mapper: StudentMapper
+    private val studentMapper: StudentMapper
 ) : FindStudentServiceV1 {
 
     override fun findOne(id: String): Student {
-        return studentRepository.findById(id).let(mapper::documentToDomain)
+        return studentRepository.findById(id).let(studentMapper::documentToDomain)
     }
 
     override fun findAll(): List<Student> {
-        return studentRepository.findAll().map(mapper::documentToDomain)
+        return studentRepository.findAll().map(studentMapper::documentToDomain)
     }
 
 }

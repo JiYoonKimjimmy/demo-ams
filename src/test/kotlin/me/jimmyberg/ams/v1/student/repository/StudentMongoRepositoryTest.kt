@@ -84,4 +84,16 @@ class StudentMongoRepositoryTest(
         assertThat(result).isTrue()
     }
 
+    @Test
+    fun `학생 이름 정보 기준 동적 쿼리 생성하여 단건 조회 성공한다`() {
+        // given
+        val name = "김모건"
+        save(studentDocumentFixture.make(name = name))
+
+        // when
+
+        // then
+
+    }
+
 }

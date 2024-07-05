@@ -7,6 +7,7 @@ import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.v1.student.repository.StudentRepositoryV1
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.School
 import java.util.*
 
@@ -56,6 +57,17 @@ class StudentRepositoryFixture : StudentRepositoryV1 {
 
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birthDate: String): Boolean {
         return documents.any { it.name == name && it.phone == phone && it.birth == birthDate }
+    }
+
+    override fun findByPredicate(predicate: StudentPredicate): StudentDocumentV1 {
+        return documents.find { document ->
+            predicate.name?.let { document.name == it } ?: true
+            && predicate.phone?.let { document.phone == it } ?: true
+            && predicate.birth?.let { document.birth == it } ?: true
+            && predicate.gender?.let { document.gender == it } ?: true
+            && predicate.school?.let { document.school == it } ?: true
+            && predicate.status?.let { document.status == it } ?: true
+        } ?: throw EntityNotFoundException("Student not found.")
     }
 
 }

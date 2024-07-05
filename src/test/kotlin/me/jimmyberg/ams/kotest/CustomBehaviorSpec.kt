@@ -1,7 +1,9 @@
 package me.jimmyberg.ams.kotest
 
 import io.kotest.core.spec.style.BehaviorSpec
+import me.jimmyberg.ams.v1.student.repository.fixture.StudentDocumentFixture
 import me.jimmyberg.ams.v1.student.repository.fixture.StudentRepositoryFixture
+import me.jimmyberg.ams.v1.student.service.FindStudentService
 import me.jimmyberg.ams.v1.student.service.SaveStudentService
 import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
 
@@ -21,4 +23,7 @@ abstract class BaseBehaviorSpec : BehaviorSpec() {
     val studentMapper = StudentMapper()
     val saveStudentService = SaveStudentService(studentRepository, studentMapper)
 
+    val findStudentService = FindStudentService(studentRepository, studentMapper)
+
+    val studentDocumentFixture = StudentDocumentFixture()
 }
