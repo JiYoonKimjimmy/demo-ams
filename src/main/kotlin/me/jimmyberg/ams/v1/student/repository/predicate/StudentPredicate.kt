@@ -1,9 +1,9 @@
 package me.jimmyberg.ams.v1.student.repository.predicate
 
-import com.example.kotlinmongo.extension.document
-import com.example.kotlinmongo.extension.field
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.mongodsl.extension.document
+import me.jimmyberg.ams.mongodsl.extension.field
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.service.domain.School
 import org.springframework.data.mongodb.core.query.BasicQuery
@@ -27,4 +27,5 @@ class StudentPredicate(
             this@StudentPredicate.status?.let { and({ field(StudentDocumentV1::status) eq it }) }
         }
     }
+
 }
