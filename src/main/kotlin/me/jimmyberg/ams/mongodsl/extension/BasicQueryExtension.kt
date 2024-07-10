@@ -1,9 +1,10 @@
-package com.example.kotlinmongo.extension
+package me.jimmyberg.ams.mongodsl.extension
 
-import com.example.kotlinmongo.clazz.EmptyGroup
-import com.example.kotlinmongo.clazz.Field
-import com.example.kotlinmongo.clazz.Group
-import com.example.kotlinmongo.clazz.Order
+import com.example.kotlinmongo.extension.copy
+import me.jimmyberg.ams.mongodsl.clazz.EmptyGroup
+import me.jimmyberg.ams.mongodsl.clazz.Field
+import me.jimmyberg.ams.mongodsl.clazz.Group
+import me.jimmyberg.ams.mongodsl.clazz.Order
 import org.bson.Document
 import org.springframework.data.mongodb.core.aggregation.Aggregation
 import org.springframework.data.mongodb.core.query.BasicQuery

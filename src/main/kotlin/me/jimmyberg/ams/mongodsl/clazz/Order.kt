@@ -1,4 +1,4 @@
-package com.example.kotlinmongo.clazz
+package me.jimmyberg.ams.mongodsl.clazz
 
 import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.query.BasicQuery

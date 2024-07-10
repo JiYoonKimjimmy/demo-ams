@@ -1,7 +1,7 @@
-package com.example.kotlinmongo.extension
+package me.jimmyberg.ams.mongodsl.extension
 
-import com.example.kotlinmongo.clazz.DocumentOperatorBuilder
-import com.example.kotlinmongo.clazz.Field
+import me.jimmyberg.ams.mongodsl.clazz.DocumentOperatorBuilder
+import me.jimmyberg.ams.mongodsl.clazz.Field
 import org.bson.Document
 import org.springframework.data.mongodb.core.query.BasicQuery
 import kotlin.reflect.KProperty1

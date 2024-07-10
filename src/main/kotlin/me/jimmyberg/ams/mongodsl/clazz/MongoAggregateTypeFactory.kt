@@ -1,4 +1,4 @@
-package com.example.kotlinmongo.clazz
+package me.jimmyberg.ams.mongodsl.clazz
 
 import java.math.BigDecimal
 import java.util.*
