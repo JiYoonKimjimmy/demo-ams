@@ -1,6 +1,5 @@
 package me.jimmyberg.ams.mongodsl.clazz
 
-import com.example.kotlinmongo.clazz.MongoAggregateTypeFactory
 import org.bson.Document
 import org.springframework.data.mongodb.core.aggregation.Aggregation
 import org.springframework.data.mongodb.core.aggregation.AggregationExpression
