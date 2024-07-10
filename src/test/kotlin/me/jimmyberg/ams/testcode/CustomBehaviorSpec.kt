@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.kotest
+package me.jimmyberg.ams.testcode
 
 import io.kotest.core.spec.style.BehaviorSpec
 import me.jimmyberg.ams.v1.student.repository.fixture.StudentDocumentFixture

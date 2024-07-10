@@ -6,7 +6,7 @@ import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus.REGISTER_WAITING
-import me.jimmyberg.ams.kotest.CustomBehaviorSpec
+import me.jimmyberg.ams.testcode.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.service.domain.School
 import me.jimmyberg.ams.v1.student.service.domain.Student
 

@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import jakarta.persistence.EntityNotFoundException
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.kotest.CustomBehaviorSpec
+import me.jimmyberg.ams.testcode.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.School
 

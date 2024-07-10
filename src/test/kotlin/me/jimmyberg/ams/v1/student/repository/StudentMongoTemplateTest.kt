@@ -1,7 +1,8 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import com.example.kotlinmongo.extension.document
-import com.example.kotlinmongo.extension.field
+import me.jimmyberg.ams.mongodsl.extension.document
+import me.jimmyberg.ams.mongodsl.extension.field
+import me.jimmyberg.ams.testcode.CustomDataMongoTest
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.repository.fixture.StudentDocumentFixture
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
@@ -9,12 +10,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.test.context.TestPropertySource
 
-@TestPropertySource(properties = ["de.flapdoodle.mongodb.embedded.version=5.0.5"])
-@DataMongoTest
+@CustomDataMongoTest
 class StudentMongoTemplateTest {
 
     @Autowired

@@ -1,17 +1,15 @@
 package me.jimmyberg.ams.v1.student.repository
 
+import me.jimmyberg.ams.testcode.CustomDataMongoTest
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.repository.fixture.StudentDocumentFixture
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
-import org.springframework.test.context.TestPropertySource
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@TestPropertySource(properties = ["de.flapdoodle.mongodb.embedded.version=5.0.5"])
-@DataMongoTest
+@CustomDataMongoTest
 class StudentMongoRepositoryTest(
     @Autowired private val studentMongoRepository: StudentMongoRepository
 ) {
