@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/api/v1/student")
 @RestController
-class StudentController(
+class StudentManagementController(
     private val saveStudentService: SaveStudentServiceV1,
     private val findStudentService: FindStudentServiceV1,
     private val updateStudentService: UpdateStudentServiceV1,
