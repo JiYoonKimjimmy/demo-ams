@@ -1,10 +1,10 @@
 package me.jimmyberg.ams.v1.student.controller
 
 import me.jimmyberg.ams.v1.student.controller.model.*
-import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
 import me.jimmyberg.ams.v1.student.service.FindStudentServiceV1
 import me.jimmyberg.ams.v1.student.service.SaveStudentServiceV1
 import me.jimmyberg.ams.v1.student.service.UpdateStudentServiceV1
+import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -24,7 +24,7 @@ class StudentManagementController(
             .let { saveStudentService.save(it) }
             .let { mapper.domainToModel(it) }
             .let { SaveStudentResponse(it) }
-            .let { ResponseEntity(it, HttpStatus.CREATED) }
+            .success(HttpStatus.CREATED)
     }
 
     @GetMapping("/{id}")
@@ -32,7 +32,7 @@ class StudentManagementController(
         return findStudentService.findOne(id)
             .let { mapper.domainToModel(it) }
             .let { FindStudentResponse(it) }
-            .let { ResponseEntity(it, HttpStatus.OK) }
+            .success(HttpStatus.OK)
     }
 
     @GetMapping("/all")
@@ -40,7 +40,7 @@ class StudentManagementController(
         return findStudentService.findAll()
             .map { mapper.domainToModel(it) }
             .let { FindAllStudentResponse(it) }
-            .let { ResponseEntity(it, HttpStatus.OK) }
+            .success(HttpStatus.OK)
     }
 
     @PutMapping
@@ -49,7 +49,7 @@ class StudentManagementController(
             .let { updateStudentService.update(it) }
             .let { mapper.domainToModel(it) }
             .let { UpdateStudentResponse(it) }
-            .let { ResponseEntity(it, HttpStatus.OK) }
+            .success(HttpStatus.OK)
     }
 
 }
