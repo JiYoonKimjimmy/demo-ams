@@ -9,6 +9,7 @@ import me.jimmyberg.ams.v1.student.repository.StudentRepositoryV1
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.School
+import org.springframework.data.domain.Pageable
 import java.util.*
 
 class StudentRepositoryFixture : StudentRepositoryV1 {
@@ -68,6 +69,17 @@ class StudentRepositoryFixture : StudentRepositoryV1 {
             && predicate.school?.let { document.school == it } ?: true
             && predicate.status?.let { document.status == it } ?: true
         } ?: throw EntityNotFoundException("Student not found.")
+    }
+
+    override fun findAllByPredicate(predicate: StudentPredicate, pageable: Pageable): List<StudentDocumentV1> {
+        return documents.filter { document ->
+            predicate.name?.let { document.name == it } ?: true
+            && predicate.phone?.let { document.phone == it } ?: true
+            && predicate.birth?.let { document.birth == it } ?: true
+            && predicate.gender?.let { document.gender == it } ?: true
+            && predicate.school?.let { document.school == it } ?: true
+            && predicate.status?.let { document.status == it } ?: true
+        }
     }
 
 }

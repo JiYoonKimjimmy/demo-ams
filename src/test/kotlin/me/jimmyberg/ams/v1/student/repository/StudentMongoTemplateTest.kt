@@ -2,6 +2,7 @@ package me.jimmyberg.ams.v1.student.repository
 
 import me.jimmyberg.ams.mongodsl.extension.document
 import me.jimmyberg.ams.mongodsl.extension.field
+import me.jimmyberg.ams.mongodsl.extension.find
 import me.jimmyberg.ams.testcode.CustomDataMongoTest
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.repository.fixture.StudentDocumentFixture
@@ -10,6 +11,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.mongodb.core.MongoTemplate
 
 @CustomDataMongoTest
@@ -38,10 +40,10 @@ class StudentMongoTemplateTest {
         }
 
         // when
-        val result = mongoTemplate.findOne(query, StudentDocumentV1::class.java)
+        val result = mongoTemplate.find(query, StudentDocumentV1::class.java).first()
 
         // then
-        assertThat(result!!).isNotNull
+        assertThat(result).isNotNull
         assertThat(result.name).isEqualTo("김모건")
         assertThat(result.phone).isEqualTo("01012340001")
         assertThat(result.school.schoolName).isEqualTo("신길초")
@@ -54,7 +56,7 @@ class StudentMongoTemplateTest {
         val query = predicate.query
 
         // when
-        val result = mongoTemplate.findOne(query, StudentDocumentV1::class.java)
+        val result = mongoTemplate.find(query, StudentDocumentV1::class).firstOrNull()
 
         // then
         assertThat(result).isNull()
@@ -67,13 +69,44 @@ class StudentMongoTemplateTest {
         val query = predicate.query
 
         // when
-        val result = mongoTemplate.findOne(query, StudentDocumentV1::class.java)
+        val result = mongoTemplate.find(query, StudentDocumentV1::class).first()
 
         // then
-        assertThat(result!!).isNotNull
+        assertThat(result).isNotNull
         assertThat(result.name).isEqualTo("김모건")
         assertThat(result.phone).isEqualTo("01012340001")
         assertThat(result.school.schoolName).isEqualTo("신길초")
+    }
+
+    @Test
+    fun `요청 정보 기준 학생 목록 조회 동적 쿼리 생성하여 다건 조회 성공 확인한다`() {
+        // given
+        val pageable = PageRequest.of(0, 1)
+        val predicate = StudentPredicate(name = "김모건", "01012340001")
+        val query = predicate.query
+
+        // when
+        val result = mongoTemplate.find(query, pageable, StudentDocumentV1::class)
+
+        // then
+        assertThat(result).isNotEmpty()
+        assertThat(result.first().name).isEqualTo("김모건")
+        assertThat(result.first().phone).isEqualTo("01012340001")
+        assertThat(result.first().school.schoolName).isEqualTo("신길초")
+    }
+
+    @Test
+    fun `요청 정보 기준 학생 목록 조회 동적 쿼리 생성하여 다건 조회 Empty 확인한다`() {
+        // given
+        val pageable = PageRequest.of(9999, 1)
+        val predicate = StudentPredicate(name = "김모건", "01012340001")
+        val query = predicate.query
+
+        // when
+        val result = mongoTemplate.find(query, pageable, StudentDocumentV1::class)
+
+        // then
+        assertThat(result).isEmpty()
     }
 
 }

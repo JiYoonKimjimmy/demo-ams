@@ -2,6 +2,7 @@ package me.jimmyberg.ams.v1.student.repository
 
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
+import org.springframework.data.domain.Pageable
 
 interface StudentRepositoryV1 {
 
@@ -17,4 +18,5 @@ interface StudentRepositoryV1 {
 
     fun findByPredicate(predicate: StudentPredicate): StudentDocumentV1
 
+    fun findAllByPredicate(predicate: StudentPredicate, pageable: Pageable): List<StudentDocumentV1>
 }
