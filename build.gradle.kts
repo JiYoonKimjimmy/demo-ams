@@ -10,6 +10,8 @@ plugins {
     kotlin("plugin.jpa") version kotlinVersion
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version "1.1.4"
+
+    `java-test-fixtures`
 }
 
 group = "me.jimmyberg.ams"

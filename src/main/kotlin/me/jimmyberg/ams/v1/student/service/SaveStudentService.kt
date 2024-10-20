@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @Service
 class SaveStudentService(
-    private val studentRepository: StudentRepositoryV1,
-    private val studentMapper: StudentMapper
+    private val studentMapper: StudentMapper,
+    private val studentRepository: StudentRepositoryV1
 ) : SaveStudentServiceV1 {
 
     override fun save(student: Student): Student {

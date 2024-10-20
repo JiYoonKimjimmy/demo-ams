@@ -5,11 +5,18 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import jakarta.persistence.EntityNotFoundException
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.testcode.CustomBehaviorSpec
+import me.jimmyberg.ams.testsupport.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.School
 
 class FindStudentServiceTest : CustomBehaviorSpec({
+
+    val studentDocumentFixture = dependencies.studentDocumentFixture
+    val studentRepository = dependencies.fakeStudentRepository
+
+    beforeSpec {
+        studentRepository.clear()
+    }
 
     given("학생 정보 단건 조회 요청하여") {
         val document = studentDocumentFixture.make(

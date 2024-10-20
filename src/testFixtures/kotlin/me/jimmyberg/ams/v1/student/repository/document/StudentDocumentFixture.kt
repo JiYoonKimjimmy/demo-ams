@@ -1,10 +1,9 @@
-package me.jimmyberg.ams.v1.student.repository.fixture
+package me.jimmyberg.ams.v1.student.repository.document
 
 import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
-import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.service.domain.School
 
 class StudentDocumentFixture {

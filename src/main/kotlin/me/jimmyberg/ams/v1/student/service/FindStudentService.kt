@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 @Service
 class FindStudentService(
-    private val studentRepository: StudentRepositoryV1,
-    private val studentMapper: StudentMapper
+    private val studentMapper: StudentMapper,
+    private val studentRepository: StudentRepositoryV1
 ) : FindStudentServiceV1 {
 
     override fun findOne(id: String): Student {

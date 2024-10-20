@@ -1,20 +1,22 @@
-package me.jimmyberg.ams.v1.student.repository.fixture
+package me.jimmyberg.ams.v1.student.repository
 
 import jakarta.persistence.EntityNotFoundException
 import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
-import me.jimmyberg.ams.v1.student.repository.StudentRepositoryV1
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentFixture
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.School
 import org.springframework.data.domain.Pageable
 import java.util.*
 
-class StudentRepositoryFixture : StudentRepositoryV1 {
+class FakeStudentRepository : StudentRepositoryV1 {
 
     private val documents = StudentDocumentFixture().documents
+
+    fun clear() = documents.clear()
 
     fun save(
         name: String = "김모건",

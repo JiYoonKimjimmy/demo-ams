@@ -6,11 +6,19 @@ import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus.REGISTER_WAITING
-import me.jimmyberg.ams.testcode.CustomBehaviorSpec
+import me.jimmyberg.ams.testsupport.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.service.domain.School
 import me.jimmyberg.ams.v1.student.service.domain.Student
 
 class SaveStudentServiceTest : CustomBehaviorSpec({
+
+    val studentMapper = dependencies.studentMapper
+    val studentRepository = dependencies.fakeStudentRepository
+    val saveStudentService = dependencies.saveStudentService
+
+    beforeSpec {
+        studentRepository.clear()
+    }
 
     given("'김모건' 이란 학생 정보를 저장하는 경우") {
         val name = "김모건"
