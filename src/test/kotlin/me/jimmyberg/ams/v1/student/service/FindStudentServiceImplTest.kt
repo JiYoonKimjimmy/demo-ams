@@ -9,7 +9,7 @@ import me.jimmyberg.ams.testsupport.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.School
 
-class FindStudentServiceTest : CustomBehaviorSpec({
+class FindStudentServiceImplTest : CustomBehaviorSpec({
 
     val studentDocumentFixture = dependencies.studentDocumentFixture
     val studentRepository = dependencies.fakeStudentRepository

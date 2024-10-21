@@ -10,7 +10,7 @@ import me.jimmyberg.ams.testsupport.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.service.domain.School
 import me.jimmyberg.ams.v1.student.service.domain.Student
 
-class SaveStudentServiceTest : CustomBehaviorSpec({
+class SaveStudentServiceImplTest : CustomBehaviorSpec({
 
     val studentMapper = dependencies.studentMapper
     val studentRepository = dependencies.fakeStudentRepository

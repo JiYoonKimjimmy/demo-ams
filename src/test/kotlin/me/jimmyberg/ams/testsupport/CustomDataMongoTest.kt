@@ -1,8 +1,9 @@
 package me.jimmyberg.ams.testsupport
 
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
-import org.springframework.test.context.TestPropertySource
+import org.springframework.transaction.annotation.Transactional
 
-@TestPropertySource(properties = ["de.flapdoodle.mongodb.embedded.version=5.0.5"])
+@TestDatabaseConfiguration
+@Transactional
 @DataMongoTest
 annotation class CustomDataMongoTest

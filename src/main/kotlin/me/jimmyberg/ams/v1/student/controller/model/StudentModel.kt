@@ -11,7 +11,7 @@ data class StudentModel(
     val id: String? = null,
     val name: String,
     val phone: String,
-    val birthday: String,
+    val birth: String,
     val gender: Gender,
     var zipCode: String? = null,
     var baseAddress: String? = null,
