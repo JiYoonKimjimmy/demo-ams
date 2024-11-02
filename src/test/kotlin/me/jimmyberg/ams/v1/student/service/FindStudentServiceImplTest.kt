@@ -29,7 +29,7 @@ class FindStudentServiceImplTest : CustomBehaviorSpec({
             val result = findStudentService.findOne(predicate)
 
             then("학생 정보 조회 성공 확인한다") {
-                result!! shouldNotBe null
+                result shouldNotBe null
                 result.name shouldBe "김모아"
             }
         }
