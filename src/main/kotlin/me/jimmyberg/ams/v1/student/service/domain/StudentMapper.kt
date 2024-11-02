@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.v1.student.service.domain
 
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
-import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import org.springframework.stereotype.Component
 
 @Component
@@ -37,8 +37,8 @@ class StudentMapper {
         )
     }
 
-    fun domainToDocumentV1(domain: Student): StudentDocumentV1 {
-        return StudentDocumentV1(
+    fun domainToDocumentV1(domain: Student): StudentDocument {
+        return StudentDocument(
             id = domain.id,
             name = domain.name,
             indexOfName = domain.indexOfName,
@@ -51,7 +51,7 @@ class StudentMapper {
         )
     }
 
-    fun documentToDomain(document: StudentDocumentV1): Student {
+    fun documentToDomain(document: StudentDocument): Student {
         return Student(
             id = document.id!!,
             name = document.name,

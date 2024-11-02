@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.v1.student.repository.document
+package me.jimmyberg.ams.v1.student.service.domain
 
 import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
@@ -6,7 +6,7 @@ import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.v1.student.service.domain.Student.School
 
-class StudentDocumentFixture {
+class StudentFixture {
 
     fun make(
         name: String = "김모건",
@@ -17,8 +17,8 @@ class StudentDocumentFixture {
         address: Address = Address("12345", "Hello", "World"),
         school: School = School("신길초", SchoolType.PRIMARY, 6),
         status: StudentStatus = StudentStatus.REGISTER_WAITING,
-    ): StudentDocument {
-        return StudentDocument(
+    ): Student {
+        return Student(
             name = name,
             indexOfName = indexOfName,
             phone = phone,

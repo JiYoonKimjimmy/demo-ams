@@ -1,6 +1,7 @@
 package me.jimmyberg.ams.v1.student.controller
 
 import me.jimmyberg.ams.v1.student.controller.model.*
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.FindStudentService
 import me.jimmyberg.ams.v1.student.service.SaveStudentService
 import me.jimmyberg.ams.v1.student.service.UpdateStudentService
@@ -29,7 +30,8 @@ class StudentManagementController(
 
     @GetMapping("/{id}")
     fun findOne(@PathVariable id: String): ResponseEntity<FindStudentResponse> {
-        return findStudentService.findOne(id)
+        return StudentPredicate(id = id)
+            .let { findStudentService.findOne(it) }
             .let { studentMapper.domainToModel(it) }
             .let { FindStudentResponse(it) }
             .success(HttpStatus.OK)

@@ -1,16 +1,15 @@
 package me.jimmyberg.ams.v1.student.service
 
+import me.jimmyberg.ams.v1.student.repository.StudentRepository
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
-import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
-import me.jimmyberg.ams.v1.student.repository.StudentRepositoryV1
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 @Service
 class SaveStudentServiceImpl(
-    private val studentMapper: StudentMapper,
-    private val studentRepository: StudentRepositoryV1
+    private val studentRepository: StudentRepository
 ) : SaveStudentService {
 
     override fun save(student: Student): Student {
@@ -31,7 +30,7 @@ class SaveStudentServiceImpl(
     }
 
     private fun checkDuplicateStudentByNameAndGetIndexOfName(student: Student): Student {
-        val students = studentRepository.findAllByName(student.name)
+        val students = studentRepository.findAllByPredicate(StudentPredicate(name = student.name))
         val indexOfName = if (students.isNotEmpty()) {
             students.sortedBy { it.indexOfName }.last().indexOfName ?: 1
         } else {
@@ -41,9 +40,7 @@ class SaveStudentServiceImpl(
     }
 
     private fun saveStudentDocument(student: Student): Student {
-        return studentMapper.domainToDocumentV1(student)
-            .let(studentRepository::save)
-            .let(studentMapper::documentToDomain)
+        return studentRepository.save(student)
     }
 
 }

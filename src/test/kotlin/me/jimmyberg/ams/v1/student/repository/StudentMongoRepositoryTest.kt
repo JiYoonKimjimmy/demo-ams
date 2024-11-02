@@ -2,7 +2,7 @@ package me.jimmyberg.ams.v1.student.repository
 
 import me.jimmyberg.ams.testsupport.CustomDataMongoTest
 import me.jimmyberg.ams.testsupport.CustomStringSpec
-import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
 import java.time.LocalDate
@@ -15,12 +15,12 @@ class StudentMongoRepositoryTest @Autowired constructor(
 
     val studentDocumentFixture = dependencies.studentDocumentFixture
 
-    fun save(document: StudentDocumentV1): StudentDocumentV1 {
+    fun save(document: StudentDocument): StudentDocument {
         return studentMongoRepository.save(document)
     }
 
     fun saveSameNameStudents(name: String) {
-        val students = mutableListOf<StudentDocumentV1>()
+        val students = mutableListOf<StudentDocument>()
         for (i in 1..5) {
             students += studentDocumentFixture.make(name = name, indexOfName = i)
         }

@@ -4,11 +4,12 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.mongodsl.extension.document
 import me.jimmyberg.ams.mongodsl.extension.field
-import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentV1
-import me.jimmyberg.ams.v1.student.service.domain.School
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
+import me.jimmyberg.ams.v1.student.service.domain.Student.School
 import org.springframework.data.mongodb.core.query.BasicQuery
 
 class StudentPredicate(
+    val id: String? = null,
     val name: String? = null,
     val phone: String? = null,
     val birth: String? = null,
@@ -19,12 +20,15 @@ class StudentPredicate(
 
     val query: BasicQuery by lazy {
         document {
-            this@StudentPredicate.name?.let { and({ field(StudentDocumentV1::name) eq it }) }
-            this@StudentPredicate.phone?.let { and({ field(StudentDocumentV1::phone) eq it }) }
-            this@StudentPredicate.birth?.let { and({ field(StudentDocumentV1::birth) eq it }) }
-            this@StudentPredicate.gender?.let { and({ field(StudentDocumentV1::gender) eq it }) }
-            this@StudentPredicate.school?.let { and({ field(StudentDocumentV1::school) eq it }) }
-            this@StudentPredicate.status?.let { and({ field(StudentDocumentV1::status) eq it }) }
+            this@StudentPredicate.id?.let { and({ field(StudentDocument::id) eq it }) }
+            this@StudentPredicate.name?.let { and({ field(StudentDocument::name) eq it }) }
+            this@StudentPredicate.phone?.let { and({ field(StudentDocument::phone) eq it }) }
+            this@StudentPredicate.birth?.let { and({ field(StudentDocument::birth) eq it }) }
+            this@StudentPredicate.gender?.let { and({ field(StudentDocument::gender) eq it }) }
+            this@StudentPredicate.school?.schoolName?.let { and({ field(School::schoolName) eq it }) }
+            this@StudentPredicate.school?.schoolType?.let { and({ field(School::schoolType) eq it }) }
+            this@StudentPredicate.school?.grade?.let { and({ field(School::grade) eq it }) }
+            this@StudentPredicate.status?.let { and({ field(StudentDocument::status) eq it }) }
         }
     }
 
