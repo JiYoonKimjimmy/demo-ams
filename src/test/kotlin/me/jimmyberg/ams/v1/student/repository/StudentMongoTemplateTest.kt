@@ -8,12 +8,11 @@ import me.jimmyberg.ams.testsupport.CustomStringSpec
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import org.assertj.core.api.Assertions.assertThat
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.mongodb.core.MongoTemplate
 
 @CustomDataMongoTest
-class StudentMongoTemplateTest @Autowired constructor(
+class StudentMongoTemplateTest(
     private val mongoTemplate: MongoTemplate,
     private val studentMongoRepository: StudentMongoRepository
 ) : CustomStringSpec({

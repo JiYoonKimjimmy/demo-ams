@@ -16,4 +16,5 @@ interface StudentRepository {
     fun findAllByPredicate(predicate: StudentPredicate, pageable: Pageable = PageRequest.of(0, 1000)): List<Student>
 
     fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean
+
 }

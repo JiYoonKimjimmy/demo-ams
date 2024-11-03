@@ -4,12 +4,11 @@ import me.jimmyberg.ams.testsupport.CustomDataMongoTest
 import me.jimmyberg.ams.testsupport.CustomStringSpec
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import org.assertj.core.api.Assertions.assertThat
-import org.springframework.beans.factory.annotation.Autowired
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @CustomDataMongoTest
-class StudentMongoRepositoryTest @Autowired constructor(
+class StudentMongoRepositoryTest(
     private val studentMongoRepository: StudentMongoRepository
 ) : CustomStringSpec({
 
