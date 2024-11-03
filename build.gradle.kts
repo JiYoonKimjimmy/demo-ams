@@ -1,22 +1,22 @@
-val javaVersion = JavaVersion.VERSION_21
-
 plugins {
-    val kotlinVersion = "2.0.0"
-    val springBootVersion = "3.3.1"
+    val kotlinVersion = "2.0.21"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
+
+    val springBootVersion = "3.3.5"
     id("org.springframework.boot") version springBootVersion
-    id("io.spring.dependency-management") version "1.1.4"
 
     `java-test-fixtures`
 }
+
+apply(plugin = "io.spring.dependency-management")
 
 group = "me.jimmyberg.ams"
 version = "0.0.1"
 
 java {
-    sourceCompatibility = javaVersion
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -35,7 +35,6 @@ dependencies {
     runtimeOnly("com.h2database:h2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") { exclude(module = "mockito-core") }
-    testImplementation("com.ninja-squad:springmockk:4.0.2")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.9.0")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
