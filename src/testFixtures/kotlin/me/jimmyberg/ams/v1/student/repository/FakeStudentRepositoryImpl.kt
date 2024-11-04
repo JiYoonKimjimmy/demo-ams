@@ -1,12 +1,12 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.common.TestExtensions
-import me.jimmyberg.ams.common.TestExtensions.ifNotNullEquals
+import me.jimmyberg.ams.common.TestExtension
+import me.jimmyberg.ams.common.TestExtension.ifNotNullEquals
+import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
-import org.springframework.data.domain.Pageable
 
 class FakeStudentRepositoryImpl(
     private val studentMapper: StudentMapper
@@ -17,7 +17,7 @@ class FakeStudentRepositoryImpl(
     fun clear() = documents.clear()
 
     override fun save(domain: Student): Student {
-        val id = domain.id ?: TestExtensions.generateUUID()
+        val id = domain.id ?: TestExtension.generateUUID()
         val document = studentMapper.domainToDocumentV1(domain).apply { this.id = id }
         documents[id] = document
         return studentMapper.documentToDomain(document)
@@ -41,7 +41,7 @@ class FakeStudentRepositoryImpl(
             ?.let { studentMapper.documentToDomain(it) }
     }
 
-    override fun findAllByPredicate(predicate: StudentPredicate, pageable: Pageable): List<Student> {
+    override fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest): List<Student> {
         return documents.values
             .filter { filterByPredicate(predicate, it) }
             .map { studentMapper.documentToDomain(it) }

@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.common
+package me.jimmyberg.ams.testsupport
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper

@@ -2,7 +2,7 @@ package me.jimmyberg.ams.common
 
 import java.util.*
 
-object TestExtensions {
+object TestExtension {
 
     fun generateUUID() = UUID.randomUUID().toString()
 
