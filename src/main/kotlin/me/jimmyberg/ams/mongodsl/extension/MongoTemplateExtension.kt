@@ -4,7 +4,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Window
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.aggregation.Aggregation
-import org.springframework.data.mongodb.core.findAll
 import org.springframework.data.mongodb.core.query.BasicQuery
 import kotlin.reflect.KClass
 
