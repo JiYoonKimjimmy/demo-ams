@@ -20,6 +20,7 @@ class StudentMongoTemplateTest(
     lateinit var saved: StudentDocument
 
     beforeSpec {
+        studentMongoRepository.deleteAll()
         saved = studentMongoRepository.save(studentDocumentFixture.make(name = "김모건"))
     }
 

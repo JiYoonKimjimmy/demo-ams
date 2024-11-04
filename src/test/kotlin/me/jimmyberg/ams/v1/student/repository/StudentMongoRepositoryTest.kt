@@ -1,9 +1,11 @@
 package me.jimmyberg.ams.v1.student.repository
 
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.testsupport.CustomDataMongoTest
 import me.jimmyberg.ams.testsupport.CustomStringSpec
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
-import org.assertj.core.api.Assertions.assertThat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -34,7 +36,8 @@ class StudentMongoRepositoryTest(
         val result = studentMongoRepository.save(document)
 
         // then
-        assertThat(result.id).isNotNull
+        result shouldNotBe null
+        result.id shouldNotBe null
     }
 
     "'id' 기준 학생 정보 조회 성공한다" {
@@ -46,8 +49,8 @@ class StudentMongoRepositoryTest(
         val result = studentMongoRepository.findById(studentId!!).get()
 
         // then
-        assertThat(result).isNotNull
-        assertThat(result.id).isEqualTo(studentId)
+        result shouldNotBe null
+        result.id shouldBe studentId
     }
 
     "'name' 기준 학생 정보 목록 조회 성공한다" {
@@ -59,7 +62,7 @@ class StudentMongoRepositoryTest(
         val result = studentMongoRepository.findAllByName(name)
 
         // then
-        assertThat(result).hasSize(5)
+        result shouldHaveSize 5
     }
 
     "동일한 'name', 'phone', 'birth' 정보를 가진 학생이 존재하는지 확인하여 'true' 조회 성공한다" {
@@ -73,7 +76,7 @@ class StudentMongoRepositoryTest(
         val result = studentMongoRepository.existsByNameAndPhoneAndBirth(name, phone, birth)
 
         // then
-        assertThat(result).isTrue()
+        result shouldBe true
     }
 
 })
