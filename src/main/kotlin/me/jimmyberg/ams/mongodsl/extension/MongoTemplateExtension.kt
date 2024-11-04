@@ -1,12 +1,21 @@
 package me.jimmyberg.ams.mongodsl.extension
 
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Window
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.aggregation.Aggregation
+import org.springframework.data.mongodb.core.findAll
 import org.springframework.data.mongodb.core.query.BasicQuery
 import kotlin.reflect.KClass
 
-fun <T : Any> MongoTemplate.find(
+fun <T : Any> MongoTemplate.findOne(
+    query: BasicQuery,
+    entityClass: KClass<T>,
+): T? {
+    return findOne(query, entityClass.java)
+}
+
+fun <T : Any> MongoTemplate.findAll(
     query: BasicQuery,
     pageable: Pageable,
     entityClass: KClass<T>,
@@ -19,11 +28,17 @@ fun <T : Any> MongoTemplate.find(
     )
 }
 
-fun <T : Any> MongoTemplate.find(
+fun <T : Any> MongoTemplate.scroll(
     query: BasicQuery,
+    pageable: Pageable,
     entityClass: KClass<T>,
-): List<T> {
-    return find(query, entityClass.java)
+): Window<T> {
+    return scroll(
+        query.limit(pageable.pageSize)
+            .skip(pageable.offset)
+            .with(pageable.sort),
+        entityClass.java,
+    )
 }
 
 fun <T : Any> MongoTemplate.count(

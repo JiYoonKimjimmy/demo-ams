@@ -1,10 +1,11 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.mongodsl.extension.find
+import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.mongodsl.extension.findAll
+import me.jimmyberg.ams.mongodsl.extension.findOne
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
-import org.springframework.data.domain.Pageable
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.stereotype.Repository
 
@@ -31,11 +32,11 @@ class StudentRepositoryImpl(
     }
 
     override fun findByPredicate(predicate: StudentPredicate): Student? {
-        return mongoTemplate.find(predicate.query, Student::class).firstOrNull()
+        return mongoTemplate.findOne(predicate.query, Student::class)
     }
 
-    override fun findAllByPredicate(predicate: StudentPredicate, pageable: Pageable): List<Student> {
-        return mongoTemplate.find(predicate.query, pageable, Student::class)
+    override fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest): List<Student> {
+        return mongoTemplate.findAll(predicate.query, pageable.toPageRequest(), Student::class)
     }
 
 }
