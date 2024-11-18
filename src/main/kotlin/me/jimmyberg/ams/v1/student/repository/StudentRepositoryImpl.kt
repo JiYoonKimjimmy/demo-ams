@@ -25,11 +25,6 @@ class StudentRepositoryImpl(
             .let { studentMapper.documentToDomain(it) }
     }
 
-    override fun findAll(): List<Student> {
-        return studentMongoRepository.findAll()
-            .map { studentMapper.documentToDomain(it) }
-    }
-
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
         return studentMongoRepository.existsByNameAndPhoneAndBirth(name, phone, birth)
     }

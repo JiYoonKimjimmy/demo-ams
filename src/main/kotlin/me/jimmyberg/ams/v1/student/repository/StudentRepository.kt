@@ -9,8 +9,6 @@ interface StudentRepository {
 
     fun save(student: Student): Student
 
-    fun findAll(): List<Student>
-
     fun findByPredicate(predicate: StudentPredicate): Student?
 
     fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest = PageableRequest()): List<Student>
