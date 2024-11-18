@@ -1,9 +1,9 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.testsupport.TestExtensionFunctions.ifNotNullEquals
 import me.jimmyberg.ams.common.domain.PageableContent
 import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.testsupport.FakeBaseRepository
+import me.jimmyberg.ams.testsupport.TestExtensionFunctions.ifNotNullEquals
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
@@ -21,27 +21,13 @@ class FakeStudentRepositoryImpl(
             .let { studentMapper.documentToDomain(it) }
     }
 
-    override fun findAll(): List<Student> {
-        return super.documents.values.map { studentMapper.documentToDomain(it) }
-    }
-
-    override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
-        return super.documents.values.any {
-            name.ifNotNullEquals(it.name)
-                && phone.ifNotNullEquals(it.phone)
-                && birth.ifNotNullEquals(it.birth)
-        }
-    }
-
     override fun findByPredicate(predicate: StudentPredicate): Student? {
-        return super.documents.values
-            .find { filterByPredicate(predicate, it) }
+        return super.documents.values.find { checkPredicate(predicate, it) }
             ?.let { studentMapper.documentToDomain(it) }
     }
 
     override fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest): List<Student> {
-        return super.documents.values
-            .filter { filterByPredicate(predicate, it) }
+        return super.findAllByPredicate(pageable) { checkPredicate(predicate, it) }
             .map { studentMapper.documentToDomain(it) }
     }
 
@@ -49,21 +35,25 @@ class FakeStudentRepositoryImpl(
         predicate: StudentPredicate,
         pageable: PageableRequest
     ): PageableContent<Student> {
-        val total = super.documents.values.filter { filterByPredicate(predicate, it) }
-        val start = pageable.number * pageable.size
-        val last = ((pageable.number + 1) * pageable.size) - 1
-        val end = if (total.size < last) total.size else last
-        val content = total.subList(start, end)
+        val result = super.scrollByPredicate(pageable) { checkPredicate(predicate, it) }
         return PageableContent(
-            size = total.size,
-            hasNext = (pageable.number < last),
-            isLast = (pageable.number >= last),
-            isEmpty = total.isEmpty(),
-            content = content.map(studentMapper::documentToDomain)
+            size = result.size,
+            hasNext = result.hasNext,
+            isLast = result.isLast,
+            isEmpty = result.isEmpty,
+            content = result.content.map(studentMapper::documentToDomain)
         )
     }
 
-    private fun filterByPredicate(predicate: StudentPredicate, document: StudentDocument): Boolean {
+    override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
+        return super.documents.values.any {
+            name.ifNotNullEquals(it.name)
+                    && phone.ifNotNullEquals(it.phone)
+                    && birth.ifNotNullEquals(it.birth)
+        }
+    }
+
+    private fun checkPredicate(predicate: StudentPredicate, document: StudentDocument): Boolean {
         return predicate.name.ifNotNullEquals(document.name)
             && predicate.phone.ifNotNullEquals(document.phone)
             && predicate.birth.ifNotNullEquals(document.birth)
