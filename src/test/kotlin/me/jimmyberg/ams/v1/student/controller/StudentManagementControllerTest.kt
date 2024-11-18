@@ -3,7 +3,7 @@ package me.jimmyberg.ams.v1.student.controller
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.testsupport.CustomBehaviorSpec
-import me.jimmyberg.ams.testsupport.CustomSpringBootTest
+import me.jimmyberg.ams.testsupport.annotation.CustomSpringBootTest
 import me.jimmyberg.ams.v1.student.controller.model.SaveStudentRequest
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
 import org.hamcrest.Matchers.equalTo

@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.testsupport
+package me.jimmyberg.ams.testsupport.annotation
 
 import org.springframework.test.context.TestPropertySource
 
@@ -6,4 +6,4 @@ import org.springframework.test.context.TestPropertySource
     "de.flapdoodle.mongodb.embedded.version=5.0.5",
     "spring.data.mongodb.port=0"
 ])
-annotation class TestMongoDBConfiguration
+annotation class TestMongoConfiguration

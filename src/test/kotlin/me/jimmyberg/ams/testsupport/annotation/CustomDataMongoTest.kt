@@ -1,7 +1,7 @@
-package me.jimmyberg.ams.testsupport
+package me.jimmyberg.ams.testsupport.annotation
 
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 
-@TestMongoDBConfiguration
+@TestMongoConfiguration
 @DataMongoTest
 annotation class CustomDataMongoTest

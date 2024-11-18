@@ -4,7 +4,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.testsupport.CustomBehaviorSpec
-import me.jimmyberg.ams.testsupport.CustomDataMongoTest
+import me.jimmyberg.ams.testsupport.annotation.CustomDataMongoTest
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
@@ -18,6 +18,10 @@ class StudentRepositoryImplTest(
 
     val studentFixture = dependencies.studentFixture
     val studentRepository = StudentRepositoryImpl(StudentMapper(), studentMongoRepository, mongoTemplate)
+
+    afterTest {
+        studentMongoRepository.deleteAll()
+    }
 
     fun saveStudentDocument(vararg students: Student) {
         students.forEach(studentRepository::save)
@@ -66,7 +70,7 @@ class StudentRepositoryImplTest(
         }
 
         // 학생 정보 1건 저장
-        saveStudentDocument(studentFixture.make())
+        saveStudentDocument(studentFixture.make(), studentFixture.make())
 
         `when`("Document '2'건 저장되어 있는 경우") {
             val result = studentRepository.scrollByPredicate(predicate, pageable)

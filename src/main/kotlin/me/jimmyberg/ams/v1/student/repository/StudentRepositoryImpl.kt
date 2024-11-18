@@ -19,8 +19,8 @@ class StudentRepositoryImpl(
     private val mongoTemplate: MongoTemplate,
 ) : StudentRepository {
 
-    override fun save(domain: Student): Student {
-        return studentMapper.domainToDocument(domain)
+    override fun save(student: Student): Student {
+        return studentMapper.domainToDocument(student)
             .let { studentMongoRepository.save(it) }
             .let { studentMapper.documentToDomain(it) }
     }

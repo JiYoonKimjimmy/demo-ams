@@ -7,7 +7,7 @@ import me.jimmyberg.ams.v1.student.service.domain.Student
 
 interface StudentRepository {
 
-    fun save(domain: Student): Student
+    fun save(student: Student): Student
 
     fun findAll(): List<Student>
 
