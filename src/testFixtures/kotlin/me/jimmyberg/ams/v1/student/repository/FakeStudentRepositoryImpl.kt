@@ -1,7 +1,8 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.common.TestExtension
-import me.jimmyberg.ams.common.TestExtension.ifNotNullEquals
+import me.jimmyberg.ams.testsupport.TestExtensionFunctions
+import me.jimmyberg.ams.testsupport.TestExtensionFunctions.ifNotNullEquals
+import me.jimmyberg.ams.common.domain.PageableContent
 import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
@@ -17,8 +18,8 @@ class FakeStudentRepositoryImpl(
     fun clear() = documents.clear()
 
     override fun save(domain: Student): Student {
-        val id = domain.id ?: TestExtension.generateUUID()
-        val document = studentMapper.domainToDocumentV1(domain).apply { this.id = id }
+        val id = domain.id ?: TestExtensionFunctions.generateUUID()
+        val document = studentMapper.domainToDocument(domain).apply { this.id = id }
         documents[id] = document
         return studentMapper.documentToDomain(document)
     }
@@ -45,6 +46,24 @@ class FakeStudentRepositoryImpl(
         return documents.values
             .filter { filterByPredicate(predicate, it) }
             .map { studentMapper.documentToDomain(it) }
+    }
+
+    override fun scrollByPredicate(
+        predicate: StudentPredicate,
+        pageable: PageableRequest
+    ): PageableContent<Student> {
+        val total = documents.values.filter { filterByPredicate(predicate, it) }
+        val start = pageable.number * pageable.size
+        val last = ((pageable.number + 1) * pageable.size) - 1
+        val end = if (total.size < last) total.size else last
+        val content = total.subList(start, end)
+        return PageableContent(
+            size = total.size,
+            hasNext = (pageable.number < last),
+            isLast = (pageable.number >= last),
+            isEmpty = total.isEmpty(),
+            content = content.map(studentMapper::documentToDomain)
+        )
     }
 
     private fun filterByPredicate(predicate: StudentPredicate, document: StudentDocument): Boolean {

@@ -11,7 +11,5 @@ data class PageableRequest(
     var sortBy: String? = null,
     val sortOrder: String? = DEFAULT_SORT_ORDER
 ) {
-
     fun toPageRequest() = PageRequest.of(number, size)
-
 }

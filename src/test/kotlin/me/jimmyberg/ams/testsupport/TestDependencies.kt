@@ -12,16 +12,21 @@ import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
 
 object TestDependencies {
 
+    // mapper
     private val studentMapper = StudentMapper()
 
+    // repository
     val fakeStudentRepository = FakeStudentRepositoryImpl(studentMapper)
 
+    // service
     val saveStudentService = SaveStudentServiceImpl(fakeStudentRepository)
     val findStudentService = FindStudentServiceImpl(fakeStudentRepository)
 
+    // fixture
     val studentFixture = StudentFixture()
     val studentDocumentFixture = StudentDocumentFixture()
 
+    // etc
     val objectMapper: ObjectMapper = jacksonObjectMapper().registerModule(kotlinModule())
 
 }

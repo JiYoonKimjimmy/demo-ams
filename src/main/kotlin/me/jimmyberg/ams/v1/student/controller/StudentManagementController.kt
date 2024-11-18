@@ -37,11 +37,11 @@ class StudentManagementController(
             .success(HttpStatus.OK)
     }
 
-    @GetMapping("/all")
-    fun findAll(): ResponseEntity<FindAllStudentResponse> {
-        return findStudentService.findAll()
-            .map { studentMapper.domainToModel(it) }
-            .let { FindAllStudentResponse(it) }
+    @GetMapping("/scroll")
+    fun scroll(@RequestBody request: ScrollStudentsRequest = ScrollStudentsRequest()): ResponseEntity<ScrollStudentsResponse> {
+        return studentMapper.requestToPredicate(request)
+            .let { findStudentService.scroll(it, request.pageable) }
+            .let { ScrollStudentsResponse(it, studentMapper::domainToModel) }
             .success(HttpStatus.OK)
     }
 

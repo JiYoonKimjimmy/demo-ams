@@ -1,6 +1,8 @@
 package me.jimmyberg.ams.v1.student.service
 
 import jakarta.persistence.EntityNotFoundException
+import me.jimmyberg.ams.common.domain.PageableContent
+import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.v1.student.repository.StudentRepository
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
@@ -18,8 +20,8 @@ class FindStudentServiceImpl(
             ?: throw EntityNotFoundException("Student not found")
     }
 
-    override fun findAll(): List<Student> {
-        return studentRepository.findAll()
+    override fun scroll(predicate: StudentPredicate, pageable: PageableRequest): PageableContent<Student> {
+        return studentRepository.scrollByPredicate(predicate, pageable)
     }
 
 }

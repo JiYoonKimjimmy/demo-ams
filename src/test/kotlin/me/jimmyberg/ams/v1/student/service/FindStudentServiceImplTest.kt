@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.testsupport.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate.SchoolPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student.School
 
 class FindStudentServiceImplTest : CustomBehaviorSpec({
@@ -25,7 +26,7 @@ class FindStudentServiceImplTest : CustomBehaviorSpec({
         fakeStudentRepository.save(domain)
 
         `when`("'신길초' 학교의 '김모아' 이름과 일치한 학생 정보 있다면") {
-            val predicate = StudentPredicate(name = "김모아", school = School("신길초", SchoolType.PRIMARY, 6))
+            val predicate = StudentPredicate(name = "김모아", school = SchoolPredicate("신길초", SchoolType.PRIMARY, 6))
             val result = findStudentService.findOne(predicate)
 
             then("학생 정보 조회 성공 확인한다") {

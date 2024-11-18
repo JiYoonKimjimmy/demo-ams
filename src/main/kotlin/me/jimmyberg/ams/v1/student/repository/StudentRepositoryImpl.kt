@@ -1,8 +1,11 @@
 package me.jimmyberg.ams.v1.student.repository
 
+import me.jimmyberg.ams.common.domain.PageableContent
 import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.mongodsl.extension.findAll
 import me.jimmyberg.ams.mongodsl.extension.findOne
+import me.jimmyberg.ams.mongodsl.extension.scroll
+import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
@@ -17,7 +20,7 @@ class StudentRepositoryImpl(
 ) : StudentRepository {
 
     override fun save(domain: Student): Student {
-        return studentMapper.domainToDocumentV1(domain)
+        return studentMapper.domainToDocument(domain)
             .let { studentMongoRepository.save(it) }
             .let { studentMapper.documentToDomain(it) }
     }
@@ -32,11 +35,18 @@ class StudentRepositoryImpl(
     }
 
     override fun findByPredicate(predicate: StudentPredicate): Student? {
-        return mongoTemplate.findOne(predicate.query, Student::class)
+        return mongoTemplate.findOne(predicate.query, StudentDocument::class)
+            ?.let { studentMapper.documentToDomain(it) }
     }
 
     override fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest): List<Student> {
-        return mongoTemplate.findAll(predicate.query, pageable.toPageRequest(), Student::class)
+        return mongoTemplate.findAll(predicate.query, pageable.toPageRequest(), StudentDocument::class)
+            .map { studentMapper.documentToDomain(it) }
+    }
+
+    override fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest): PageableContent<Student> {
+        return mongoTemplate.scroll(predicate.query, pageable.toPageRequest(), StudentDocument::class)
+            .let { PageableContent.from(it, studentMapper::documentToDomain) }
     }
 
 }

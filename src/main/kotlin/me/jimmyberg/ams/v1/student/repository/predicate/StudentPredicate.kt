@@ -1,6 +1,7 @@
 package me.jimmyberg.ams.v1.student.repository.predicate
 
 import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.mongodsl.extension.document
 import me.jimmyberg.ams.mongodsl.extension.field
@@ -8,15 +9,21 @@ import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import me.jimmyberg.ams.v1.student.service.domain.Student.School
 import org.springframework.data.mongodb.core.query.BasicQuery
 
-class StudentPredicate(
+data class StudentPredicate(
     val id: String? = null,
     val name: String? = null,
     val phone: String? = null,
     val birth: String? = null,
     val gender: Gender? = null,
-    val school: School? = null,
+    val school: SchoolPredicate? = null,
     val status: StudentStatus? = null,
 ) {
+
+    data class SchoolPredicate(
+        val schoolName: String? = null,
+        val schoolType: SchoolType? = null,
+        val grade: Int? = null
+    )
 
     val query: BasicQuery by lazy {
         document {

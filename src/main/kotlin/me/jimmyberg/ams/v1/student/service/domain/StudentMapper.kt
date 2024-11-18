@@ -1,11 +1,26 @@
 package me.jimmyberg.ams.v1.student.service.domain
 
+import me.jimmyberg.ams.v1.student.controller.model.ScrollStudentsRequest
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate.*
 import org.springframework.stereotype.Component
 
 @Component
 class StudentMapper {
+
+    fun requestToPredicate(request: ScrollStudentsRequest): StudentPredicate {
+        return StudentPredicate(
+            id = request.id,
+            name = request.name,
+            phone = request.phone,
+            birth = request.birth,
+            gender = request.gender,
+            school = SchoolPredicate(request.schoolName, request.schoolType, request.grade),
+            status = request.status
+        )
+    }
 
     fun modelToDomain(model: StudentModel): Student {
         return Student(
@@ -37,7 +52,7 @@ class StudentMapper {
         )
     }
 
-    fun domainToDocumentV1(domain: Student): StudentDocument {
+    fun domainToDocument(domain: Student): StudentDocument {
         return StudentDocument(
             id = domain.id,
             name = domain.name,
