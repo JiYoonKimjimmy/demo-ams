@@ -1,10 +1,10 @@
 plugins {
-    val kotlinVersion = "2.0.21"
+    val kotlinVersion = "2.1.10"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
 
-    val springBootVersion = "3.3.5"
+    val springBootVersion = "3.4.3"
     id("org.springframework.boot") version springBootVersion
 
     `java-test-fixtures`
@@ -26,7 +26,6 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
@@ -43,7 +42,14 @@ dependencies {
     testImplementation("io.kotest:kotest-property:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
 
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.14.0")
+    // fixture-monkey
+    val fixtureMonkeyVersion = "1.1.10"
+    testFixturesImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:$fixtureMonkeyVersion")
+//    testFixturesImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter-kotlin:$fixtureMonkeyVersion")
+//    testFixturesImplementation("com.navercorp.fixturemonkey:fixture-monkey-kotest:$fixtureMonkeyVersion")
+//    testFixturesImplementation("com.navercorp.fixturemonkey:fixture-monkey-jackson:$fixtureMonkeyVersion")
+//    testFixturesImplementation("com.navercorp.fixturemonkey:fixture-monkey-jakarta-validation:$fixtureMonkeyVersion")
+
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
