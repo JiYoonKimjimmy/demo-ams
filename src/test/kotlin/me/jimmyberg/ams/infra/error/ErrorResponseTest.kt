@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.infra.error
 
 import io.kotest.matchers.shouldBe
-import me.jimmyberg.ams.testsupport.CustomStringSpec
+import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import org.springframework.http.HttpStatusCode
 
 class ErrorResponseTest : CustomStringSpec({

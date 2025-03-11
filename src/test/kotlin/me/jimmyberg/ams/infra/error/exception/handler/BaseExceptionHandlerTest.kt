@@ -6,7 +6,7 @@ import me.jimmyberg.ams.infra.error.ErrorResponse
 import me.jimmyberg.ams.infra.error.FeatureCode
 import me.jimmyberg.ams.infra.error.exception.BaseException
 import me.jimmyberg.ams.infra.error.exception.ResourceNotFoundException
-import me.jimmyberg.ams.testsupport.CustomStringSpec
+import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 

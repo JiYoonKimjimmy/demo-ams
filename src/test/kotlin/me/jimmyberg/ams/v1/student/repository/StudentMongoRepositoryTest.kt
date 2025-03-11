@@ -4,7 +4,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.testsupport.annotation.CustomDataMongoTest
-import me.jimmyberg.ams.testsupport.CustomStringSpec
+import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

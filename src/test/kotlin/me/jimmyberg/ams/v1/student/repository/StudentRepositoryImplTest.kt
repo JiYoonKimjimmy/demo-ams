@@ -3,7 +3,7 @@ package me.jimmyberg.ams.v1.student.repository
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.model.PageableRequest
-import me.jimmyberg.ams.testsupport.CustomBehaviorSpec
+import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 import me.jimmyberg.ams.testsupport.annotation.CustomDataMongoTest
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
