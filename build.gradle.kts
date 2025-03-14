@@ -34,6 +34,10 @@ dependencies {
 
     runtimeOnly("com.h2database:h2")
 
+    // exposed
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.jdbc)
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.14.0")
 

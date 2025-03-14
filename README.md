@@ -39,6 +39,7 @@
 
 - Kotlin 2.1.10
 - Spring Boot 3.4.3
+- Kotlin Exposed 0.60.0
 - Gradle 8.13
 - H2 Database
 
