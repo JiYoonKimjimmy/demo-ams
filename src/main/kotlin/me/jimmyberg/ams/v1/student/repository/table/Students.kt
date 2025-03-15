@@ -1,6 +1,5 @@
 package me.jimmyberg.ams.v1.student.repository.table
 
-import me.jimmyberg.ams.v1.relation.repository.table.StudentParents
 import org.jetbrains.exposed.dao.id.LongIdTable
 
 object Students : LongIdTable("students") {
@@ -16,7 +15,6 @@ object Students : LongIdTable("students") {
     val schoolType    = varchar("school_type", 20).nullable()
     val grade         = integer("grade").nullable()
     val status        = varchar("status", 20)
-    val parents       = optReference("parent_id", StudentParents.parentId)
 
     init {
         index("idx_student_name", true, name, nameLabel)
