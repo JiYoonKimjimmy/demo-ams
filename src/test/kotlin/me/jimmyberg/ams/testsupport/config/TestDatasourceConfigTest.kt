@@ -5,17 +5,20 @@ import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.StudentStatus
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.v1.student.repository.table.Students
-import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class TestDatasourceConfigTest : CustomStringSpec({
 
+    lateinit var database: Database
+
+    beforeTest {
+        database = TestDatasourceConfig().database
+    }
+
     "Test Datasource 연결 테스트 성공 확인한다" {
-        TestDatasourceConfig.database.url shouldBe "jdbc:h2:mem:ams"
+        database.url shouldBe "jdbc:h2:mem:ams"
     }
 
     "Student 정보 생성하여 DB 저장 성공 확인한다" {
