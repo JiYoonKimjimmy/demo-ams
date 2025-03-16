@@ -8,8 +8,6 @@ import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.addLogger
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.transaction.annotation.Transactional
 

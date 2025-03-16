@@ -1,13 +1,11 @@
 package me.jimmyberg.ams.v1.student.service.domain
 
-import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.v1.student.controller.model.ScrollStudentsRequest
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import me.jimmyberg.ams.v1.student.repository.entity.StudentEntity
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
-import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate.*
-import me.jimmyberg.ams.v1.student.service.domain.Student.School
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate.SchoolPredicate
 import org.springframework.stereotype.Component
 
 @Component
