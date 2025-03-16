@@ -3,21 +3,26 @@ package me.jimmyberg.ams.v1.student.repository
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.testsupport.annotation.CustomSpringBootTest
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
-import me.jimmyberg.ams.testsupport.annotation.CustomDataMongoTest
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.addLogger
 import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.transaction.annotation.Transactional
 
-@CustomDataMongoTest
+@Transactional
+@CustomSpringBootTest
 class StudentRepositoryImplTest(
     private val studentMongoRepository: StudentMongoRepository,
+    private val studentExposedRepository: StudentExposedRepository,
     private val mongoTemplate: MongoTemplate,
 ) : CustomBehaviorSpec({
 
     val studentFixture = dependencies.studentFixture
-    val studentRepository = StudentRepositoryImpl(StudentMapper(), studentMongoRepository, mongoTemplate)
+    val studentRepository = StudentRepositoryImpl(StudentMapper(), studentMongoRepository, studentExposedRepository, mongoTemplate)
 
     afterTest {
         studentMongoRepository.deleteAll()
@@ -28,10 +33,10 @@ class StudentRepositoryImplTest(
     }
 
     given("StudentDocument 정보 생성하여") {
-        val document = studentFixture.make()
+        val student = studentFixture.make()
 
         `when`("정상 생성 성공인 경우") {
-            val result = studentRepository.save(document)
+            val result = studentRepository.save(student)
 
             then("DB 저장 처리 정상 확인한다") {
                 result shouldNotBe null

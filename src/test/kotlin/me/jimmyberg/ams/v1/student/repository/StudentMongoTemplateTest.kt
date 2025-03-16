@@ -40,7 +40,7 @@ class StudentMongoTemplateTest(
         result shouldNotBe null
         result.name shouldBe saved.name
         result.phone shouldBe saved.phone
-        result.school.schoolName shouldBe saved.school.schoolName
+        result.school?.schoolName shouldBe saved.school?.schoolName
     }
 
     "요청 정보 기준 학생 조회 동적 쿼리 생성하여 단건 조회 실패 확인한다" {
@@ -67,7 +67,7 @@ class StudentMongoTemplateTest(
         result shouldNotBe null
         result.name shouldBe saved.name
         result.phone shouldBe saved.phone
-        result.school.schoolName shouldBe saved.school.schoolName
+        result.school?.schoolName shouldBe saved.school?.schoolName
     }
 
     "요청 정보 기준 학생 목록 조회 동적 쿼리 생성하여 다건 조회 성공 확인한다" {
@@ -85,7 +85,7 @@ class StudentMongoTemplateTest(
         val student = result.first()
         student.name shouldBe saved.name
         student.phone shouldBe saved.phone
-        student.school.schoolName shouldBe saved.school.schoolName
+        student.school?.schoolName shouldBe saved.school?.schoolName
     }
 
     "요청 정보 기준 학생 목록 조회 동적 쿼리 생성하여 다건 조회 Empty 확인한다" {

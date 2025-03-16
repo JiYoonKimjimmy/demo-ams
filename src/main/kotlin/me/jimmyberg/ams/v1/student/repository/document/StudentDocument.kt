@@ -18,6 +18,6 @@ class StudentDocument(
     val birth: String,
     val gender: Gender,
     val address: Address?,
-    val school: School,
+    val school: School?,
     val status: ActivationStatus,
 ) : BaseDocument()

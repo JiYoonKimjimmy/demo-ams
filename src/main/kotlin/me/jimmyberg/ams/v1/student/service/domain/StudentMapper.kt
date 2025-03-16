@@ -1,10 +1,13 @@
 package me.jimmyberg.ams.v1.student.service.domain
 
+import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.v1.student.controller.model.ScrollStudentsRequest
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
+import me.jimmyberg.ams.v1.student.repository.entity.StudentEntity
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate.*
+import me.jimmyberg.ams.v1.student.service.domain.Student.School
 import org.springframework.stereotype.Component
 
 @Component
@@ -38,16 +41,16 @@ class StudentMapper {
     fun domainToModel(domain: Student): StudentModel {
         return StudentModel(
             id = domain.id,
-            name = "${domain.name}${domain.indexOfName ?: ""}",
+            name = "${domain.name}${domain.nameLabel ?: ""}",
             phone = domain.phone,
             birth = domain.birth,
             gender = domain.gender,
             zipCode = domain.address?.zipCode,
             baseAddress = domain.address?.baseAddress,
             detailAddress = domain.address?.detailAddress,
-            schoolName = domain.school.schoolName,
-            schoolType = domain.school.schoolType,
-            grade = domain.school.grade,
+            schoolName = domain.school?.schoolName,
+            schoolType = domain.school?.schoolType,
+            grade = domain.school?.grade,
             status = domain.status
         )
     }
@@ -56,7 +59,7 @@ class StudentMapper {
         return StudentDocument(
             id = domain.id,
             name = domain.name,
-            indexOfName = domain.indexOfName,
+            indexOfName = domain.nameLabel,
             phone = domain.phone,
             birth = domain.birth,
             gender = domain.gender,
@@ -70,13 +73,27 @@ class StudentMapper {
         return Student(
             id = document.id!!,
             name = document.name,
-            indexOfName = document.indexOfName,
+            nameLabel = document.indexOfName,
             phone = document.phone,
             birth = document.birth,
             gender = document.gender,
             address = document.address,
             school = document.school,
             status = document.status
+        )
+    }
+
+    fun entityToDomain(entity: StudentEntity): Student {
+        return Student(
+            id = entity.id.value.toString(),
+            name = entity.name,
+            nameLabel = entity.nameLabel?.toInt(),
+            phone = entity.phone,
+            birth = entity.birth,
+            gender = entity.gender,
+            address = entity.address,
+            school = entity.school,
+            status = entity.status
         )
     }
 

@@ -32,11 +32,11 @@ class SaveStudentServiceImpl(
     private fun checkDuplicateStudentByNameAndGetIndexOfName(student: Student): Student {
         val students = studentRepository.findAllByPredicate(StudentPredicate(name = student.name))
         val indexOfName = if (students.isNotEmpty()) {
-            students.sortedBy { it.indexOfName }.last().indexOfName ?: 1
+            students.sortedBy { it.nameLabel }.last().nameLabel ?: 1
         } else {
             null
         }
-        return student.apply { this.indexOfName = indexOfName?.inc() }
+        return student.apply { this.nameLabel = indexOfName?.inc() }
     }
 
     private fun saveStudentDocument(student: Student): Student {

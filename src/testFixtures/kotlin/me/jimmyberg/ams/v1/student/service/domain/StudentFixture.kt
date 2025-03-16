@@ -20,7 +20,7 @@ class StudentFixture {
     ): Student {
         return Student(
             name = name,
-            indexOfName = indexOfName,
+            nameLabel = indexOfName,
             phone = phone,
             birth = birth,
             gender = gender,

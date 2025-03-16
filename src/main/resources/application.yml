@@ -1,20 +1,19 @@
 spring:
   profiles:
-    active: local
+    active: local-h2
 
 ---
 
 spring:
   config:
     activate:
-      on-profile: local
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: ams
-      username: ams
-      password: ams1234
+      on-profile: local-h2
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem:ams;MODE=MYSQL;DB_CLOSE_DELAY=-1
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
 
 ---
 

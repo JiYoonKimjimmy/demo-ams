@@ -36,7 +36,7 @@ class SaveStudentServiceImplTest : CustomBehaviorSpec({
 
             then("학샘 이름 index '2' 저장 정상 확인한다") {
                 result.name shouldBe "김모건"
-                result.indexOfName shouldBe 2
+                result.nameLabel shouldBe 2
             }
         }
 
@@ -47,7 +47,7 @@ class SaveStudentServiceImplTest : CustomBehaviorSpec({
 
             then("학생 정보를 저장 정상 확인한다") {
                 result.name shouldBe "김모아"
-                result.indexOfName shouldBe null
+                result.nameLabel shouldBe null
                 result.status shouldBe REGISTER_WAITING
             }
         }

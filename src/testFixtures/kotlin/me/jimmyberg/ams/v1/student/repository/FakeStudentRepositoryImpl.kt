@@ -58,9 +58,9 @@ class FakeStudentRepositoryImpl(
             && predicate.phone.ifNotNullEquals(document.phone)
             && predicate.birth.ifNotNullEquals(document.birth)
             && predicate.gender.ifNotNullEquals(document.gender)
-            && predicate.school?.schoolName.ifNotNullEquals(document.school.schoolName)
-            && predicate.school?.schoolType.ifNotNullEquals(document.school.schoolType)
-            && predicate.school?.grade.ifNotNullEquals(document.school.grade)
+            && predicate.school?.schoolName.ifNotNullEquals(document.school?.schoolName)
+            && predicate.school?.schoolType.ifNotNullEquals(document.school?.schoolType)
+            && predicate.school?.grade.ifNotNullEquals(document.school?.grade)
             && predicate.status.ifNotNullEquals(document.status)
     }
 

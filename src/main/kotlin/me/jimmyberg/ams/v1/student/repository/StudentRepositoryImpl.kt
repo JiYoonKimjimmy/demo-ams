@@ -16,13 +16,13 @@ import org.springframework.stereotype.Repository
 class StudentRepositoryImpl(
     private val studentMapper: StudentMapper,
     private val studentMongoRepository: StudentMongoRepository,
+    private val studentExposedRepository: StudentExposedRepository,
     private val mongoTemplate: MongoTemplate,
 ) : StudentRepository {
 
     override fun save(student: Student): Student {
-        return studentMapper.domainToDocument(student)
-            .let { studentMongoRepository.save(it) }
-            .let { studentMapper.documentToDomain(it) }
+        return studentExposedRepository.save(student)
+            .let { studentMapper.entityToDomain(it) }
     }
 
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
