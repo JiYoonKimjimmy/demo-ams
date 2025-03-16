@@ -54,7 +54,7 @@ class TestDatasourceConfigTest : CustomStringSpec({
 
             // then
             result[Students.id] shouldBe studentId
-            result[Students.name] shouldBe "김지윤"
+            result[Students.name] shouldBe "김모건"
         }
     }
 
