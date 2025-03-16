@@ -105,12 +105,10 @@ class TestDatasourceConfigTest : CustomStringSpec({
             }
 
             // when
-            val parentCount = StudentParents.select(StudentParents.parentId)
-                .where { StudentParents.studentId eq saveStudentId.value }
-                .count()
+            val parent = StudentParents.selectAll().where { StudentParents.studentId eq saveStudentId.value }.toList()
 
             // then
-            parentCount shouldBe 2
+            parent.size shouldBe 2
         }
     }
 
