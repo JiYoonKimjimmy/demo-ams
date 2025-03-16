@@ -23,3 +23,5 @@ fixture-monkey-starter            = { module = "com.navercorp.fixturemonkey:fixt
 #fixture-monkey-kotest             = { module = "com.navercorp.fixturemonkey:fixture-monkey-kotest", version.ref = "fixtureMonkey" }
 #fixture-monkey-jackson            = { module = "com.navercorp.fixturemonkey:fixture-monkey-jackson", version.ref = "fixtureMonkey" }
 #fixture-monkey-jakarta-validation = { module = "com.navercorp.fixturemonkey:fixture-monkey-jakarta-validation", version.ref = "fixtureMonkey" }
+
+mockk = { module = "io.mockk:mockk", version.require = "1.13.17" }
