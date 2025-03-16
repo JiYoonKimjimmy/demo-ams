@@ -2,7 +2,7 @@ package me.jimmyberg.ams.v1.student.service
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import me.jimmyberg.ams.common.enumerate.StudentStatus.REGISTER_WAITING
+import me.jimmyberg.ams.common.enumerate.ActivationStatus.REGISTER_WAITING
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 
 class SaveStudentServiceImplTest : CustomBehaviorSpec({

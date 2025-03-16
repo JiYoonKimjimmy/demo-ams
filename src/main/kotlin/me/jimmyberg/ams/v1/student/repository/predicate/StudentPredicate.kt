@@ -2,7 +2,7 @@ package me.jimmyberg.ams.v1.student.repository.predicate
 
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.mongodsl.extension.document
 import me.jimmyberg.ams.mongodsl.extension.field
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
@@ -16,7 +16,7 @@ data class StudentPredicate(
     val birth: String? = null,
     val gender: Gender? = null,
     val school: SchoolPredicate? = null,
-    val status: StudentStatus? = null,
+    val status: ActivationStatus? = null,
 ) {
 
     data class SchoolPredicate(

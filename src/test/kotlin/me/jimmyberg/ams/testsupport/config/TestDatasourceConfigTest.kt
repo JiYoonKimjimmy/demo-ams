@@ -2,11 +2,11 @@ package me.jimmyberg.ams.testsupport.config
 
 import io.kotest.matchers.shouldBe
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
-import me.jimmyberg.ams.v1.parent.repository.table.Parents
-import me.jimmyberg.ams.v1.relation.repository.table.StudentParents
-import me.jimmyberg.ams.v1.student.repository.table.Students
+import me.jimmyberg.ams.v1.parent.repository.entity.ParentEntity
+import me.jimmyberg.ams.v1.relation.repository.entity.StudentParentEntity
+import me.jimmyberg.ams.v1.student.repository.entity.StudentEntity
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -29,10 +29,10 @@ class TestDatasourceConfigTest : CustomStringSpec({
 
             // given
             // `Students` schema 생성
-            SchemaUtils.create(Students)
+            SchemaUtils.create(StudentEntity)
 
             // `Students` insert
-            val studentId = Students.insert {
+            val studentId = StudentEntity.insert {
                 it[name] = "김모건"
                 it[nameLabel] = null
                 it[phone] = "01012340001"
@@ -44,17 +44,17 @@ class TestDatasourceConfigTest : CustomStringSpec({
                 it[schoolName] = "신길초"
                 it[schoolType] = SchoolType.PRIMARY.name
                 it[grade] = 6
-                it[status] = StudentStatus.ACTIVATED.name
-            } get Students.id
+                it[status] = ActivationStatus.ACTIVATED
+            } get StudentEntity.id
 
             // when
-            val result = Students.select(Students.id, Students.name)
-                .where(Students.id eq studentId)
+            val result = StudentEntity.select(StudentEntity.id, StudentEntity.name)
+                .where(StudentEntity.id eq studentId)
                 .single()
 
             // then
-            result[Students.id] shouldBe studentId
-            result[Students.name] shouldBe "김모건"
+            result[StudentEntity.id] shouldBe studentId
+            result[StudentEntity.name] shouldBe "김모건"
         }
     }
 
@@ -63,9 +63,9 @@ class TestDatasourceConfigTest : CustomStringSpec({
             addLogger(StdOutSqlLogger)
 
             // given
-            SchemaUtils.create(Students, Parents, StudentParents)
+            SchemaUtils.create(StudentEntity, ParentEntity, StudentParentEntity)
 
-            val saveStudentId = Students.insertAndGetId {
+            val saveStudentId = StudentEntity.insertAndGetId {
                 it[name] = "김모건"
                 it[nameLabel] = null
                 it[phone] = "01012340001"
@@ -77,35 +77,35 @@ class TestDatasourceConfigTest : CustomStringSpec({
                 it[schoolName] = "신길초"
                 it[schoolType] = SchoolType.PRIMARY.name
                 it[grade] = 6
-                it[status] = StudentStatus.ACTIVATED.name
+                it[status] = ActivationStatus.ACTIVATED
             }
 
-            val saveParentId1 = Parents.insertAndGetId {
+            val saveParentId1 = ParentEntity.insertAndGetId {
                 it[name] = "김지윤"
                 it[phone] = "01012340002"
                 it[gender] = "Male"
-                it[status] = StudentStatus.ACTIVATED.name
+                it[status] = ActivationStatus.ACTIVATED
             }
 
-            val saveParentId2 = Parents.insertAndGetId {
+            val saveParentId2 = ParentEntity.insertAndGetId {
                 it[name] = "김수지"
                 it[phone] = "01012340003"
                 it[gender] = "Female"
-                it[status] = StudentStatus.ACTIVATED.name
+                it[status] = ActivationStatus.ACTIVATED
             }
 
-            StudentParents.insert {
+            StudentParentEntity.insert {
                 it[studentId] = saveStudentId.value
                 it[parentId] = saveParentId1.value
             }
 
-            StudentParents.insert {
+            StudentParentEntity.insert {
                 it[studentId] = saveStudentId.value
                 it[parentId] = saveParentId2.value
             }
 
             // when
-            val parent = StudentParents.selectAll().where { StudentParents.studentId eq saveStudentId.value }.toList()
+            val parent = StudentParentEntity.selectAll().where { StudentParentEntity.studentId eq saveStudentId.value }.toList()
 
             // then
             parent.size shouldBe 2

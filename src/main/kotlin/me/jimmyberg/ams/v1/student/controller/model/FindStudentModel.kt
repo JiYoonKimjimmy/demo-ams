@@ -3,7 +3,7 @@ package me.jimmyberg.ams.v1.student.controller.model
 import me.jimmyberg.ams.common.domain.PageableContent
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.model.BaseResponse
 import me.jimmyberg.ams.common.model.PageableModel
 import me.jimmyberg.ams.common.model.PageableRequest
@@ -28,7 +28,7 @@ data class ScrollStudentsRequest(
     val schoolName: String? = null,
     val schoolType: SchoolType? = null,
     val grade: Int? = null,
-    val status: StudentStatus? = null,
+    val status: ActivationStatus? = null,
     val pageable: PageableRequest = PageableRequest()
 )
 

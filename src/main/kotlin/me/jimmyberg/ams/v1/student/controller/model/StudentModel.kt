@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.v1.student.service.domain.Student.School
 
 data class StudentModel(
@@ -19,7 +19,7 @@ data class StudentModel(
     val schoolName: String,
     val schoolType: SchoolType,
     val grade: Int,
-    val status: StudentStatus = StudentStatus.REGISTER_WAITING
+    val status: ActivationStatus = ActivationStatus.REGISTER_WAITING
 ) {
 
     @get:JsonIgnore

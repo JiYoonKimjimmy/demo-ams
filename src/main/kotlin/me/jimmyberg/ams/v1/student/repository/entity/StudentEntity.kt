@@ -1,8 +1,9 @@
-package me.jimmyberg.ams.v1.student.repository.table
+package me.jimmyberg.ams.v1.student.repository.entity
 
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import org.jetbrains.exposed.dao.id.LongIdTable
 
-object Students : LongIdTable("students") {
+object StudentEntity : LongIdTable("students") {
     val name          = varchar("name", 128)
     val nameLabel     = varchar("name_label", 128).nullable()
     val phone         = varchar("phone", 32)
@@ -14,7 +15,7 @@ object Students : LongIdTable("students") {
     val schoolName    = varchar("school_name", 128).nullable()
     val schoolType    = varchar("school_type", 20).nullable()
     val grade         = integer("grade").nullable()
-    val status        = varchar("status", 20)
+    val status        = enumerationByName("status", 20, ActivationStatus::class)
 
     init {
         index("idx_student_name", true, name, nameLabel)

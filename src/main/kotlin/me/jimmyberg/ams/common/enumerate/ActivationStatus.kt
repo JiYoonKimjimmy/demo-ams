@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.common.enumerate
 
-enum class StudentStatus {
+enum class ActivationStatus {
     REGISTER_WAITING,
     ACTIVATED,
     INACTIVATED

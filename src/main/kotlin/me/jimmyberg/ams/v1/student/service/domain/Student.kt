@@ -3,7 +3,7 @@ package me.jimmyberg.ams.v1.student.service.domain
 import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 
 data class Student(
     val id: String? = null,
@@ -14,7 +14,7 @@ data class Student(
     val gender: Gender,
     val address: Address? = null,
     val school: School,
-    val status: StudentStatus = StudentStatus.REGISTER_WAITING
+    val status: ActivationStatus = ActivationStatus.REGISTER_WAITING
 ) {
     data class School(
         val schoolName: String,

@@ -3,7 +3,7 @@ package me.jimmyberg.ams.v1.student.repository.document
 import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.StudentStatus
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.v1.student.service.domain.Student.School
 
 class StudentDocumentFixture {
@@ -16,7 +16,7 @@ class StudentDocumentFixture {
         gender: Gender = Gender.MALE,
         address: Address = Address("12345", "Hello", "World"),
         school: School = School("신길초", SchoolType.PRIMARY, 6),
-        status: StudentStatus = StudentStatus.REGISTER_WAITING,
+        status: ActivationStatus = ActivationStatus.REGISTER_WAITING,
     ): StudentDocument {
         return StudentDocument(
             name = name,
