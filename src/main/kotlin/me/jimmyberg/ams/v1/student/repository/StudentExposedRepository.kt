@@ -1,5 +1,7 @@
 package me.jimmyberg.ams.v1.student.repository
 
+import me.jimmyberg.ams.infra.error.ErrorCode
+import me.jimmyberg.ams.infra.error.exception.ResourceNotFoundException
 import me.jimmyberg.ams.v1.student.repository.entity.StudentEntity
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import org.springframework.stereotype.Repository
@@ -26,6 +28,23 @@ class StudentExposedRepository {
 
     fun findById(id: String): StudentEntity? {
         return StudentEntity.findById(id.toLong())
+    }
+
+    fun update(domain: Student): StudentEntity {
+        return StudentEntity.findByIdAndUpdate(domain.id!!.toLong()) {
+            it.name = domain.name
+            it.nameLabel = domain.nameLabel?.toString()
+            it.phone = domain.phone
+            it.birth = domain.birth
+            it.gender = domain.gender
+            it.zipCode = domain.address?.zipCode
+            it.baseAddress = domain.address?.baseAddress
+            it.detailAddress = domain.address?.detailAddress
+            it.schoolName = domain.school?.schoolName
+            it.schoolType = domain.school?.schoolType
+            it.grade = domain.school?.grade
+            it.status = domain.status
+        } ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
     }
 
 }

@@ -13,7 +13,7 @@ import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
 object TestDependencies {
 
     // mapper
-    private val studentMapper = StudentMapper()
+    val studentMapper = StudentMapper()
 
     // repository
     val fakeStudentRepository = FakeStudentRepositoryImpl(studentMapper)
