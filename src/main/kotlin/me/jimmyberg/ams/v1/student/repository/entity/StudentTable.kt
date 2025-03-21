@@ -5,7 +5,7 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import org.jetbrains.exposed.dao.id.LongIdTable
 
-object Students : LongIdTable("students") {
+object StudentTable : LongIdTable("students") {
     val name          = varchar("name", 128)
     val nameLabel     = varchar("name_label", 128).nullable()
     val phone         = varchar("phone", 32)

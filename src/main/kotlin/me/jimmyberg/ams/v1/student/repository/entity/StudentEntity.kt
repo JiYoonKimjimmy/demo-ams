@@ -7,20 +7,20 @@ import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
 class StudentEntity(id: EntityID<Long>) : LongEntity(id) {
-    companion object : LongEntityClass<StudentEntity>(Students)
+    companion object : LongEntityClass<StudentEntity>(StudentTable)
 
-    var name          by Students.name
-    var nameLabel     by Students.nameLabel
-    var phone         by Students.phone
-    var birth         by Students.birth
-    var gender        by Students.gender
-    var zipCode       by Students.zipCode
-    var baseAddress   by Students.baseAddress
-    var detailAddress by Students.detailAddress
-    var schoolName    by Students.schoolName
-    var schoolType    by Students.schoolType
-    var grade         by Students.grade
-    var status        by Students.status
+    var name          by StudentTable.name
+    var nameLabel     by StudentTable.nameLabel
+    var phone         by StudentTable.phone
+    var birth         by StudentTable.birth
+    var gender        by StudentTable.gender
+    var zipCode       by StudentTable.zipCode
+    var baseAddress   by StudentTable.baseAddress
+    var detailAddress by StudentTable.detailAddress
+    var schoolName    by StudentTable.schoolName
+    var schoolType    by StudentTable.schoolType
+    var grade         by StudentTable.grade
+    var status        by StudentTable.status
 
     val address: Address? by lazy {
         takeIf { zipCode != null && baseAddress != null && detailAddress != null }
