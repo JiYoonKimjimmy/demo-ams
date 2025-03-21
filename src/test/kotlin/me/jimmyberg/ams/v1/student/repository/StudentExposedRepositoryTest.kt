@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
+import me.jimmyberg.ams.v1.student.service.domain.Student
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class StudentExposedRepositoryTest : CustomStringSpec({
@@ -14,6 +15,13 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     val studentExposedRepository = StudentExposedRepository()
     val studentMapper = dependencies.studentMapper
     val studentFixture = dependencies.studentFixture
+
+    lateinit var saved: Student
+    beforeTest {
+        transaction {
+            saved = studentExposedRepository.save(studentFixture.make()).let(studentMapper::entityToDomain)
+        }
+    }
 
     "Student 학생 정보 DB 저장 성공 정상 확인한다" {
         transaction {
@@ -32,7 +40,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 `id` 컬럼 기준 DB 조회 성공 정상 확인한다" {
         transaction {
             // given
-            val studentId = studentExposedRepository.save(studentFixture.make()).id.value.toString()
+            val studentId = saved.id!!
 
             // when
             val result = studentExposedRepository.findById(studentId)
@@ -46,8 +54,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 DB 변경 성공 정상 확인한다" {
         transaction {
             // given
-            val student = studentExposedRepository.save(studentFixture.make()).let(studentMapper::entityToDomain)
-            val updated = student.copy(
+            val updated = saved.copy(
                 name = "김모아",
                 gender = Gender.FEMALE
             )
@@ -56,7 +63,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
             val result = studentExposedRepository.update(updated)
 
             // then
-            result.id.toString() shouldBe student.id
+            result.id.toString() shouldBe saved.id
             result.name shouldBe "김모아"
             result.gender shouldBe Gender.FEMALE
         }
@@ -65,8 +72,8 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 DB 삭제 성공 정상 확인한다" {
         transaction {
             // given
-            val student = studentExposedRepository.save(studentFixture.make()).let(studentMapper::entityToDomain)
-            val studentId = student.id!!
+            val studentId = saved.id!!
+
             // when
             studentExposedRepository.delete(studentId)
 
