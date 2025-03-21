@@ -3,6 +3,7 @@ package me.jimmyberg.ams.v1.student.repository
 import me.jimmyberg.ams.infra.error.ErrorCode
 import me.jimmyberg.ams.infra.error.exception.ResourceNotFoundException
 import me.jimmyberg.ams.v1.student.repository.entity.StudentEntity
+import me.jimmyberg.ams.v1.student.repository.entity.StudentTable
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import org.springframework.stereotype.Repository
 
@@ -50,6 +51,14 @@ class StudentExposedRepository {
     fun delete(id: String) {
         StudentEntity.findById(id.toLong())?.delete()
             ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
+    }
+
+    fun findAllByNameAndPhoneAndBirth(name: String, phone: String, birth: String): List<StudentEntity> {
+        return StudentEntity.find {
+            StudentTable.name eq name
+            StudentTable.phone eq phone
+            StudentTable.birth eq birth
+        }.toList()
     }
 
 }

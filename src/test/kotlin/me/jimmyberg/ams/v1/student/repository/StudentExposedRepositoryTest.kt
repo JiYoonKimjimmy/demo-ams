@@ -12,7 +12,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
 
     listeners(H2DatasourceTestListener)
 
-    val studentExposedRepository = StudentExposedRepository()
+    val studentExposedRepository = dependencies.studentExposedRepository
     val studentMapper = dependencies.studentMapper
     val studentFixture = dependencies.studentFixture
 
