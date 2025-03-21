@@ -4,7 +4,7 @@ import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
 import org.jetbrains.exposed.dao.id.LongIdTable
 
-object Parents : LongIdTable("parents") {
+object ParentTable : LongIdTable("parents") {
     val name          = varchar("name", 128)
     val phone         = varchar("phone", 32)
     val birth         = varchar("birth", 8).nullable()
