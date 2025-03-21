@@ -47,4 +47,9 @@ class StudentExposedRepository {
         } ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
     }
 
+    fun delete(id: String) {
+        StudentEntity.findById(id.toLong())?.delete()
+            ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
+    }
+
 }

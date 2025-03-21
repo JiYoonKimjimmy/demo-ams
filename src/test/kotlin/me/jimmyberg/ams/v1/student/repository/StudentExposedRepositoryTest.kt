@@ -65,11 +65,13 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 DB 삭제 성공 정상 확인한다" {
         transaction {
             // given
-
-
+            val student = studentExposedRepository.save(studentFixture.make()).let(studentMapper::entityToDomain)
+            val studentId = student.id!!
             // when
+            studentExposedRepository.delete(studentId)
 
             // then
+            studentExposedRepository.findById(studentId) shouldBe null
         }
     }
 
