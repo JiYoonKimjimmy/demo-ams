@@ -5,7 +5,10 @@ import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
+import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class StudentExposedRepositoryTest : CustomStringSpec({
@@ -37,7 +40,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
         }
     }
 
-    "Student 학생 정보 `id` 컬럼 기준 DB 조회 성공 정상 확인한다" {
+    "Student 학생 정보 'id' 컬럼 조건 DB 조회 성공 정상 확인한다" {
         transaction {
             // given
             val studentId = saved.id!!
@@ -48,6 +51,36 @@ class StudentExposedRepositoryTest : CustomStringSpec({
             // then
             result!! shouldNotBe null
             result.id shouldNotBe null
+        }
+    }
+
+    "Student 학생 정보 컬럼 조건 없이 DB 조회 결과 'null' 성공 정상 확인한다" {
+        transaction {
+            // given
+            val predicate = StudentPredicate()
+
+            // when
+            val result = studentExposedRepository.findByPredicate(predicate)
+
+            // then
+            result shouldBe null
+        }
+    }
+
+    "Student 학생 정보 'name', 'phone', 'birth' 컬럼 조건 DB 조회 성공 정상 확인한다" {
+        transaction {
+            // given
+            val predicate = StudentPredicate(name = saved.name, phone = saved.phone, birth = saved.birth)
+
+            // when
+            val result = studentExposedRepository.findByPredicate(predicate)
+
+            // then
+            result!! shouldNotBe null
+            result.id.value.toString() shouldBe saved.id
+            result.name shouldBe saved.name
+            result.phone shouldBe saved.phone
+            result.birth shouldBe saved.birth
         }
     }
 

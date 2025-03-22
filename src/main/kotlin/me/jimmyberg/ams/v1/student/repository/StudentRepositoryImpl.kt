@@ -2,6 +2,8 @@ package me.jimmyberg.ams.v1.student.repository
 
 import me.jimmyberg.ams.common.domain.PageableContent
 import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.infra.error.ErrorCode
+import me.jimmyberg.ams.infra.error.exception.InternalServiceException
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
@@ -19,11 +21,13 @@ class StudentRepositoryImpl(
     }
 
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
-        return studentExposedRepository.findAllByNameAndPhoneAndBirth(name, phone, birth).isNotEmpty()
+        return studentExposedRepository.findAllByNameAndPhoneAndBirth(name, phone, birth)
+            .isNotEmpty()
     }
 
     override fun findByPredicate(predicate: StudentPredicate): Student? {
-        TODO("Not yet implemented")
+        return studentExposedRepository.findByPredicate(predicate)
+            ?.let { studentMapper.entityToDomain(it) }
     }
 
     override fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest): List<Student> {
