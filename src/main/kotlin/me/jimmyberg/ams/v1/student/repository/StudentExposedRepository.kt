@@ -36,6 +36,10 @@ class StudentExposedRepository {
         return StudentEntity.find(predicate.conditions()).singleOrNull()
     }
 
+    fun findAllByPredicate(predicate: StudentPredicate): List<StudentEntity> {
+        return StudentEntity.find(predicate.conditions()).toList()
+    }
+
     fun findAllByNameAndPhoneAndBirth(name: String, phone: String, birth: String): List<StudentEntity> {
         return StudentEntity.find {
             StudentTable.name eq name

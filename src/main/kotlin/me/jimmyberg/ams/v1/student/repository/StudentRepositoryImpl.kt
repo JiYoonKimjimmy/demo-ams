@@ -29,7 +29,8 @@ class StudentRepositoryImpl(
     }
 
     override fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest): List<Student> {
-        TODO("Not yet implemented")
+        return studentExposedRepository.findAllByPredicate(predicate)
+            .map { studentMapper.entityToDomain(it) }
     }
 
     override fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest): PageableContent<Student> {

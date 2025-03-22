@@ -1,5 +1,6 @@
 package me.jimmyberg.ams.v1.student.repository
 
+import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
@@ -72,6 +73,20 @@ class StudentRepositoryImplTest : CustomBehaviorSpec({
                 result.name shouldBe saved.name
                 result.phone shouldBe saved.phone
                 result.birth shouldBe saved.birth
+            }
+        }
+
+    }
+
+    given("Student 'name', 'phone', 'birth' 조회 조건 다건 조회 요청하여") {
+        val predicate = StudentPredicate(name = saved.name, phone = saved.phone, birth = saved.birth)
+
+        `when`("조회 결과 성공인 경우") {
+            val result = transaction { studentRepository.findAllByPredicate(predicate) }
+
+            then("DB 조회 결과 '1'건 정상 확인한다") {
+                result.shouldNotBeEmpty()
+                result.first().id shouldBe saved.id
             }
         }
 
