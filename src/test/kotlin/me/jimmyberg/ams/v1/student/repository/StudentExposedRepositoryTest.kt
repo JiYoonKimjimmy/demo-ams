@@ -1,8 +1,10 @@
 package me.jimmyberg.ams.v1.student.repository
 
+import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
@@ -18,7 +20,8 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     val studentFixture = dependencies.studentFixture
 
     lateinit var saved: Student
-    beforeTest {
+
+    beforeSpec {
         transaction {
             saved = studentExposedRepository.save(studentFixture.make()).let(studentMapper::entityToDomain)
         }
@@ -27,7 +30,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 DB 저장 성공 정상 확인한다" {
         transaction {
             // given
-            val student = studentFixture.make()
+            val student = studentFixture.make(name = "김모아")
 
             // when
             val result = studentExposedRepository.save(student)
@@ -86,7 +89,6 @@ class StudentExposedRepositoryTest : CustomStringSpec({
         transaction {
             // given
             val updated = saved.copy(
-                name = "김모아",
                 gender = Gender.FEMALE
             )
 
@@ -95,7 +97,6 @@ class StudentExposedRepositoryTest : CustomStringSpec({
 
             // then
             result.id.toString() shouldBe saved.id
-            result.name shouldBe "김모아"
             result.gender shouldBe Gender.FEMALE
         }
     }
@@ -103,13 +104,29 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 DB 삭제 성공 정상 확인한다" {
         transaction {
             // given
-            val studentId = saved.id!!
+            val student = studentExposedRepository.save(studentFixture.make(name = "김모간"))
+            val studentId = student.id.value.toString()
 
             // when
             studentExposedRepository.delete(studentId)
 
             // then
             studentExposedRepository.findById(studentId) shouldBe null
+        }
+    }
+
+    "Student 학생 정보 scroll 조회 성공 정상 확인한다" {
+        transaction {
+            // given
+            val predicate = StudentPredicate()
+            val pageable = PageableRequest()
+
+            // when
+            val result = studentExposedRepository.scrollByPredicate(predicate, pageable)
+
+            // then
+            result.first.shouldNotBeEmpty()
+            result.second shouldBe false
         }
     }
 

@@ -28,7 +28,7 @@ data class StudentPredicate(
         val grade: Int? = null
     )
 
-    fun conditions(): Op<Boolean> {
+    fun conditions(default: Op<Boolean>? = null): Op<Boolean> {
         return Op.build {
             val conditions = ArrayList<Op<Boolean>>()
             
@@ -41,9 +41,9 @@ data class StudentPredicate(
             this@StudentPredicate.school?.schoolType?.let { conditions.add(StudentTable.schoolType eq it) }
             this@StudentPredicate.school?.grade?.let { conditions.add(StudentTable.grade eq it) }
             this@StudentPredicate.status?.let { conditions.add(StudentTable.status eq it) }
-            
+
             if (conditions.isEmpty()) {
-                Op.FALSE
+                default ?: Op.FALSE
             } else {
                 conditions.reduce { acc, op -> acc and op }
             }

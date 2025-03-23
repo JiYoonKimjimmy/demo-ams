@@ -39,6 +39,10 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.14.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
+    testImplementation(libs.mockk)
 
     // kotest
     testImplementation(libs.kotest.runner.junit5)
@@ -47,12 +51,10 @@ dependencies {
     testImplementation(libs.kotest.extensions.spring)
 
     // fixture-monkey
-    testImplementation(libs.fixture.monkey.starter)
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
-    testImplementation(libs.mockk)
+    testFixturesImplementation(libs.fixture.monkey.starter.kotlin)
+    testFixturesImplementation(libs.fixture.monkey.kotest)
+    testFixturesImplementation(libs.fixture.monkey.jackson)
+    testFixturesImplementation(libs.fixture.monkey.jakarta.validation)
 }
 
 kotlin {

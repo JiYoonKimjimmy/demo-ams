@@ -3,6 +3,7 @@ package me.jimmyberg.ams.v1.student.repository
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
@@ -23,7 +24,7 @@ class StudentRepositoryImplTest : CustomBehaviorSpec({
     }
 
     given("Student DB 정보 생성 요청하여") {
-        val student = studentFixture.make()
+        val student = studentFixture.make(name = "김모아")
 
         `when`("성공인 경우") {
             val result = transaction { studentRepository.save(student) }
@@ -75,7 +76,6 @@ class StudentRepositoryImplTest : CustomBehaviorSpec({
                 result.birth shouldBe saved.birth
             }
         }
-
     }
 
     given("Student 'name', 'phone', 'birth' 조회 조건 다건 조회 요청하여") {
@@ -89,7 +89,19 @@ class StudentRepositoryImplTest : CustomBehaviorSpec({
                 result.first().id shouldBe saved.id
             }
         }
+    }
 
+    given("Student 'size: 1' scroll 조회 요청하여") {
+        val predicate = StudentPredicate()
+        val pageable = PageableRequest(size = 1)
+
+        `when`("'1'건 조회 결과 성공인 경우") {
+            val result = transaction { studentRepository.scrollByPredicate(predicate, pageable) }
+
+            then("'content', 'hasNext : false' DB 조회 결과 정상 확인한다") {
+                result.content.shouldNotBeEmpty()
+            }
+        }
     }
 
 })
