@@ -1,12 +1,15 @@
 package me.jimmyberg.ams.v1.student.repository.predicate
 
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.mongodsl.extension.document
 import me.jimmyberg.ams.mongodsl.extension.field
 import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
+import me.jimmyberg.ams.v1.student.repository.entity.StudentTable
 import me.jimmyberg.ams.v1.student.service.domain.Student.School
+import org.jetbrains.exposed.sql.Op
+import org.jetbrains.exposed.sql.and
 import org.springframework.data.mongodb.core.query.BasicQuery
 
 data class StudentPredicate(
@@ -24,6 +27,28 @@ data class StudentPredicate(
         val schoolType: SchoolType? = null,
         val grade: Int? = null
     )
+
+    fun conditions(default: Op<Boolean>? = null): Op<Boolean> {
+        return Op.build {
+            val conditions = ArrayList<Op<Boolean>>()
+            
+            this@StudentPredicate.id?.let { conditions.add(StudentTable.id eq it.toLong()) }
+            this@StudentPredicate.name?.let { conditions.add(StudentTable.name eq it) }
+            this@StudentPredicate.phone?.let { conditions.add(StudentTable.phone eq it) }
+            this@StudentPredicate.birth?.let { conditions.add(StudentTable.birth eq it) }
+            this@StudentPredicate.gender?.let { conditions.add(StudentTable.gender eq it) }
+            this@StudentPredicate.school?.schoolName?.let { conditions.add(StudentTable.schoolName eq it) }
+            this@StudentPredicate.school?.schoolType?.let { conditions.add(StudentTable.schoolType eq it) }
+            this@StudentPredicate.school?.grade?.let { conditions.add(StudentTable.grade eq it) }
+            this@StudentPredicate.status?.let { conditions.add(StudentTable.status eq it) }
+
+            if (conditions.isEmpty()) {
+                default ?: Op.FALSE
+            } else {
+                conditions.reduce { acc, op -> acc and op }
+            }
+        }
+    }
 
     val query: BasicQuery by lazy {
         document {

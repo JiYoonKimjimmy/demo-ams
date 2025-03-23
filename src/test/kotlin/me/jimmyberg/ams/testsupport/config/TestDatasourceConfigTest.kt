@@ -6,9 +6,9 @@ import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
-import me.jimmyberg.ams.v1.parent.repository.entity.Parents
-import me.jimmyberg.ams.v1.relation.repository.entity.StudentParents
-import me.jimmyberg.ams.v1.student.repository.entity.Students
+import me.jimmyberg.ams.v1.parent.repository.entity.ParentTable
+import me.jimmyberg.ams.v1.relation.repository.entity.StudentParentTable
+import me.jimmyberg.ams.v1.student.repository.entity.StudentTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -34,10 +34,10 @@ class TestDatasourceConfigTest : CustomStringSpec({
 
             // given
             // `Students` schema 생성
-            SchemaUtils.create(Students)
+            SchemaUtils.create(StudentTable)
 
             // `Students` insert
-            val studentId = Students.insert {
+            val studentId = StudentTable.insert {
                 it[name] = "김모건"
                 it[nameLabel] = null
                 it[phone] = "01012340001"
@@ -50,16 +50,16 @@ class TestDatasourceConfigTest : CustomStringSpec({
                 it[schoolType] = SchoolType.PRIMARY
                 it[grade] = 6
                 it[status] = ActivationStatus.ACTIVATED
-            } get Students.id
+            } get StudentTable.id
 
             // when
-            val result = Students.select(Students.id, Students.name)
-                .where(Students.id eq studentId)
+            val result = StudentTable.select(StudentTable.id, StudentTable.name)
+                .where(StudentTable.id eq studentId)
                 .single()
 
             // then
-            result[Students.id] shouldBe studentId
-            result[Students.name] shouldBe "김모건"
+            result[StudentTable.id] shouldBe studentId
+            result[StudentTable.name] shouldBe "김모건"
         }
     }
 
@@ -68,9 +68,9 @@ class TestDatasourceConfigTest : CustomStringSpec({
             addLogger(StdOutSqlLogger)
 
             // given
-            SchemaUtils.create(Students, Parents, StudentParents)
+            SchemaUtils.create(StudentTable, ParentTable, StudentParentTable)
 
-            val saveStudentId = Students.insertAndGetId {
+            val saveStudentId = StudentTable.insertAndGetId {
                 it[name] = "김모건"
                 it[nameLabel] = null
                 it[phone] = "01012340001"
@@ -85,32 +85,32 @@ class TestDatasourceConfigTest : CustomStringSpec({
                 it[status] = ActivationStatus.ACTIVATED
             }
 
-            val saveParentId1 = Parents.insertAndGetId {
+            val saveParentId1 = ParentTable.insertAndGetId {
                 it[name] = "김지윤"
                 it[phone] = "01012340002"
                 it[gender] = Gender.MALE
                 it[status] = ActivationStatus.ACTIVATED
             }
 
-            val saveParentId2 = Parents.insertAndGetId {
+            val saveParentId2 = ParentTable.insertAndGetId {
                 it[name] = "김수지"
                 it[phone] = "01012340003"
                 it[gender] = Gender.FEMALE
                 it[status] = ActivationStatus.ACTIVATED
             }
 
-            StudentParents.insert {
+            StudentParentTable.insert {
                 it[studentId] = saveStudentId.value
                 it[parentId] = saveParentId1.value
             }
 
-            StudentParents.insert {
+            StudentParentTable.insert {
                 it[studentId] = saveStudentId.value
                 it[parentId] = saveParentId2.value
             }
 
             // when
-            val parent = StudentParents.selectAll().where { StudentParents.studentId eq saveStudentId.value }.toList()
+            val parent = StudentParentTable.selectAll().where { StudentParentTable.studentId eq saveStudentId.value }.toList()
 
             // then
             parent.size shouldBe 2
