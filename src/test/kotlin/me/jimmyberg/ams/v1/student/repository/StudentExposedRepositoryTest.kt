@@ -105,7 +105,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
         transaction {
             // given
             val student = studentExposedRepository.save(studentFixture.make(name = "김모간"))
-            val studentId = student.id.value.toString()
+            val studentId = student.id.value
 
             // when
             studentExposedRepository.delete(studentId)

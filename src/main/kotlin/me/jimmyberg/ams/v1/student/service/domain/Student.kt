@@ -6,7 +6,7 @@ import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.enumerate.ActivationStatus
 
 data class Student(
-    val id: String? = null,
+    val id: Long? = null,
     val name: String,
     var nameLabel: Int? = null,
     val phone: String,

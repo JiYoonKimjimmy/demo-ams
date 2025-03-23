@@ -25,7 +25,7 @@ class StudentMapper {
 
     fun modelToDomain(model: StudentModel): Student {
         return Student(
-            id = model.id,
+            id = model.id?.toLong(),
             name = model.name,
             phone = model.phone,
             birth = model.birth,
@@ -38,7 +38,7 @@ class StudentMapper {
 
     fun domainToModel(domain: Student): StudentModel {
         return StudentModel(
-            id = domain.id,
+            id = domain.id?.toString(),
             name = "${domain.name}${domain.nameLabel ?: ""}",
             phone = domain.phone,
             birth = domain.birth,
@@ -55,7 +55,7 @@ class StudentMapper {
 
     fun domainToDocument(domain: Student): StudentDocument {
         return StudentDocument(
-            id = domain.id,
+            id = domain.id?.toString(),
             name = domain.name,
             indexOfName = domain.nameLabel,
             phone = domain.phone,
@@ -69,7 +69,7 @@ class StudentMapper {
 
     fun documentToDomain(document: StudentDocument): Student {
         return Student(
-            id = document.id!!,
+            id = document.id!!.toLong(),
             name = document.name,
             nameLabel = document.indexOfName,
             phone = document.phone,
@@ -83,7 +83,7 @@ class StudentMapper {
 
     fun entityToDomain(entity: StudentEntity): Student {
         return Student(
-            id = entity.id.value.toString(),
+            id = entity.id.value,
             name = entity.name,
             nameLabel = entity.nameLabel?.toInt(),
             phone = entity.phone,
