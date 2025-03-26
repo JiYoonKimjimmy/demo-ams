@@ -10,7 +10,7 @@ object StudentTable : LongIdTable("students") {
     val nameLabel     = varchar("name_label", 128).nullable()
     val phone         = varchar("phone", 32)
     val birth         = varchar("birth", 8)
-    val gender        = enumerationByName("gender", 6, Gender::class)
+    val gender        = enumerationByName("gender", 10, Gender::class)
     val zipCode       = varchar("zip_code", 6).nullable()
     val baseAddress   = varchar("base_address", 128).nullable()
     val detailAddress = varchar("detail_address", 128).nullable()

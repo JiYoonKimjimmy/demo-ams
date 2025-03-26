@@ -1,10 +1,14 @@
 package me.jimmyberg.ams.v1.student.service.domain
 
+import com.navercorp.fixturemonkey.kotlin.giveMeKotlinBuilder
+import com.navercorp.fixturemonkey.kotlin.into
 import me.jimmyberg.ams.common.domain.Address
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.testsupport.TestExtensionFunctions.fixtureMonkey
 import me.jimmyberg.ams.v1.student.service.domain.Student.School
+import net.jqwik.api.Arbitraries
 
 class StudentFixture {
 
@@ -18,16 +22,27 @@ class StudentFixture {
         school: School = School("신길초", SchoolType.PRIMARY, 6),
         status: ActivationStatus = ActivationStatus.REGISTER_WAITING,
     ): Student {
-        return Student(
-            name = name,
-            nameLabel = indexOfName,
-            phone = phone,
-            birth = birth,
-            gender = gender,
-            address = address,
-            school = school,
-            status = status,
-        )
+        return fixtureMonkey.giveMeKotlinBuilder<Student>()
+            .setExp(Student::name, name)
+            .setExp(Student::nameLabel, indexOfName)
+            .setExp(Student::phone, phone)
+            .setExp(Student::birth, birth)
+            .setExp(Student::gender, gender)
+            .setExp(Student::address, address)
+            .setExp(Student::school, school)
+            .setExp(Student::status, status)
+            .sample()
+    }
+
+    fun make(): Student {
+        return fixtureMonkey.giveMeKotlinBuilder<Student>()
+            .setExp(Student::phone, Arbitraries.strings().ofMaxLength(32))
+            .setExp(Student::birth, Arbitraries.strings().ofMaxLength(8))
+            .setExp(Student::gender, Arbitraries.of(*Gender.entries.toTypedArray()))
+            .setExp(Student::address into Address::zipCode, Arbitraries.strings().ofMaxLength(6))
+            .setExp(Student::school into School::schoolType, Arbitraries.of(*SchoolType.entries.toTypedArray()))
+            .setExp(Student::status, Arbitraries.of(*ActivationStatus.entries.toTypedArray()))
+            .sample()
     }
 
 }

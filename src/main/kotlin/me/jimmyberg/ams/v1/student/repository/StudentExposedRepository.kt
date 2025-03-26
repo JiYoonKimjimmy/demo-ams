@@ -8,7 +8,6 @@ import me.jimmyberg.ams.v1.student.repository.entity.StudentTable
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.service.domain.Student
 import org.jetbrains.exposed.sql.Op
-import org.jetbrains.exposed.sql.SortOrder
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -31,8 +30,8 @@ class StudentExposedRepository {
         }
     }
 
-    fun findById(id: String): StudentEntity? {
-        return StudentEntity.findById(id.toLong())
+    fun findById(id: Long): StudentEntity? {
+        return StudentEntity.findById(id)
     }
 
     fun findByPredicate(predicate: StudentPredicate): StudentEntity? {
@@ -86,8 +85,8 @@ class StudentExposedRepository {
         } ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
     }
 
-    fun delete(id: String) {
-        StudentEntity.findById(id.toLong())?.delete()
+    fun delete(id: Long) {
+        StudentEntity.findById(id)?.delete()
             ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
     }
 
