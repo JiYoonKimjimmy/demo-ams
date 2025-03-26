@@ -4,7 +4,7 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
 
-    val springBootVersion = "3.4.3"
+    val springBootVersion = "3.4.4"
     id("org.springframework.boot") version springBootVersion
 
     `java-test-fixtures`
