@@ -2,7 +2,6 @@ package me.jimmyberg.ams.v1.student.service.domain
 
 import me.jimmyberg.ams.v1.student.controller.model.ScrollStudentsRequest
 import me.jimmyberg.ams.v1.student.controller.model.StudentModel
-import me.jimmyberg.ams.v1.student.repository.document.StudentDocument
 import me.jimmyberg.ams.v1.student.repository.entity.StudentEntity
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate
 import me.jimmyberg.ams.v1.student.repository.predicate.StudentPredicate.SchoolPredicate
@@ -50,34 +49,6 @@ class StudentMapper {
             schoolType = domain.school?.schoolType,
             grade = domain.school?.grade,
             status = domain.status
-        )
-    }
-
-    fun domainToDocument(domain: Student): StudentDocument {
-        return StudentDocument(
-            id = domain.id?.toString(),
-            name = domain.name,
-            indexOfName = domain.nameLabel,
-            phone = domain.phone,
-            birth = domain.birth,
-            gender = domain.gender,
-            address = domain.address,
-            school = domain.school,
-            status = domain.status,
-        )
-    }
-
-    fun documentToDomain(document: StudentDocument): Student {
-        return Student(
-            id = document.id!!.toLong(),
-            name = document.name,
-            nameLabel = document.indexOfName,
-            phone = document.phone,
-            birth = document.birth,
-            gender = document.gender,
-            address = document.address,
-            school = document.school,
-            status = document.status
         )
     }
 

@@ -8,18 +8,12 @@ import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 class SaveStudentServiceImplTest : CustomBehaviorSpec({
 
     val studentFixture = dependencies.studentFixture
-    val fakeStudentRepository = dependencies.fakeStudentRepository
-
     val saveStudentService = dependencies.saveStudentService
-
-    beforeSpec {
-        fakeStudentRepository.clear()
-    }
 
     given("학생 정보 등록 요청되어") {
         val name = "김모건"
         var domain = studentFixture.make(name = name)
-        fakeStudentRepository.save(domain)
+        saveStudentService.save(domain)
 
         `when`("동일한 'name' & 'phone' & 'birth' 등록된 학생 정보가 있다면") {
             val exception = shouldThrow<IllegalArgumentException> { saveStudentService.save(domain) }

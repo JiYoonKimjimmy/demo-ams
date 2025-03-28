@@ -6,7 +6,6 @@ import com.fasterxml.jackson.module.kotlin.kotlinModule
 import me.jimmyberg.ams.v1.student.repository.FakeStudentRepositoryImpl
 import me.jimmyberg.ams.v1.student.repository.StudentExposedRepository
 import me.jimmyberg.ams.v1.student.repository.StudentRepositoryImpl
-import me.jimmyberg.ams.v1.student.repository.document.StudentDocumentFixture
 import me.jimmyberg.ams.v1.student.service.FindStudentServiceImpl
 import me.jimmyberg.ams.v1.student.service.SaveStudentServiceImpl
 import me.jimmyberg.ams.v1.student.service.domain.StudentFixture
@@ -20,7 +19,7 @@ object TestDependencies {
     // repository
     val studentExposedRepository = StudentExposedRepository()
     val studentRepository = StudentRepositoryImpl(studentMapper, studentExposedRepository)
-    val fakeStudentRepository = FakeStudentRepositoryImpl(studentMapper)
+    val fakeStudentRepository = FakeStudentRepositoryImpl()
 
     // service
     val saveStudentService = SaveStudentServiceImpl(fakeStudentRepository)
@@ -28,7 +27,6 @@ object TestDependencies {
 
     // fixture
     val studentFixture = StudentFixture()
-    val studentDocumentFixture = StudentDocumentFixture()
 
     // etc
     val objectMapper: ObjectMapper = jacksonObjectMapper().registerModule(kotlinModule())
