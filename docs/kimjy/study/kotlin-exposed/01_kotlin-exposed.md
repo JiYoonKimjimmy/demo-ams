@@ -136,9 +136,609 @@ dependencies {
    }
    ```
 
+3. **전체 기능 사용**
+   ```kotlin
+   dependencies {
+       implementation("org.jetbrains.exposed.spring:spring-transaction:$exposedVersion")
+       implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+       implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+       implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+       implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+       implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
+   }
+   ```
+
 > **참고**: `exposed-spring-boot-starter`와 `exposed-spring-transaction`의 차이
 > - `exposed-spring-transaction`: Spring의 트랜잭션 관리 기능만 제공
 > - `exposed-spring-boot-starter`: 자동 설정을 포함한 모든 필요한 의존성 포함
 > 
 > 일반적으로는 더 세밀한 제어가 가능한 `exposed-spring-transaction`을 사용하는 것을 권장합니다.
 > 단, Spring Boot의 자동 설정 기능을 선호하는 경우에는 `exposed-spring-boot-starter`를 사용할 수 있습니다.
+
+---
+
+## 2. 데이터베이스 연결 설정
+
+- `application.yml` 또는 `application.properties`를 통해 쉽게 설정 가능
+
+### application.yml 설정
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb  # 데이터베이스 URL
+    driver-class-name: org.h2.Driver  # 드라이버 클래스
+    username: sa  # 데이터베이스 사용자명
+    password: password  # 데이터베이스 비밀번호
+
+    # 커넥션 풀 설정 (HikariCP)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+```
+
+### DataSource 설정
+
+- `Spring Boot` 자동 설정을 사용하지 않고, 직접 `DataSource` 설정 가능
+
+```kotlin
+@Configuration
+class DatabaseConfig {
+    
+    @Bean
+    fun dataSource(): DataSource {
+        return HikariDataSource().apply {
+            driverClassName = "org.postgresql.Driver"
+            jdbcUrl = "jdbc:postgresql://localhost:5432/mydb"
+            username = "postgres"
+            password = "postgres"
+            maximumPoolSize = 10
+            minimumIdle = 5
+            idleTimeout = 300000
+            connectionTimeout = 20000
+            maxLifetime = 1200000
+        }
+    }
+}
+```
+
+### 다중 DataSource 설정
+
+#### application.yml
+
+```yaml
+spring:
+  primary-datasource:
+    url: jdbc:postgresql://localhost:5432/primary_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    
+  secondary-datasource:
+    url: jdbc:mysql://localhost:3306/secondary_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+```
+
+#### 다중 DataSource 설정 클래스
+
+```kotlin
+@Configuration
+class MultipleDataSourceConfig {
+
+    @Primary
+    @Bean("primaryDataSource")
+    @ConfigurationProperties("spring.primary-datasource")
+    fun primaryDataSource(): DataSource {
+        return DataSourceBuilder.create().build()
+    }
+
+    @Bean("secondaryDataSource")
+    @ConfigurationProperties("spring.secondary-datasource")
+    fun secondaryDataSource(): DataSource {
+        return DataSourceBuilder.create().build()
+    }
+
+    @Primary
+    @Bean("primaryDatabase")
+    fun primaryDatabase(@Qualifier("primaryDataSource") dataSource: DataSource): Database {
+        return Database.connect(dataSource)
+    }
+
+    @Bean("secondaryDatabase")
+    fun secondaryDatabase(@Qualifier("secondaryDataSource") dataSource: DataSource): Database {
+        return Database.connect(dataSource)
+    }
+}
+```
+
+### 데이터베이스 초기화 설정
+
+#### Schema 자동 생성
+
+```kotlin
+@Configuration
+class DatabaseInitializer {
+    
+    @Bean
+    fun initDatabase(database: Database) {
+        transaction(database) {
+            // 테이블 생성
+            SchemaUtils.create(Users, Roles, UserRoles)
+            
+            // 초기 데이터 삽입
+            Users.insert {
+                it[name] = "Admin"
+                it[email] = "admin@example.com"
+            }
+        }
+    }
+}
+```
+
+> #### Flyway를 사용한 데이터베이스 마이그레이션
+>
+> - `Flyway` : 데이터베이스 스키마 버전 관리 도구로, 데이터베이스의 변경사항을 코드로 관리할 수 있도록 지원하는 라이브러리
+> [Flyway 관련 블로그](./99_flyway-guide.md)
+
+---
+
+## 3. Exposed 설정
+
+- `Exposed` 를 `Spring Boot` 와 함께 사용할 때는 크게 두 가지 방식으로 설정 가능
+  1. Spring Boot의 자동 설정 사용 (`exposed-spring-boot-starter`)
+  2. 수동 설정 (`exposed-spring-transaction`)
+
+### Auto Configuration
+
+- `exposed-spring-boot-starter` 를 통해 자동 설정 가능
+
+```kotlin
+dependencies {
+    implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
+}
+```
+
+#### 자동 설정 항목
+
+- Database 인스턴스 자동 생성
+- SpringTransactionManager 설정
+- 트랜잭션 매니저와 Spring 통합
+
+### Custom Configuration
+
+```kotlin
+@Configuration
+class ExposedConfig {
+    
+    @Bean
+    fun database(dataSource: DataSource): Database {
+        return Database.connect(dataSource)
+    }
+    
+    @Bean
+    fun springTransactionManager(database: Database): SpringTransactionManager {
+        return SpringTransactionManager(database)
+    }
+}
+```
+
+#### 추가 설정 옵션
+
+```kotlin
+@Configuration
+class ExposedCustomConfig {
+    
+    @Bean
+    fun database(dataSource: DataSource): Database {
+        return Database.connect(dataSource).apply {
+            useNestedTransactions = true  // 중첩 트랜잭션 허용
+        }
+    }
+    
+    @Bean
+    fun databaseConfig(): DatabaseConfig {
+        return DatabaseConfig {
+            sqlLogger = Slf4jSqlLogger    // SQL 로깅 설정
+            defaultRepetitionAttempts = 3 // 재시도 횟수 설정
+            defaultIsolationLevel = Connection.TRANSACTION_READ_COMMITTED // 기본 격리 수준 설정
+            defaultBatchSize = 100        // 배치 작업 시 기본 크기
+        }
+    }
+
+}
+```
+
+### Transaction Manager 설정
+
+#### Default Transaction Manager
+
+```kotlin
+@Configuration
+class TransactionConfig {
+   
+    @Bean
+    @Primary
+    fun transactionManager(database: Database): PlatformTransactionManager {
+        return SpringTransactionManager(
+            database = database,
+            showSql = true,                // SQL 출력 여부
+            defaultRepetitionAttempts = 3  // 재시도 횟수
+        )
+    }
+
+}
+```
+
+#### Multiple Transaction Manager
+
+- 다중 데이터베이스를 사용하는 경우, 각 Datasource 별 다른 Transaction Manager 설정 가능
+
+```kotlin
+@Configuration
+class MultipleTransactionConfig {
+    
+    @Bean
+    @Primary
+    fun primaryTransactionManager(
+        @Qualifier("primaryDatabase") database: Database
+    ): PlatformTransactionManager {
+        return SpringTransactionManager(database)
+    }
+    
+    @Bean
+    fun secondaryTransactionManager(
+        @Qualifier("secondaryDatabase") database: Database
+    ): PlatformTransactionManager {
+        return SpringTransactionManager(database)
+    }
+
+}
+```
+
+#### Transaction 사용 Sample
+
+```kotlin
+@Service
+@Transactional
+class UserService(private val database: Database) {
+    
+    fun createUser(name: String, email: String) {
+        transaction(database) {
+            Users.insert {
+                it[this.name] = name
+                it[this.email] = email
+            }
+        }
+    }
+    
+    // Spring `@Transactional` 함께 사용
+    @Transactional(readOnly = true)
+    fun findUserByEmail(email: String): User? {
+        return transaction(database) {
+            User.find { Users.email eq email }.firstOrNull()
+        }
+    }
+
+}
+```
+
+> ####  **Spring** `@Transactional` 과 **Exposed** 의 `transaction`
+> 
+> - `@Transactional` : Spring 트랜잭션 관리 기능 사용
+> - `transaction { }` : Exposed 트랜잭션 컨텍스트 생성
+> 
+> 두 방식을 함께 사용할 때는 **Spring 트랜잭션이 외부**에, **Exposed 트랜잭션이 내부**에 위치하도록 구성하는 것을 권장
+>
+> ##### 트랜잭션 중첩 구조 예시
+> ```kotlin
+> @Service
+> class UserService(private val database: Database) {
+>     
+>     // 올바른 사용 방법 ✅
+>     @Transactional  // Spring 트랜잭션 (외부)
+>     fun createUser(name: String, email: String) {
+>         transaction(database) {  // Exposed 트랜잭션 (내부)
+>             Users.insert { 
+>                 it[this.name] = name
+>                 it[this.email] = email
+>             }
+>         }
+>     }
+>     
+>     // 잘못된 사용 방법 ❌
+>     fun wrongCreateUser(name: String, email: String) {
+>         transaction(database) {  // Exposed 트랜잭션 (외부)
+>             @Transactional      // Spring 트랜잭션 (내부) - 동작하지 않을 수 있음
+>             fun insert() {
+>                 Users.insert {
+>                     it[this.name] = name
+>                     it[this.email] = email
+>                 }
+>             }
+>             insert()
+>         }
+>     }
+> }
+> ```
+>
+> ##### 이렇게 구성하는 이유
+> 
+> 1. **트랜잭션 전파**: Spring의 트랜잭션이 외부에 있으면 Spring의 트랜잭션 전파 설정(`propagation`)이 제대로 동작
+> 2. **리소스 관리**: Spring이 트랜잭션 리소스(커넥션 등)를 먼저 확보하고, Exposed는 이를 재사용
+> 3. **예외 처리**: Spring의 트랜잭션 경계에서 예외가 발생하면, 내부의 Exposed 작업도 함께 롤백 처리
+> 4. **AOP 동작**: Spring `@Transactional` 은 AOP를 통해 동작하므로, 외부에 위치해야 프록시가 정상적으로 동작
+>
+> ##### 주의사항
+> 
+> - Exposed `transaction` 블록은 반드시 필요(Exposed DSL 사용을 위한 컨텍스트 제공)
+>   - Exposed `transaction`: SQL DSL 실행을 위한 컨텍스트 제공
+> - Spring `@Transactional` 은 선택적(트랜잭션 관리가 필요한 경우에만 사용)
+>   - Spring `@Transactional`: 전체 트랜잭션 경계와 속성 관리
+
+
+---
+
+## 4. Entity 매핑 설정
+
+1. **DSL 방식**: `Table` 객체를 사용한 **SQL DSL 스타일**
+2. **DAO 방식**: `Entity` 클래스를 사용한 **ORM 스타일**
+
+### Table 객체 정의 (DSL 방식)
+
+```kotlin
+// 단일 테이블 정의
+object Users : Table("users") {
+    val id = integer("id").autoIncrement()
+    val name = varchar("name", length = 100)
+    val email = varchar("email", length = 255).uniqueIndex()
+    val createdAt = datetime("created_at").default(LocalDateTime.now())
+    val status = enumerationByName("status", 10, UserStatus::class)
+    
+    override val primaryKey = PrimaryKey(id)
+}
+
+// Enum 클래스 정의
+enum class UserStatus {
+    ACTIVE, INACTIVE, SUSPENDED
+}
+
+// 관계를 가진 테이블 정의
+object Roles : Table("roles") {
+    val id = integer("id").autoIncrement()
+    val name = varchar("name", length = 50)
+    
+    override val primaryKey = PrimaryKey(id)
+}
+
+object UserRoles : Table("user_roles") {
+    val userId = reference("user_id", Users)
+    val roleId = reference("role_id", Roles)
+    
+    override val primaryKey = PrimaryKey(userId, roleId)
+}
+```
+
+#### Column 타입 정의
+
+```kotlin
+object SampleTable : Table("sample") {
+    // 숫자 타입
+    val intColumn = integer("int_column")
+    val longColumn = long("long_column")
+    val decimalColumn = decimal("decimal_column", precision = 10, scale = 2)
+    
+    // 문자열 타입
+    val varcharColumn = varchar("varchar_column", length = 100)
+    val textColumn = text("text_column")
+    
+    // 날짜/시간 타입
+    val dateColumn = date("date_column")
+    val dateTimeColumn = datetime("datetime_column")
+    val timestampColumn = timestamp("timestamp_column")
+    
+    // 불리언 타입
+    val booleanColumn = bool("boolean_column")
+    
+    // BLOB/CLOB
+    val blobColumn = blob("blob_column")
+    val clobColumn = clob("clob_column")
+    
+    // JSON 타입 (exposed-json 모듈 필요)
+    val jsonColumn = json("json_column", String::class.java)
+    
+    // 열거형
+    val enumColumn = enumerationByName("enum_column", 10, Status::class)
+    
+    // Nullable 컬럼
+    val nullableColumn = varchar("nullable_column", 100).nullable()
+    
+    // 기본값 설정
+    val defaultColumn = integer("default_column").default(0)
+}
+```
+
+### Entity 클래스 정의 (DAO 방식)
+
+```kotlin
+// Entity 클래스 정의
+class User(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<User>(Users)
+    
+    var name by Users.name
+    var email by Users.email
+    var createdAt by Users.createdAt
+    var status by Users.status
+    
+    // 일대다 관계
+    val roles by Role via UserRoles
+}
+
+class Role(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<Role>(Roles)
+    
+    var name by Roles.name
+    
+    // 다대다 관계
+    val users by User via UserRoles
+}
+```
+
+### 관계 매핑 설정
+
+#### 1. 일대일 (One-to-One) 관계
+
+```kotlin
+object UserProfiles : Table("user_profiles") {
+    val id = integer("id").autoIncrement()
+    val userId = reference("user_id", Users).uniqueIndex()
+    val bio = text("bio")
+    
+    override val primaryKey = PrimaryKey(id)
+}
+
+class UserProfile(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<UserProfile>(UserProfiles)
+    
+    var user by User referencedOn UserProfiles.userId
+    var bio by UserProfiles.bio
+}
+
+// User 클래스에 추가
+class User(id: EntityID<Int>) : IntEntity(id) {
+    // ... 기존 속성들 ...
+    val profile by UserProfile optionalReferrersOn UserProfiles.userId
+}
+```
+
+#### 2. 일대다 (One-to-Many) 관계
+
+```kotlin
+object Posts : Table("posts") {
+    val id = integer("id").autoIncrement()
+    val userId = reference("user_id", Users)
+    val title = varchar("title", length = 200)
+    val content = text("content")
+    
+    override val primaryKey = PrimaryKey(id)
+}
+
+class Post(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<Post>(Posts)
+    
+    var user by User referencedOn Posts.userId
+    var title by Posts.title
+    var content by Posts.content
+}
+
+// User 클래스에 추가
+class User(id: EntityID<Int>) : IntEntity(id) {
+    // ... 기존 속성들 ...
+    val posts by Post referrersOn Posts.userId
+}
+```
+
+#### 3. 다대다 (Many-to-Many) 관계
+
+```kotlin
+// 이미 정의된 UserRoles 테이블 사용
+
+class User(id: EntityID<Int>) : IntEntity(id) {
+    // ... 기존 속성들 ...
+    val roles by Role via UserRoles
+}
+
+class Role(id: EntityID<Int>) : IntEntity(id) {
+    // ... 기존 속성들 ...
+    val users by User via UserRoles
+}
+```
+
+### DB Indexes & Constraints
+
+```kotlin
+object Users : Table("users") {
+    // ... 기존 컬럼들 ...
+    
+    // 단일 컬럼 인덱스
+    init {
+        index(true, name) // unique = true
+        index(false, createdAt) // unique = false
+    }
+}
+
+object Posts : Table("posts") {
+    // ... 기존 컬럼들 ...
+    
+    // 복합 인덱스
+    init {
+        index(false, userId, createdAt)
+        uniqueIndex(title, content) // 복합 유니크 인덱스
+    }
+    
+    // 외래 키 제약조건
+    foreignKey(
+        name = "fk_posts_user_id",
+        references = Users,
+        onDelete = ReferenceOption.CASCADE,
+        onUpdate = ReferenceOption.CASCADE
+    )
+}
+```
+
+#### Sample
+
+```kotlin
+// DSL 방식 사용
+fun createUser(name: String, email: String) {
+    transaction {
+        Users.insert {
+            it[this.name] = name
+            it[this.email] = email
+        }
+    }
+}
+
+// DAO 방식 사용
+fun createUserWithRoles(name: String, email: String, roleNames: List<String>) {
+    transaction {
+        val user = User.new {
+            this.name = name
+            this.email = email
+            this.status = UserStatus.ACTIVE
+        }
+        
+        roleNames.forEach { roleName ->
+            val role = Role.find { Roles.name eq roleName }.firstOrNull()
+                ?: Role.new { this.name = roleName }
+            user.roles = SizedCollection(user.roles + role)
+        }
+    }
+}
+```
+
+> **참고**: Table 객체와 Entity 클래스 선택 기준
+> - **Table 객체 (DSL)**: SQL에 가까운 작업이 필요한 경우, 복잡한 쿼리가 필요한 경우
+> - **Entity 클래스 (DAO)**: 객체지향적인 도메인 모델링이 필요한 경우, JPA와 유사한 방식을 선호하는 경우
+
+---
+
+## 5. Repository 구현
+
+- Spring Data JPA 스타일 구현
+- Exposed DSL 스타일 구현
+- DAO 패턴 구현
+
+---
+
+## 6. 테스트 환경 설정
+
+- 테스트용 데이터베이스 설정
+- 테스트 트랜잭션 관리
+- 테스트 데이터 준비
+
+---
