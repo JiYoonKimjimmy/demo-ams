@@ -988,8 +988,291 @@ data class UserStats(
 
 ## 6. 테스트 환경 설정
 
-- 테스트용 데이터베이스 설정
-- 테스트 트랜잭션 관리
-- 테스트 데이터 준비
+### 테스트용 데이터베이스 설정
+
+#### H2 인메모리 데이터베이스 설정
+
+```kotlin
+@TestConfiguration
+class TestDatabaseConfig {
+    
+    @Bean
+    fun testDatabase(): Database {
+        return Database.connect(
+            url = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1",
+            driver = "org.h2.Driver",
+            user = "sa",
+            password = ""
+        )
+    }
+}
+```
+
+#### application-test.yml
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  
+  # H2 콘솔 활성화 (선택사항)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+```
+
+### 테스트 Base 클래스
+
+```kotlin
+@ActiveProfiles("test")
+@SpringBootTest
+abstract class ExposedTestBase {
+    
+    @Autowired
+    protected lateinit var database: Database
+    
+    @BeforeEach
+    fun setUp() {
+        transaction(database) {
+            // 테스트에 필요한 테이블 생성
+            SchemaUtils.create(Users, Roles, UserRoles)
+        }
+    }
+    
+    @AfterEach
+    fun tearDown() {
+        transaction(database) {
+            // 테스트 후 테이블 삭제
+            SchemaUtils.drop(Users, Roles, UserRoles)
+        }
+    }
+}
+```
+
+### 트랜잭션 테스트
+
+```kotlin
+@Transactional
+@SpringBootTest
+class UserRepositoryTest : ExposedTestBase() {
+    
+    @Autowired
+    private lateinit var userRepository: UserRepository
+    
+    @Test
+    fun `사용자 생성 테스트`() {
+        // given
+        val userDto = UserDto(
+            name = "Test User",
+            email = "test@example.com"
+        )
+        
+        // when
+        val savedUser = userRepository.save(userDto)
+        
+        // then
+        assertNotNull(savedUser.id)
+        assertEquals(userDto.name, savedUser.name)
+        assertEquals(userDto.email, savedUser.email)
+    }
+    
+    @Test
+    fun `사용자 조회 테스트`() {
+        // given
+        val user = transaction(database) {
+            User.new {
+                name = "Test User"
+                email = "test@example.com"
+                status = UserStatus.ACTIVE
+            }
+        }
+        
+        // when
+        val foundUser = userRepository.findById(user.id.value)
+        
+        // then
+        assertNotNull(foundUser)
+        assertEquals(user.name, foundUser?.name)
+        assertEquals(user.email, foundUser?.email)
+    }
+}
+```
+
+### 테스트 데이터 준비
+
+#### 테스트 데이터 빌더
+
+```kotlin
+class TestDataBuilder(private val database: Database) {
+    
+    fun createUser(
+        name: String = "Test User",
+        email: String = "test@example.com",
+        status: UserStatus = UserStatus.ACTIVE
+    ): User = transaction(database) {
+        User.new {
+            this.name = name
+            this.email = email
+            this.status = status
+        }
+    }
+    
+    fun createRole(
+        name: String = "TEST_ROLE"
+    ): Role = transaction(database) {
+        Role.new {
+            this.name = name
+        }
+    }
+    
+    fun assignRoleToUser(user: User, role: Role) = transaction(database) {
+        UserRoles.insert {
+            it[userId] = user.id
+            it[roleId] = role.id
+        }
+    }
+}
+```
+
+#### 테스트 데이터 적용
+
+```kotlin
+@SpringBootTest
+@Transactional
+class UserServiceTest : ExposedTestBase() {
+    
+    private lateinit var testDataBuilder: TestDataBuilder
+    
+    @Autowired
+    private lateinit var userService: UserService
+    
+    @BeforeEach
+    override fun setUp() {
+        super.setUp()
+        testDataBuilder = TestDataBuilder(database)
+    }
+    
+    @Test
+    fun `사용자와 역할이 있을 때 권한 확인 테스트`() {
+        // given
+        val user = testDataBuilder.createUser()
+        val role = testDataBuilder.createRole("ADMIN")
+        testDataBuilder.assignRoleToUser(user, role)
+        
+        // when
+        val userWithRoles = userService.findUserWithRoles(user.id.value)
+        
+        // then
+        assertNotNull(userWithRoles)
+        assertTrue(userWithRoles.roles.any { it.name == "ADMIN" })
+    }
+}
+```
+
+### 통합 테스트
+
+```kotlin
+@AutoConfigureMockMvc
+@SpringBootTest
+class UserControllerTest : ExposedTestBase() {
+    
+    @Autowired
+    private lateinit var mockMvc: MockMvc
+    
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
+    
+    private lateinit var testDataBuilder: TestDataBuilder
+    
+    @BeforeEach
+    override fun setUp() {
+        super.setUp()
+        testDataBuilder = TestDataBuilder(database)
+    }
+    
+    @Test
+    fun `사용자 생성 API 테스트`() {
+        // given
+        val userDto = UserDto(
+            name = "Test User",
+            email = "test@example.com"
+        )
+        
+        // when
+        val result = mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userDto))
+        )
+        
+        // then
+        result.andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(userDto.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(userDto.email))
+    }
+}
+```
+
+### 성능 테스트
+
+```kotlin
+@SpringBootTest
+class PerformanceTest : ExposedTestBase() {
+    
+    @Autowired
+    private lateinit var userRepository: UserRepository
+    
+    @Test
+    fun `대량 데이터 입력 성능 테스트`() {
+        val startTime = System.currentTimeMillis()
+        
+        transaction(database) {
+            // 배치 크기 설정
+            addLogger(StdOutSqlLogger)
+            
+            // 1만건의 데이터 입력
+            repeat(10_000) { i ->
+                Users.insert {
+                    it[name] = "User $i"
+                    it[email] = "user$i@example.com"
+                    it[status] = UserStatus.ACTIVE
+                }
+            }
+        }
+        
+        val endTime = System.currentTimeMillis()
+        println("실행 시간: ${endTime - startTime}ms")
+    }
+    
+    @Test
+    fun `배치 처리 성능 테스트`() {
+        val startTime = System.currentTimeMillis()
+        
+        transaction(database) {
+            // 배치 처리로 1만건의 데이터 입력
+            Users.batchInsert((1..10_000).toList()) { i ->
+                this[Users.name] = "User $i"
+                this[Users.email] = "user$i@example.com"
+                this[Users.status] = UserStatus.ACTIVE
+            }
+        }
+        
+        val endTime = System.currentTimeMillis()
+        println("배치 처리 실행 시간: ${endTime - startTime}ms")
+    }
+}
+```
+
+> #### 테스트 작성 시 주의사항
+> 
+> 1. 각 테스트는 독립적으로 실행될 수 있어야 함
+> 2. 테스트 데이터는 테스트 시작 시 생성하고 종료 시 정리
+> 3. 실제 데이터베이스 대신 인메모리 데이터베이스 사용
+> 4. 트랜잭션 롤백을 활용하여 테스트 격리성 보장
+> 5. 테스트 데이터 빌더를 활용하여 테스트 코드 재사용성 향상
 
 ---
