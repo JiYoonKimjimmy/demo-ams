@@ -729,9 +729,260 @@ fun createUserWithRoles(name: String, email: String, roleNames: List<String>) {
 
 ## 5. Repository 구현
 
-- Spring Data JPA 스타일 구현
-- Exposed DSL 스타일 구현
-- DAO 패턴 구현
+- **Spring Data JPA 스타일**
+- **Exposed DSL 스타일**
+- **DAO 패턴 구현**
+
+### Spring Data JPA 스타일
+
+```kotlin
+@Repository
+class UserRepository(private val database: Database) {
+    
+    fun save(user: UserDto): UserDto = transaction(database) {
+        val entity = User.new {
+            name = user.name
+            email = user.email
+            status = UserStatus.ACTIVE
+        }
+        entity.toDto()
+    }
+    
+    fun findById(id: Int): UserDto? = transaction(database) {
+        User.findById(id)?.toDto()
+    }
+    
+    fun findAll(): List<UserDto> = transaction(database) {
+        User.all().map { it.toDto() }.toList()
+    }
+    
+    fun findByEmail(email: String): UserDto? = transaction(database) {
+        User.find { Users.email eq email }.firstOrNull()?.toDto()
+    }
+    
+    fun delete(id: Int) = transaction(database) {
+        User.findById(id)?.delete()
+    }
+    
+    private fun User.toDto() = UserDto(
+        id = id.value,
+        name = name,
+        email = email,
+        status = status
+    )
+}
+
+data class UserDto(
+    val id: Int? = null,
+    val name: String,
+    val email: String,
+    val status: UserStatus = UserStatus.ACTIVE
+)
+```
+
+### Exposed DSL 스타일
+
+```kotlin
+@Repository
+class UserDslRepository(private val database: Database) {
+    
+    fun save(user: UserDto): UserDto = transaction(database) {
+        val id = Users.insert {
+            it[name] = user.name
+            it[email] = user.email
+            it[status] = UserStatus.ACTIVE
+        } get Users.id
+        
+        user.copy(id = id)
+    }
+    
+    fun findById(id: Int): UserDto? = transaction(database) {
+        Users.select { Users.id eq id }
+            .singleOrNull()
+            ?.toDto()
+    }
+    
+    fun findAll(): List<UserDto> = transaction(database) {
+        Users.selectAll()
+            .map { it.toDto() }
+    }
+    
+    fun findByEmail(email: String): UserDto? = transaction(database) {
+        Users.select { Users.email eq email }
+            .singleOrNull()
+            ?.toDto()
+    }
+    
+    fun delete(id: Int) = transaction(database) {
+        Users.deleteWhere { Users.id eq id }
+    }
+    
+    private fun ResultRow.toDto() = UserDto(
+        id = this[Users.id],
+        name = this[Users.name],
+        email = this[Users.email],
+        status = this[Users.status]
+    )
+}
+```
+
+### DAO 패턴 구현
+
+```kotlin
+// 1. DAO 인터페이스 정의
+interface UserDao {
+    fun create(user: UserDto): UserDto
+    fun read(id: Int): UserDto?
+    fun update(user: UserDto): UserDto
+    fun delete(id: Int)
+    fun findByEmail(email: String): UserDto?
+    fun findAll(): List<UserDto>
+}
+
+// 2. DAO 구현체
+@Repository
+class UserDaoImpl(private val database: Database) : UserDao {
+    
+    override fun create(user: UserDto): UserDto = transaction(database) {
+        User.new {
+            name = user.name
+            email = user.email
+            status = UserStatus.ACTIVE
+        }.toDto()
+    }
+    
+    override fun read(id: Int): UserDto? = transaction(database) {
+        User.findById(id)?.toDto()
+    }
+    
+    override fun update(user: UserDto): UserDto = transaction(database) {
+        val entity = user.id?.let { User.findById(it) }
+            ?: throw IllegalArgumentException("User not found")
+        
+        entity.apply {
+            name = user.name
+            email = user.email
+            status = user.status
+        }.toDto()
+    }
+    
+    override fun delete(id: Int) = transaction(database) {
+        User.findById(id)?.delete()
+    }
+    
+    override fun findByEmail(email: String): UserDto? = transaction(database) {
+        User.find { Users.email eq email }
+            .firstOrNull()
+            ?.toDto()
+    }
+    
+    override fun findAll(): List<UserDto> = transaction(database) {
+        User.all().map { it.toDto() }
+    }
+    
+    private fun User.toDto() = UserDto(
+        id = id.value,
+        name = name,
+        email = email,
+        status = status
+    )
+}
+```
+
+### Dynamic Querying
+
+```kotlin
+@Repository
+class UserComplexRepository(private val database: Database) {
+    
+    // 페이징 처리
+    fun findAllWithPaging(page: Int, size: Int): List<UserDto> = transaction(database) {
+        User.all()
+            .limit(size, offset = ((page - 1) * size).toLong())
+            .map { it.toDto() }
+    }
+    
+    // 조인 쿼리 (DSL 방식)
+    fun findUsersWithRoles(): List<UserWithRolesDto> = transaction(database) {
+        (Users leftJoin UserRoles leftJoin Roles)
+            .slice(Users.columns + Roles.name)
+            .selectAll()
+            .groupBy(
+                { it[Users.id] },
+                { UserRoleDto(it[Roles.id], it[Roles.name]) }
+            ).map { (userId, roles) ->
+                val user = Users.select { Users.id eq userId }
+                    .first()
+                    .let { row ->
+                        UserDto(
+                            id = row[Users.id],
+                            name = row[Users.name],
+                            email = row[Users.email],
+                            status = row[Users.status]
+                        )
+                    }
+                UserWithRolesDto(user, roles.filterNotNull())
+            }
+    }
+    
+    // 집계 함수 사용
+    fun getUserStats(): UserStats = transaction(database) {
+        val totalUsers = Users.selectAll().count()
+        val activeUsers = Users.select { Users.status eq UserStatus.ACTIVE }.count()
+        val avgPostsPerUser = Posts
+            .slice(Posts.userId, Posts.id.count())
+            .selectAll()
+            .groupBy(Posts.userId)
+            .averageBy { it[Posts.id.count()] } ?: 0.0
+        
+        UserStats(
+            totalUsers = totalUsers,
+            activeUsers = activeUsers,
+            averagePostsPerUser = avgPostsPerUser
+        )
+    }
+}
+
+data class UserWithRolesDto(
+    val user: UserDto,
+    val roles: List<UserRoleDto>
+)
+
+data class UserRoleDto(
+    val id: Int,
+    val name: String
+)
+
+data class UserStats(
+    val totalUsers: Long,
+    val activeUsers: Long,
+    val averagePostsPerUser: Double
+)
+```
+
+### 각 구현 방식의 특징
+
+1. **Spring Data JPA 스타일**
+   - JPA 사용자에게 친숙한 패턴
+   - Entity 중심의 CRUD 작업
+   - 간단한 쿼리에 적합
+
+2. **Exposed DSL 스타일**
+   - SQL과 유사한 문법
+   - 복잡한 쿼리 작성 용이
+   - 타입 안전한 쿼리 빌더
+
+3. **DAO 패턴**
+   - 인터페이스를 통한 명확한 계약
+   - 테스트 용이성
+   - 구현체 교체 가능
+
+> #### 권장 사항
+> 
+> - 단순 CRUD : DAO 패턴 또는 Spring Data 스타일
+> - 복잡한 쿼리 : DSL 스타일
+> - 대규모 프로젝트 : 인터페이스 기반 DAO 패턴
+> - 작은 프로젝트 : Spring Data 스타일
 
 ---
 
