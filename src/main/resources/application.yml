@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: local-h2
+  threads:
+    virtual:
+      enabled: true
 
 ---
 
@@ -14,17 +17,6 @@ spring:
       driver-class-name: org.h2.Driver
       username: sa
       password:
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: konai
-  data:
-    mongodb:
-      host: 118.33.122.32
-      port: 27017
-      database: ams
-      username: ams
-      password: ams1234
+  exposed:
+    show-sql: true
+    generate-ddl: true
