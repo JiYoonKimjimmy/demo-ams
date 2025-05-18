@@ -4,7 +4,7 @@ import me.jimmyberg.ams.v1.parent.repository.entity.ParentTable
 import me.jimmyberg.ams.v1.student.repository.entity.StudentTable
 import org.jetbrains.exposed.sql.Table
 
-object StudentParentTable : Table("student_parents") {
+object StudentParentTable : Table("students_parent") {
     
     val studentId = long("student_id").references(StudentTable.id)
     val parentId = long("parent_id").references(ParentTable.id)
@@ -12,7 +12,7 @@ object StudentParentTable : Table("student_parents") {
     override val primaryKey = PrimaryKey(studentId, parentId, name = "pk_student_parent")
 
     init {
-        index("idx_student_parent", true, studentId, parentId)
+        index("idx_student_parent", true, studentId)
     }
 
 }
