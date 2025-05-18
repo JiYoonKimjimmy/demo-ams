@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.exposed.spring.boot.starter)
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.dao)
     implementation(libs.exposed.kotlin.datetime)
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
