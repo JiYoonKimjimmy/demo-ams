@@ -6,8 +6,9 @@ import me.jimmyberg.ams.common.domain.Address
 import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.testsupport.TestExtensionFunctions.fixtureMonkey
-import me.jimmyberg.ams.v1.student.service.domain.Student.School
+import me.jimmyberg.ams.domain.model.Student.School
 import net.jqwik.api.Arbitraries
 
 class StudentFixture {

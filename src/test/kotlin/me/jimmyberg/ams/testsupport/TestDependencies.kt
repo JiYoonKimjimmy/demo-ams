@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import me.jimmyberg.ams.v1.student.repository.FakeStudentRepositoryImpl
-import me.jimmyberg.ams.v1.student.repository.StudentExposedRepository
-import me.jimmyberg.ams.v1.student.repository.StudentRepositoryImpl
-import me.jimmyberg.ams.v1.student.service.FindStudentServiceImpl
-import me.jimmyberg.ams.v1.student.service.SaveStudentServiceImpl
+import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
+import me.jimmyberg.ams.infrastructure.repository.StudentRepositoryImpl
+import me.jimmyberg.ams.domain.service.FindStudentServiceImpl
+import me.jimmyberg.ams.domain.service.SaveStudentServiceImpl
 import me.jimmyberg.ams.v1.student.service.domain.StudentFixture
-import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
+import me.jimmyberg.ams.domain.model.StudentMapper
 
 object TestDependencies {
 

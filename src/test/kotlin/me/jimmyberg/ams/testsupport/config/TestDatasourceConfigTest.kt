@@ -6,9 +6,9 @@ import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
-import me.jimmyberg.ams.v1.parent.repository.entity.ParentTable
-import me.jimmyberg.ams.v1.relation.repository.entity.StudentParentTable
-import me.jimmyberg.ams.v1.student.repository.entity.StudentTable
+import me.jimmyberg.ams.infrastructure.repository.exposed.entity.ParentTable
+import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentParentTable
+import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
