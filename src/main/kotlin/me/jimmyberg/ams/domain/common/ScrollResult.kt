@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.infrastructure.common.domain
+package me.jimmyberg.ams.domain.common
 
 data class ScrollResult<R>(
     val content: List<R>,

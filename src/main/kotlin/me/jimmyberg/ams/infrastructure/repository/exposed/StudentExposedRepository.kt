@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed
 
-import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
+import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.ResourceNotFoundException
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity

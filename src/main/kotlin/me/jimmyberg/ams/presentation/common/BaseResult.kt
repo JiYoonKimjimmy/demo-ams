@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.infrastructure.common.model
+package me.jimmyberg.ams.presentation.common
 
 import me.jimmyberg.ams.infrastructure.common.enumerate.Result
 import me.jimmyberg.ams.infrastructure.error.ErrorCode

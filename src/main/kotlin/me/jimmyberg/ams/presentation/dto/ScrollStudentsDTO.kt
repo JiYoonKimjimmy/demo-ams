@@ -1,13 +1,13 @@
 package me.jimmyberg.ams.presentation.dto
 
 import me.jimmyberg.ams.application.usecase.model.StudentModel
-import me.jimmyberg.ams.infrastructure.common.domain.ScrollResult
+import me.jimmyberg.ams.domain.common.ScrollResult
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
-import me.jimmyberg.ams.infrastructure.common.model.BaseResponse
-import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
-import me.jimmyberg.ams.infrastructure.common.model.ScrollPageable
+import me.jimmyberg.ams.presentation.common.BaseResponse
+import me.jimmyberg.ams.presentation.common.PageableRequest
+import me.jimmyberg.ams.presentation.common.ScrollPageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 

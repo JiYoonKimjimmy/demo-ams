@@ -3,7 +3,7 @@ package me.jimmyberg.ams.infrastructure.repository
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
+import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec

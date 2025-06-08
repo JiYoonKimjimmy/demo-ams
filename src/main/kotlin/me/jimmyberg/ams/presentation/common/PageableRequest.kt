@@ -1,7 +1,6 @@
-package me.jimmyberg.ams.infrastructure.common.model
+package me.jimmyberg.ams.presentation.common
 
 import org.jetbrains.exposed.sql.SortOrder
-import org.springframework.data.domain.PageRequest
 
 data class PageableRequest(
     val number: Int = 0,
