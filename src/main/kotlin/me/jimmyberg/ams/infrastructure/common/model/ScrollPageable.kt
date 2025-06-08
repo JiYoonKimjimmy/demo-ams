@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.infrastructure.common.model
 
-import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollResult
 
 data class ScrollPageable(
     val size: Int,
@@ -8,11 +8,11 @@ data class ScrollPageable(
     val isEmpty: Boolean,
 ) {
     companion object {
-        fun <T> from(scrollContent: ScrollContent<T>): ScrollPageable {
+        fun <T> from(scrollResult: ScrollResult<T>): ScrollPageable {
             return ScrollPageable(
-                size = scrollContent.size,
-                hasNext = scrollContent.hasNext,
-                isEmpty = scrollContent.isEmpty,
+                size = scrollResult.size,
+                hasNext = scrollResult.hasNext,
+                isEmpty = scrollResult.isEmpty,
             )
         }
     }

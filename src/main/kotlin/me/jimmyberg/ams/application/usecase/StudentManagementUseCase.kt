@@ -1,12 +1,12 @@
 package me.jimmyberg.ams.application.usecase
 
-import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollResult
 import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
 import me.jimmyberg.ams.domain.model.StudentMapper
 import me.jimmyberg.ams.domain.port.inbound.FindStudentService
 import me.jimmyberg.ams.domain.port.inbound.SaveStudentService
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
-import me.jimmyberg.ams.presentation.model.StudentModel
+import me.jimmyberg.ams.application.usecase.model.StudentModel
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -30,9 +30,10 @@ class StudentManagementUseCase(
             .let { studentMapper.domainToModel(it) }
     }
 
-    fun scrollStudents(predicate: StudentPredicate, pageable: PageableRequest): ScrollContent<StudentModel> {
-        return ScrollContent.from(
-            scroll = findStudentService.scroll(predicate, pageable),
+    fun scrollStudents(model: StudentModel, pageable: PageableRequest): ScrollResult<StudentModel> {
+        val predicate = studentMapper.modelToPredicate(model)
+        return ScrollResult.from(
+            result = findStudentService.scroll(predicate, pageable),
             mapper = studentMapper::domainToModel
         )
     }

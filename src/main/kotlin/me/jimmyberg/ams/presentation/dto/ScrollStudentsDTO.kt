@@ -1,6 +1,7 @@
-package me.jimmyberg.ams.presentation.model
+package me.jimmyberg.ams.presentation.dto
 
-import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
+import me.jimmyberg.ams.application.usecase.model.StudentModel
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollResult
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
@@ -9,14 +10,6 @@ import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
 import me.jimmyberg.ams.infrastructure.common.model.ScrollPageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-
-data class FindStudentResponse(
-    val student: StudentModel
-) : BaseResponse<FindStudentResponse>() {
-    override fun success(httpStatus: HttpStatus): ResponseEntity<FindStudentResponse> {
-        return ResponseEntity(this, httpStatus)
-    }
-}
 
 data class ScrollStudentsRequest(
     val id: String? = null,
@@ -36,9 +29,9 @@ data class ScrollStudentsResponse(
     val content: List<StudentModel>
 ) : BaseResponse<ScrollStudentsResponse>() {
 
-    constructor(scrollContent: ScrollContent<StudentModel>): this(
-        pageable = ScrollPageable.from(scrollContent),
-        content = scrollContent.content
+    constructor(scrollResult: ScrollResult<StudentModel>): this(
+        pageable = ScrollPageable.from(scrollResult),
+        content = scrollResult.content
     )
 
     override fun success(httpStatus: HttpStatus): ResponseEntity<ScrollStudentsResponse> {

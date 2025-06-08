@@ -2,7 +2,7 @@ package me.jimmyberg.ams.domain.model
 
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
-import me.jimmyberg.ams.presentation.model.StudentModel
+import me.jimmyberg.ams.application.usecase.model.StudentModel
 
 data class Student(
     val id: Long? = null,

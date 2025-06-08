@@ -1,11 +1,11 @@
-package me.jimmyberg.ams.presentation.model
+package me.jimmyberg.ams.application.usecase.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import me.jimmyberg.ams.domain.model.Address
+import me.jimmyberg.ams.domain.model.School
+import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
-import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
-import me.jimmyberg.ams.domain.model.School
 
 data class StudentModel(
     val id: String? = null,

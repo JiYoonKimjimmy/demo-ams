@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollResult
 import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
@@ -40,12 +40,12 @@ class FakeStudentRepositoryImpl : StudentRepository {
     override fun scrollByPredicate(
         predicate: StudentPredicate,
         pageable: PageableRequest
-    ): ScrollContent<Student> {
+    ): ScrollResult<Student> {
         val filtered = students.values.filter { matchesPredicate(it, predicate) }
         val paged = filtered.drop(pageable.offset.toInt()).take(pageable.size + 1)
         val hasNext = paged.size > pageable.size
         val content = if (hasNext) paged.dropLast(1) else paged
-        return ScrollContent(
+        return ScrollResult(
             size = content.size,
             isEmpty = content.isEmpty(),
             hasNext = hasNext,

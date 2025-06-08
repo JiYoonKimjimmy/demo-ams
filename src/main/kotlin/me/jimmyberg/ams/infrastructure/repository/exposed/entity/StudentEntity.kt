@@ -2,6 +2,7 @@ package me.jimmyberg.ams.infrastructure.repository.exposed.entity
 
 import me.jimmyberg.ams.domain.model.Address
 import me.jimmyberg.ams.domain.model.School
+import me.jimmyberg.ams.domain.model.Student
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -33,6 +34,20 @@ class StudentEntity(id: EntityID<Long>) : LongEntity(id) {
     }
 
 //    val parent: SizedIterable<ParentEntity> by ParentEntity via ParentTable
+
+    fun toDomain(): Student {
+        return Student(
+            id = id.value,
+            name = name,
+            nameLabel = nameLabel?.toInt(),
+            phone = phone,
+            birth = birth,
+            gender = gender,
+            address = Address.from(zipCode, baseAddress, detailAddress),
+            school = School.from(schoolName, schoolType, grade),
+            status = status
+        )
+    }
 
     override fun equals(other: Any?): Boolean {
         val otherEntity = other as? StudentEntity ?: return false

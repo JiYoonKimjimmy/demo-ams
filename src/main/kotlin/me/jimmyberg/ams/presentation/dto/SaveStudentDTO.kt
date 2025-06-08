@@ -1,5 +1,6 @@
-package me.jimmyberg.ams.presentation.model
+package me.jimmyberg.ams.presentation.dto
 
+import me.jimmyberg.ams.application.usecase.model.StudentModel
 import me.jimmyberg.ams.infrastructure.common.model.BaseResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
