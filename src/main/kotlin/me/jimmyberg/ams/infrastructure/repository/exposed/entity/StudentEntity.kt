@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed.entity
 
-import me.jimmyberg.ams.common.domain.Address
+import me.jimmyberg.ams.domain.model.Address
 import me.jimmyberg.ams.domain.model.School
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass

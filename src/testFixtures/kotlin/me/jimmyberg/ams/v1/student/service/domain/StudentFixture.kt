@@ -2,7 +2,7 @@ package me.jimmyberg.ams.v1.student.service.domain
 
 import com.navercorp.fixturemonkey.kotlin.giveMeKotlinBuilder
 import com.navercorp.fixturemonkey.kotlin.into
-import me.jimmyberg.ams.common.domain.Address
+import me.jimmyberg.ams.domain.model.Address
 import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType

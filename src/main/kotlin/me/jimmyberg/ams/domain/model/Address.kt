@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.common.domain
+package me.jimmyberg.ams.domain.model
 
 class Address(
     val zipCode: String,
