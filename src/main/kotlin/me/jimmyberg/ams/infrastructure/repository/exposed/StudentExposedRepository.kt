@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository
 class StudentExposedRepository {
 
     fun save(domain: Student): StudentEntity {
-        return StudentEntity.Companion.new {
+        return StudentEntity.new {
             name = domain.name
             nameLabel = domain.nameLabel?.toString()
             phone = domain.phone
@@ -30,15 +30,15 @@ class StudentExposedRepository {
     }
 
     fun findById(id: Long): StudentEntity? {
-        return StudentEntity.Companion.findById(id)
+        return StudentEntity.findById(id)
     }
 
     fun findByPredicate(predicate: StudentPredicate): StudentEntity? {
-        return StudentEntity.Companion.find(predicate.conditions()).singleOrNull()
+        return StudentEntity.find(predicate.conditions()).singleOrNull()
     }
 
     fun findAllByPredicate(predicate: StudentPredicate): List<StudentEntity> {
-        return StudentEntity.Companion.find(predicate.conditions()).toList()
+        return StudentEntity.find(predicate.conditions()).toList()
     }
 
     fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest): Pair<List<StudentEntity>, Boolean> {
@@ -47,7 +47,7 @@ class StudentExposedRepository {
             else -> StudentTable.id
         }
 
-        val entities = StudentEntity.Companion.find(predicate.conditions(Op.TRUE))
+        val entities = StudentEntity.find(predicate.conditions(Op.TRUE))
             .orderBy(sortOrder to pageable.sortOrder)
             .limit(pageable.size + 1)
             .offset(pageable.offset)
@@ -60,7 +60,7 @@ class StudentExposedRepository {
     }
 
     fun findAllByNameAndPhoneAndBirth(name: String, phone: String, birth: String): List<StudentEntity> {
-        return StudentEntity.Companion.find {
+        return StudentEntity.find {
             StudentTable.name eq name
             StudentTable.phone eq phone
             StudentTable.birth eq birth
@@ -68,7 +68,7 @@ class StudentExposedRepository {
     }
 
     fun update(domain: Student): StudentEntity {
-        return StudentEntity.Companion.findByIdAndUpdate(domain.id!!.toLong()) {
+        return StudentEntity.findByIdAndUpdate(domain.id!!) {
             it.name = domain.name
             it.nameLabel = domain.nameLabel?.toString()
             it.phone = domain.phone
@@ -85,7 +85,7 @@ class StudentExposedRepository {
     }
 
     fun delete(id: Long) {
-        StudentEntity.Companion.findById(id)?.delete()
+        StudentEntity.findById(id)?.delete()
             ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
     }
 

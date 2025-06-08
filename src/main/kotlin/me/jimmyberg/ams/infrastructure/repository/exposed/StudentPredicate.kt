@@ -24,7 +24,7 @@ data class StudentPredicate(
     )
 
     fun conditions(default: Op<Boolean>? = null): Op<Boolean> {
-        return Op.Companion.build {
+        return Op.build {
             val conditions = ArrayList<Op<Boolean>>()
 
             this@StudentPredicate.id?.let { conditions.add(StudentTable.id eq it.toLong()) }
