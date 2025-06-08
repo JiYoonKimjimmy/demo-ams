@@ -5,14 +5,14 @@ import me.jimmyberg.ams.presentation.common.BaseResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
-data class SaveStudentRequest(
+data class CreateStudentRequest(
     val student: StudentModel
 )
 
-data class SaveStudentResponse(
+data class CreateStudentResponse(
     val student: StudentModel
-) : BaseResponse<SaveStudentResponse>() {
-    override fun success(httpStatus: HttpStatus): ResponseEntity<SaveStudentResponse> {
+) : BaseResponse<CreateStudentResponse>() {
+    override fun success(httpStatus: HttpStatus): ResponseEntity<CreateStudentResponse> {
         return ResponseEntity(this, httpStatus)
     }
 }

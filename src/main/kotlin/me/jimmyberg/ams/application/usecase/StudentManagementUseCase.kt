@@ -19,7 +19,7 @@ class StudentManagementUseCase(
 ) {
 
     @Transactional
-    fun saveStudent(model: StudentModel): StudentModel {
+    fun createStudent(model: StudentModel): StudentModel {
         return studentMapper.modelToDomain(model)
             .let { studentSaveService.save(student = it) }
             .let { studentMapper.domainToModel(domain = it) }

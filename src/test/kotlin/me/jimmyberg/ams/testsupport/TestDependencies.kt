@@ -10,6 +10,7 @@ import me.jimmyberg.ams.infrastructure.repository.StudentRepositoryImpl
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
 import me.jimmyberg.ams.infrastructure.repository.FakeStudentRepositoryImpl
 import me.jimmyberg.ams.domain.model.StudentFixture
+import me.jimmyberg.ams.domain.service.StudentValidateServiceImpl
 
 object TestDependencies {
 
@@ -24,6 +25,7 @@ object TestDependencies {
     // service
     val studentSaveService = StudentSaveServiceImpl(fakeStudentRepository)
     val studentFindService = StudentFindServiceImpl(fakeStudentRepository)
+    val studentValidateService = StudentValidateServiceImpl(fakeStudentRepository)
 
     // fixture
     val studentFixture = StudentFixture()
