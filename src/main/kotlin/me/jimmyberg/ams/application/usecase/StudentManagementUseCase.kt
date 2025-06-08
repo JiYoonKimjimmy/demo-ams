@@ -10,6 +10,7 @@ import me.jimmyberg.ams.application.usecase.model.StudentModel
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional(readOnly = true)
 @Component
 class StudentManagementUseCase(
     private val studentMapper: StudentMapper,

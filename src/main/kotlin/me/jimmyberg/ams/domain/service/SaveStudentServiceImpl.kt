@@ -1,13 +1,11 @@
 package me.jimmyberg.ams.domain.service
 
-import me.jimmyberg.ams.domain.port.outbound.StudentRepository
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.port.inbound.SaveStudentService
+import me.jimmyberg.ams.domain.port.outbound.StudentRepository
+import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
-@Transactional
 @Service
 class SaveStudentServiceImpl(
     private val studentRepository: StudentRepository
