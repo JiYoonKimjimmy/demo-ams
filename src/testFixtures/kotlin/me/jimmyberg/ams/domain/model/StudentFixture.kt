@@ -1,14 +1,11 @@
-package me.jimmyberg.ams.v1.student.service.domain
+package me.jimmyberg.ams.domain.model
 
 import com.navercorp.fixturemonkey.kotlin.giveMeKotlinBuilder
 import com.navercorp.fixturemonkey.kotlin.into
-import me.jimmyberg.ams.domain.model.Address
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
-import me.jimmyberg.ams.domain.model.Student
-import me.jimmyberg.ams.testsupport.TestExtensionFunctions.fixtureMonkey
-import me.jimmyberg.ams.domain.model.School
+import me.jimmyberg.ams.testsupport.TestExtensionFunctions
 import net.jqwik.api.Arbitraries
 
 class StudentFixture {
@@ -23,7 +20,7 @@ class StudentFixture {
         school: School = School("신길초", SchoolType.PRIMARY, 6),
         status: ActivationStatus = ActivationStatus.REGISTER_WAITING,
     ): Student {
-        return fixtureMonkey.giveMeKotlinBuilder<Student>()
+        return TestExtensionFunctions.fixtureMonkey.giveMeKotlinBuilder<Student>()
             .setExp(Student::name, name)
             .setExp(Student::nameLabel, indexOfName)
             .setExp(Student::phone, phone)
@@ -36,7 +33,7 @@ class StudentFixture {
     }
 
     fun make(): Student {
-        return fixtureMonkey.giveMeKotlinBuilder<Student>()
+        return TestExtensionFunctions.fixtureMonkey.giveMeKotlinBuilder<Student>()
             .setExp(Student::phone, Arbitraries.strings().ofMaxLength(32))
             .setExp(Student::birth, Arbitraries.strings().ofMaxLength(8))
             .setExp(Student::gender, Arbitraries.of(*Gender.entries.toTypedArray()))

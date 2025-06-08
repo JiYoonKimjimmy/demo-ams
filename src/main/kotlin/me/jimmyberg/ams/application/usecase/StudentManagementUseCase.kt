@@ -3,24 +3,25 @@ package me.jimmyberg.ams.application.usecase
 import me.jimmyberg.ams.domain.common.ScrollResult
 import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.domain.model.StudentMapper
-import me.jimmyberg.ams.domain.port.inbound.FindStudentService
-import me.jimmyberg.ams.domain.port.inbound.SaveStudentService
+import me.jimmyberg.ams.domain.port.inbound.StudentFindService
+import me.jimmyberg.ams.domain.port.inbound.StudentSaveService
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.application.usecase.model.StudentModel
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional(readOnly = true)
 @Component
 class StudentManagementUseCase(
     private val studentMapper: StudentMapper,
-    private val saveStudentService: SaveStudentService,
-    private val findStudentService: FindStudentService
+    private val studentSaveService: StudentSaveService,
+    private val findStudentService: StudentFindService
 ) {
 
     @Transactional
-    fun saveStudent(model: StudentModel): StudentModel {
+    fun createStudent(model: StudentModel): StudentModel {
         return studentMapper.modelToDomain(model)
-            .let { saveStudentService.save(student = it) }
+            .let { studentSaveService.save(student = it) }
             .let { studentMapper.domainToModel(domain = it) }
     }
 
@@ -43,7 +44,7 @@ class StudentManagementUseCase(
         return StudentPredicate(id = model.id)
             .let { findStudentService.findOne(predicate = it) }
             .update(model = model)
-            .let { saveStudentService.save(student = it) }
+            .let { studentSaveService.save(student = it) }
             .let { studentMapper.domainToModel(domain = it) }
     }
 

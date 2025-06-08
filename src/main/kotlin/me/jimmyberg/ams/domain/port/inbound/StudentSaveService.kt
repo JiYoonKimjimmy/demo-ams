@@ -2,8 +2,8 @@ package me.jimmyberg.ams.domain.port.inbound
 
 import me.jimmyberg.ams.domain.model.Student
 
-interface UpdateStudentService {
+interface StudentSaveService {
 
-    fun update(student: Student): Student
+    fun save(student: Student): Student
 
 }

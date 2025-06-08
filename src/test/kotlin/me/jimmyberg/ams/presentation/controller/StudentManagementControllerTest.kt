@@ -4,7 +4,7 @@ import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 import me.jimmyberg.ams.testsupport.annotation.CustomSpringBootTest
-import me.jimmyberg.ams.presentation.dto.SaveStudentRequest
+import me.jimmyberg.ams.presentation.dto.CreateStudentRequest
 import me.jimmyberg.ams.application.usecase.model.StudentModel
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.notNullValue
@@ -33,7 +33,7 @@ class StudentManagementControllerTest(
             schoolType = SchoolType.PRIMARY,
             grade = 6
         )
-        val request = SaveStudentRequest(student)
+        val request = CreateStudentRequest(student)
 
         `when`("신규 학생 정보 입력인 경우") {
             val result = mockMvc
