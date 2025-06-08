@@ -5,10 +5,11 @@ import io.kotest.matchers.shouldBe
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus.REGISTER_WAITING
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 
-class SaveStudentServiceImplTest : CustomBehaviorSpec({
+class StudentSaveServiceImplTest : CustomBehaviorSpec({
 
     val studentFixture = dependencies.studentFixture
-    val saveStudentService = dependencies.saveStudentService
+
+    val saveStudentService = dependencies.studentSaveService
 
     given("학생 정보 등록 요청되어") {
         val name = "김모건"

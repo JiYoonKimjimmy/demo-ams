@@ -5,7 +5,7 @@ import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.domain.model.Student
 
-interface FindStudentService {
+interface StudentFindService {
 
     fun findOne(predicate: StudentPredicate): Student
 

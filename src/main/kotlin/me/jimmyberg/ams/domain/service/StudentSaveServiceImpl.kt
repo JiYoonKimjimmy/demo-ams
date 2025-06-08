@@ -1,15 +1,15 @@
 package me.jimmyberg.ams.domain.service
 
 import me.jimmyberg.ams.domain.model.Student
-import me.jimmyberg.ams.domain.port.inbound.SaveStudentService
+import me.jimmyberg.ams.domain.port.inbound.StudentSaveService
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import org.springframework.stereotype.Service
 
 @Service
-class SaveStudentServiceImpl(
+class StudentSaveServiceImpl(
     private val studentRepository: StudentRepository
-) : SaveStudentService {
+) : StudentSaveService {
 
     override fun save(student: Student): Student {
         return with(student) {
