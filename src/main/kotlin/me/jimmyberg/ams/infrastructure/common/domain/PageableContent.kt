@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.common.domain
+package me.jimmyberg.ams.infrastructure.common.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.domain.Window

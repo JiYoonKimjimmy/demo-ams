@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.infrastructure.repository
 
-import me.jimmyberg.ams.common.domain.ScrollContent
-import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
+import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.model.StudentMapper
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository

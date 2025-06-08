@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.domain.model
 
-import me.jimmyberg.ams.common.EMPTY
-import me.jimmyberg.ams.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.infrastructure.common.EMPTY
+import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate

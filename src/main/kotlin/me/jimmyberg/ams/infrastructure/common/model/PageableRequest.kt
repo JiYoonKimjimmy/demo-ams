@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.common.model
+package me.jimmyberg.ams.infrastructure.common.model
 
 import org.jetbrains.exposed.sql.SortOrder
 import org.springframework.data.domain.PageRequest

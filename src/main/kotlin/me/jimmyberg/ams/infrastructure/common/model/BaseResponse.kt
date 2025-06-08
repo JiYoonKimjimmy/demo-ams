@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.common.model
+package me.jimmyberg.ams.infrastructure.common.model
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

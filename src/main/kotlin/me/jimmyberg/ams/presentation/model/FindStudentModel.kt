@@ -1,12 +1,12 @@
 package me.jimmyberg.ams.presentation.model
 
-import me.jimmyberg.ams.common.domain.ScrollContent
-import me.jimmyberg.ams.common.enumerate.ActivationStatus
-import me.jimmyberg.ams.common.enumerate.Gender
-import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.common.model.BaseResponse
-import me.jimmyberg.ams.common.model.PageableRequest
-import me.jimmyberg.ams.common.model.ScrollPageable
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
+import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
+import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
+import me.jimmyberg.ams.infrastructure.common.model.BaseResponse
+import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
+import me.jimmyberg.ams.infrastructure.common.model.ScrollPageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 

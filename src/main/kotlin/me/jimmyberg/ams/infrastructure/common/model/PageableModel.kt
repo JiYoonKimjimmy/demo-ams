@@ -1,6 +1,6 @@
-package me.jimmyberg.ams.common.model
+package me.jimmyberg.ams.infrastructure.common.model
 
-import me.jimmyberg.ams.common.domain.PageableContent
+import me.jimmyberg.ams.infrastructure.common.domain.PageableContent
 
 data class PageableModel(
     val size: Int,

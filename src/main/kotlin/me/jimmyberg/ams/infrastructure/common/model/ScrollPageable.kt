@@ -1,6 +1,6 @@
-package me.jimmyberg.ams.common.model
+package me.jimmyberg.ams.infrastructure.common.model
 
-import me.jimmyberg.ams.common.domain.ScrollContent
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
 
 data class ScrollPageable(
     val size: Int,

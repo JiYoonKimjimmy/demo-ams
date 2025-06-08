@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.v1.student.repository
 
-import me.jimmyberg.ams.common.domain.ScrollContent
-import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
+import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.domain.model.Student

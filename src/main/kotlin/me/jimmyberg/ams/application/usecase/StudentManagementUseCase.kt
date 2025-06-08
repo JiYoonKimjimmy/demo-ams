@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.application.usecase
 
-import me.jimmyberg.ams.common.domain.ScrollContent
-import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.infrastructure.common.domain.ScrollContent
+import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
 import me.jimmyberg.ams.domain.model.StudentMapper
 import me.jimmyberg.ams.domain.port.inbound.FindStudentService
 import me.jimmyberg.ams.domain.port.inbound.SaveStudentService

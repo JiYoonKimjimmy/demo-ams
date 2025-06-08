@@ -1,11 +1,10 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed
 
-import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.infrastructure.common.model.PageableRequest
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.ResourceNotFoundException
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.domain.model.Student
 import org.jetbrains.exposed.sql.Op
 import org.springframework.stereotype.Repository

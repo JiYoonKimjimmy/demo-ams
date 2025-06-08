@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.infrastructure.error
 
-import me.jimmyberg.ams.common.model.BaseResult
+import me.jimmyberg.ams.infrastructure.common.model.BaseResult
 import org.springframework.http.ResponseEntity
 
 data class ErrorResponse(
