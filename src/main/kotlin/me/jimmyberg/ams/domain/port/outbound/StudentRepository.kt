@@ -1,9 +1,9 @@
-package me.jimmyberg.ams.infrastructure.repository
+package me.jimmyberg.ams.domain.port.outbound
 
 import me.jimmyberg.ams.common.domain.ScrollContent
 import me.jimmyberg.ams.common.model.PageableRequest
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 
 interface StudentRepository {
 

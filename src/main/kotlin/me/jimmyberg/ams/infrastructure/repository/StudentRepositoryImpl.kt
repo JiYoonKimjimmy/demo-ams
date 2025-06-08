@@ -6,6 +6,7 @@ import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedReposito
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.model.StudentMapper
+import me.jimmyberg.ams.domain.port.outbound.StudentRepository
 import org.springframework.stereotype.Repository
 
 @Repository

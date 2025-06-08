@@ -1,9 +1,9 @@
 package me.jimmyberg.ams.presentation.controller
 
 import me.jimmyberg.ams.domain.model.StudentMapper
-import me.jimmyberg.ams.domain.service.FindStudentService
-import me.jimmyberg.ams.domain.service.SaveStudentService
-import me.jimmyberg.ams.domain.service.UpdateStudentService
+import me.jimmyberg.ams.domain.port.inbound.FindStudentService
+import me.jimmyberg.ams.domain.port.inbound.SaveStudentService
+import me.jimmyberg.ams.domain.port.inbound.UpdateStudentService
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.presentation.model.FindStudentResponse
 import me.jimmyberg.ams.presentation.model.SaveStudentRequest
