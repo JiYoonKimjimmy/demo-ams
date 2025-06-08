@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.domain.service
+package me.jimmyberg.ams.domain.port.inbound
 
 import me.jimmyberg.ams.domain.model.Student
 

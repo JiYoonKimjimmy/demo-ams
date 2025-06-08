@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed
 
-import me.jimmyberg.ams.common.enumerate.ActivationStatus
-import me.jimmyberg.ams.common.enumerate.Gender
-import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
+import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.and

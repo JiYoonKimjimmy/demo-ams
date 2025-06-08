@@ -1,37 +1,41 @@
 package me.jimmyberg.ams.infrastructure.repository
 
-import me.jimmyberg.ams.common.domain.ScrollContent
-import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.domain.port.outbound.StudentRepository
+import me.jimmyberg.ams.domain.common.ScrollResult
+import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
-import me.jimmyberg.ams.domain.model.Student
-import me.jimmyberg.ams.domain.model.StudentMapper
+import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
 import org.springframework.stereotype.Repository
 
 @Repository
 class StudentRepositoryImpl(
-    private val studentMapper: StudentMapper,
     private val studentExposedRepository: StudentExposedRepository,
 ) : StudentRepository {
 
     override fun save(student: Student): Student {
-        return studentExposedRepository.save(student)
-            .let { studentMapper.entityToDomain(it) }
+        return studentExposedRepository.save(student).toDomain()
     }
 
     override fun findByPredicate(predicate: StudentPredicate): Student? {
-        return studentExposedRepository.findByPredicate(predicate)
-            ?.let { studentMapper.entityToDomain(it) }
+        return studentExposedRepository.findByPredicate(predicate)?.toDomain()
     }
 
     override fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest): List<Student> {
-        return studentExposedRepository.findAllByPredicate(predicate)
-            .map { studentMapper.entityToDomain(it) }
+        return studentExposedRepository.findAllByPredicate(predicate).map { it.toDomain() }
     }
 
-    override fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest): ScrollContent<Student> {
+    override fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest): ScrollResult<Student> {
         return studentExposedRepository.scrollByPredicate(predicate, pageable)
-            .let { ScrollContent.Companion.from(it.first, it.second, studentMapper::entityToDomain) }
+            .let {
+                ScrollResult(
+                    content = it.first.map(transform = StudentEntity::toDomain),
+                    size = it.first.size,
+                    isEmpty = it.first.isEmpty(),
+                    hasNext = it.second,
+                )
+            }
     }
 
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
