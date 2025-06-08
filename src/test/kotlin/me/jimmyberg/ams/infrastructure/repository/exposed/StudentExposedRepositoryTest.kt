@@ -1,12 +1,10 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed
 
-import io.kotest.core.spec.style.scopes.StringSpecRootScope.invoke
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.model.PageableRequest
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener

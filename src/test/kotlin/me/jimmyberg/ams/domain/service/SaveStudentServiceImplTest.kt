@@ -35,12 +35,12 @@ class SaveStudentServiceImplTest : CustomBehaviorSpec({
         }
 
         `when`("신규 학생 정보 등록인 경우") {
-            domain = studentFixture.make(name = "김모아", phone = "01012341234")
+            domain = studentFixture.make(name = "NEW_김모아", phone = "01012341234")
 
             val result = saveStudentService.save(domain)
 
             then("학생 정보를 저장 정상 확인한다") {
-                result.name shouldBe "김모아"
+                result.name shouldBe "NEW_김모아"
                 result.nameLabel shouldBe null
                 result.status shouldBe REGISTER_WAITING
             }

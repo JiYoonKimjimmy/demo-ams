@@ -6,7 +6,7 @@ import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate.SchoolPredicate
-import me.jimmyberg.ams.domain.model.Student.School
+import me.jimmyberg.ams.domain.model.School
 
 class FindStudentServiceImplTest : CustomBehaviorSpec({
 

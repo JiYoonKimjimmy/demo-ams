@@ -9,8 +9,4 @@ object StudentParentTable : Table("students_parent") {
 
     override val primaryKey = PrimaryKey(studentId, parentId, name = "pk_student_parent")
 
-    init {
-        index("idx_student_parent", true, studentId)
-    }
-
 }

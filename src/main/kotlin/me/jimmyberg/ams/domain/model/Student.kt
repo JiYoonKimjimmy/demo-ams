@@ -15,10 +15,4 @@ data class Student(
     val address: Address? = null,
     val school: School? = null,
     val status: ActivationStatus = ActivationStatus.REGISTER_WAITING
-) {
-    data class School(
-        val schoolName: String,
-        val schoolType: SchoolType,
-        val grade: Int,
-    )
-}
+)

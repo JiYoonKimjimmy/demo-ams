@@ -1,11 +1,10 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed.entity
 
 import me.jimmyberg.ams.common.domain.Address
-import me.jimmyberg.ams.domain.model.Student.School
+import me.jimmyberg.ams.domain.model.School
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.sql.SizedIterable
 
 class StudentEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<StudentEntity>(StudentTable)
@@ -33,7 +32,7 @@ class StudentEntity(id: EntityID<Long>) : LongEntity(id) {
             ?.let { School(schoolName!!, schoolType!!, grade!!) }
     }
 
-    val parent: SizedIterable<ParentEntity> by ParentEntity via ParentTable
+//    val parent: SizedIterable<ParentEntity> by ParentEntity via ParentTable
 
     override fun equals(other: Any?): Boolean {
         val otherEntity = other as? StudentEntity ?: return false
