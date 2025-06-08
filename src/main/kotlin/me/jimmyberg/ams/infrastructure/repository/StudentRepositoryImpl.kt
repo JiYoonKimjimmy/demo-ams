@@ -2,11 +2,11 @@ package me.jimmyberg.ams.infrastructure.repository
 
 import me.jimmyberg.ams.common.domain.ScrollContent
 import me.jimmyberg.ams.common.model.PageableRequest
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.model.StudentMapper
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
+import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
+import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -32,7 +32,7 @@ class StudentRepositoryImpl(
 
     override fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest): ScrollContent<Student> {
         return studentExposedRepository.scrollByPredicate(predicate, pageable)
-            .let { ScrollContent.Companion.from(it.first, it.second, studentMapper::entityToDomain) }
+            .let { ScrollContent.from(it.first, it.second, studentMapper::entityToDomain) }
     }
 
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {

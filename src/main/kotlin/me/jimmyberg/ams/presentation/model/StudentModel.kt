@@ -9,17 +9,17 @@ import me.jimmyberg.ams.domain.model.School
 
 data class StudentModel(
     val id: String? = null,
-    val name: String,
-    val phone: String,
-    val birth: String,
-    val gender: Gender,
+    val name: String? = null,
+    val phone: String? = null,
+    val birth: String? = null,
+    val gender: Gender? = null,
     var zipCode: String? = null,
     var baseAddress: String? = null,
     var detailAddress: String? = null,
     val schoolName: String? = null,
     val schoolType: SchoolType? = null,
     val grade: Int? = null,
-    val status: ActivationStatus = ActivationStatus.REGISTER_WAITING
+    val status: ActivationStatus? = null
 ) {
 
     @get:JsonIgnore

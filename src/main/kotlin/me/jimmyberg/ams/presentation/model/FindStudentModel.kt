@@ -6,8 +6,7 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.common.model.BaseResponse
 import me.jimmyberg.ams.common.model.PageableRequest
-import me.jimmyberg.ams.common.model.ScrollModel
-import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.common.model.ScrollPageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
@@ -33,13 +32,13 @@ data class ScrollStudentsRequest(
 )
 
 data class ScrollStudentsResponse(
-    val pageable: ScrollModel,
+    val pageable: ScrollPageable,
     val content: List<StudentModel>
 ) : BaseResponse<ScrollStudentsResponse>() {
 
-    constructor(scrollContent: ScrollContent<Student>, mapper: (Student) -> StudentModel): this(
-        pageable = ScrollModel.from(scrollContent),
-        content = scrollContent.content.map(mapper)
+    constructor(scrollContent: ScrollContent<StudentModel>): this(
+        pageable = ScrollPageable.from(scrollContent),
+        content = scrollContent.content
     )
 
     override fun success(httpStatus: HttpStatus): ResponseEntity<ScrollStudentsResponse> {

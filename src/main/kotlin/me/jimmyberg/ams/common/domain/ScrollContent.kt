@@ -19,6 +19,15 @@ data class ScrollContent<R>(
                 content = content.map(mapper)
             )
         }
+
+        fun <T, R> from(scroll: ScrollContent<T>, mapper: (T) -> R): ScrollContent<R> {
+            return ScrollContent(
+                size = scroll.size,
+                isEmpty = scroll.isEmpty,
+                hasNext = scroll.hasNext,
+                content = scroll.content.map(mapper)
+            )
+        }
     }
 
 }
