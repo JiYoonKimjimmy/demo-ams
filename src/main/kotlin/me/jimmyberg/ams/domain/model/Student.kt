@@ -9,7 +9,7 @@ import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
 data class Student(
     val id: Long? = null,
     val name: String,
-    var nameLabel: Int? = null,
+    val nameLabel: Int? = null,
     val phone: String,
     val birth: String,
     val gender: Gender,

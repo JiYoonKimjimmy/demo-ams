@@ -1,7 +1,6 @@
 package me.jimmyberg.ams.presentation.port.inbound
 
 import me.jimmyberg.ams.application.usecase.StudentManagementUseCase
-import me.jimmyberg.ams.domain.model.StudentMapper
 import me.jimmyberg.ams.presentation.dto.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 class StudentManagementController(
-    private val studentMapper: StudentMapper,
     private val studentManagementUseCase: StudentManagementUseCase,
 ) {
 
@@ -28,7 +26,7 @@ class StudentManagementController(
     @GetMapping("/api/v1/students/scroll")
     fun scroll(@RequestBody request: ScrollStudentsRequest = ScrollStudentsRequest()): ResponseEntity<ScrollStudentsResponse> {
         return studentManagementUseCase.scrollStudents(
-                model = studentMapper.requestToModel(request),
+                model = request.predicate,
                 pageable = request.pageable
             )
             .let { ScrollStudentsResponse(scrollResult = it) }

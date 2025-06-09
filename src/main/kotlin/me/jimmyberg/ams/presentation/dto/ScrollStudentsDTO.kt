@@ -12,15 +12,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 data class ScrollStudentsRequest(
-    val id: String? = null,
-    val name: String? = null,
-    val phone: String? = null,
-    val birth: String? = null,
-    val gender: Gender? = null,
-    val schoolName: String? = null,
-    val schoolType: SchoolType? = null,
-    val grade: Int? = null,
-    val status: ActivationStatus? = null,
+    val predicate: StudentModel = StudentModel(),
     val pageable: PageableRequest = PageableRequest()
 )
 

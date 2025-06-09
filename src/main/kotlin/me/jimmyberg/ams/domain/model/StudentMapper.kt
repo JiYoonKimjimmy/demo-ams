@@ -4,25 +4,10 @@ import me.jimmyberg.ams.application.usecase.model.StudentModel
 import me.jimmyberg.ams.infrastructure.common.EMPTY
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate.SchoolPredicate
-import me.jimmyberg.ams.presentation.dto.ScrollStudentsRequest
 import org.springframework.stereotype.Component
 
 @Component
 class StudentMapper {
-
-    fun requestToModel(request: ScrollStudentsRequest): StudentModel {
-        return StudentModel(
-            id = request.id,
-            name = request.name,
-            phone = request.phone,
-            birth = request.birth,
-            gender = request.gender,
-            schoolName = request.schoolName,
-            schoolType = request.schoolType,
-            grade = request.grade,
-            status = request.status
-        )
-    }
 
     fun modelToPredicate(model: StudentModel): StudentPredicate {
         return StudentPredicate(
