@@ -7,6 +7,7 @@ import me.jimmyberg.ams.domain.port.inbound.StudentFindService
 import me.jimmyberg.ams.domain.port.inbound.StudentSaveService
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.application.usecase.model.StudentModel
+import me.jimmyberg.ams.domain.model.Student
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -20,7 +21,7 @@ class StudentManagementUseCase(
 
     @Transactional
     fun createStudent(model: StudentModel): StudentModel {
-        return studentMapper.modelToDomain(model)
+        return Student.create(model)
             .let { studentSaveService.save(student = it) }
             .let { studentMapper.domainToModel(domain = it) }
     }

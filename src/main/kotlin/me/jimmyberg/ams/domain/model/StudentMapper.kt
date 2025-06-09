@@ -40,24 +40,6 @@ class StudentMapper {
         )
     }
 
-    fun modelToDomain(model: StudentModel): Student {
-        requireNotNull(model.name) { throw InvalidRequestException(ErrorCode.REQUIRED_NAME) }
-        requireNotNull(model.phone) { throw InvalidRequestException(ErrorCode.REQUIRED_PHONE) }
-        requireNotNull(model.birth) { throw InvalidRequestException(ErrorCode.REQUIRED_BIRTH) }
-        requireNotNull(model.gender) { throw InvalidRequestException(ErrorCode.REQUIRED_GENDER) }
-
-        return Student(
-            id = model.id?.toLong(),
-            name = model.name,
-            phone = model.phone,
-            birth = model.birth,
-            gender = model.gender,
-            address = model.address,
-            school = model.school,
-            status = model.status ?: ActivationStatus.REGISTER_WAITING
-        )
-    }
-
     fun domainToModel(domain: Student): StudentModel {
         return StudentModel(
             id = domain.id?.toString(),
@@ -72,20 +54,6 @@ class StudentMapper {
             schoolType = domain.school?.schoolType,
             grade = domain.school?.grade,
             status = domain.status
-        )
-    }
-
-    fun entityToDomain(entity: StudentEntity): Student {
-        return Student(
-            id = entity.id.value,
-            name = entity.name,
-            nameLabel = entity.nameLabel?.toInt(),
-            phone = entity.phone,
-            birth = entity.birth,
-            gender = entity.gender,
-            address = entity.address,
-            school = entity.school,
-            status = entity.status
         )
     }
 

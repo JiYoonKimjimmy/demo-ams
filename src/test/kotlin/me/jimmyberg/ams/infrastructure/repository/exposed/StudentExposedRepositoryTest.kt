@@ -3,9 +3,10 @@ package me.jimmyberg.ams.infrastructure.repository.exposed
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
-import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
+import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -15,7 +16,6 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     listeners(H2DatasourceTestListener)
 
     val studentExposedRepository = dependencies.studentExposedRepository
-    val studentMapper = dependencies.studentMapper
     val studentFixture = dependencies.studentFixture
 
     lateinit var saved: StudentEntity
@@ -86,7 +86,17 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 DB 변경 성공 정상 확인한다" {
         transaction {
             // given
-            val updated = studentMapper.entityToDomain(saved).copy(gender = Gender.FEMALE)
+            val student = Student(
+                id = saved.id.value,
+                name = saved.name,
+                phone = saved.phone,
+                birth = saved.birth,
+                gender = saved.gender,
+                address = saved.address,
+                school = saved.school,
+                status = saved.status
+            )
+            val updated = student.copy(gender = Gender.FEMALE)
 
             // when
             val result = studentExposedRepository.update(updated)
