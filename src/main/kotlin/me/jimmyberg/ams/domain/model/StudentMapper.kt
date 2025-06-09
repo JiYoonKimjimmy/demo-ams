@@ -1,14 +1,10 @@
 package me.jimmyberg.ams.domain.model
 
+import me.jimmyberg.ams.application.usecase.model.StudentModel
 import me.jimmyberg.ams.infrastructure.common.EMPTY
-import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
-import me.jimmyberg.ams.infrastructure.error.ErrorCode
-import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate.SchoolPredicate
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
 import me.jimmyberg.ams.presentation.dto.ScrollStudentsRequest
-import me.jimmyberg.ams.application.usecase.model.StudentModel
 import org.springframework.stereotype.Component
 
 @Component
