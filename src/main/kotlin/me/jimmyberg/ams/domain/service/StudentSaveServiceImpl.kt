@@ -18,15 +18,11 @@ class StudentSaveServiceImpl(
     }
 
     private fun Student.checkDuplicateStudentByNameAndGetIndexOfName(): Student {
-        // TODO : 코드 개선 필요
-        val students = studentRepository.findAllByPredicate(StudentPredicate(name = name))
-        val indexOfName = if (students.isNotEmpty()) {
-            students.sortedBy { it.nameLabel }.last().nameLabel ?: 1
-        } else {
-            null
-        }
-        nameLabel = indexOfName?.inc()
-        return this
+        val lastNameLabel = studentRepository
+            .findAllByPredicate(StudentPredicate(name = name))
+            .maxOfOrNull { it.nameLabel ?: 1 }
+
+        return copy(nameLabel = lastNameLabel?.inc())
     }
 
     private fun Student.saveStudent(): Student {
