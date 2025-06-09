@@ -13,11 +13,11 @@ class StudentSaveServiceImpl(
 
     override fun save(student: Student): Student {
         return student
-            .checkDuplicateStudentByNameAndGetIndexOfName()
+            .assignNextNameLabel()
             .saveStudent()
     }
 
-    private fun Student.checkDuplicateStudentByNameAndGetIndexOfName(): Student {
+    private fun Student.assignNextNameLabel(): Student {
         val lastNameLabel = studentRepository
             .findAllByPredicate(StudentPredicate(name = name))
             .maxOfOrNull { it.nameLabel ?: 1 }
