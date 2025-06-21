@@ -1,6 +1,5 @@
 package me.jimmyberg.ams.presentation.controller
 
-import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestType
 import io.kotest.extensions.spring.SpringExtension
 import me.jimmyberg.ams.application.usecase.model.StudentModel
