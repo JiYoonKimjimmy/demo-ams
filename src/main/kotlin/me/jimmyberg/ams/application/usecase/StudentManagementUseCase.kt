@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 class StudentManagementUseCase(
     private val studentMapper: StudentMapper,
     private val studentSaveService: StudentSaveService,
-    private val findStudentService: StudentFindService
+    private val studentFindService: StudentFindService
 ) {
 
     @Transactional
@@ -28,14 +28,14 @@ class StudentManagementUseCase(
 
     fun findStudent(id: String): StudentModel {
         return StudentPredicate(id = id)
-            .let { findStudentService.findOne(it) }
+            .let { studentFindService.findOne(it) }
             .let { studentMapper.domainToModel(it) }
     }
 
     fun scrollStudents(model: StudentModel, pageable: PageableRequest): ScrollResult<StudentModel> {
         val predicate = studentMapper.modelToPredicate(model)
         return ScrollResult.from(
-            result = findStudentService.scroll(predicate, pageable),
+            result = studentFindService.scroll(predicate, pageable),
             mapper = studentMapper::domainToModel
         )
     }
@@ -43,7 +43,7 @@ class StudentManagementUseCase(
     @Transactional
     fun updateStudent(model: StudentModel): StudentModel {
         return StudentPredicate(id = model.id)
-            .let { findStudentService.findOne(predicate = it) }
+            .let { studentFindService.findOne(predicate = it) }
             .update(model = model)
             .let { studentSaveService.save(student = it) }
             .let { studentMapper.domainToModel(domain = it) }

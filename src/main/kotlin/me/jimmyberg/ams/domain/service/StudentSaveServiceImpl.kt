@@ -13,8 +13,21 @@ class StudentSaveServiceImpl(
 
     override fun save(student: Student): Student {
         return student
+            .validateStudent()           // 검증 추가
             .assignNextNameLabel()
             .saveStudent()
+    }
+
+    private fun Student.validateStudent(): Student {
+        if (isExistSameStudentInfo()) {
+            throw IllegalArgumentException("Student with ${this.name}, ${this.phone}, ${this.birth} already exists.")
+        }
+        return this
+    }
+
+    private fun Student.isExistSameStudentInfo(): Boolean {
+        // 동일한 학생 `name`, `phone`, `birth` 이미 등록 여부 확인
+        return studentRepository.isExistByNameAndPhoneAndBirth(this.name, this.phone, this.birth)
     }
 
     private fun Student.assignNextNameLabel(): Student {

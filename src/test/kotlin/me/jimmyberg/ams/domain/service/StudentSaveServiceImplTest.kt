@@ -1,5 +1,6 @@
 package me.jimmyberg.ams.domain.service
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus.REGISTER_WAITING
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
@@ -11,14 +12,29 @@ class StudentSaveServiceImplTest : CustomBehaviorSpec({
     val studentSaveService = dependencies.studentSaveService
 
     given("학생 정보 등록 요청되어") {
+        val duplicateStudentName = "김중복"
+        val duplicateStudent = studentFixture.make(name = duplicateStudentName)
+        studentSaveService.save(duplicateStudent)
+
+        `when`("이미 동일한 'name', 'phone', 'birth' 학생 정보 등록되어 있는 경우") {
+            val duplicateStudent = studentFixture.make(name = duplicateStudentName)
+            val exception = shouldThrow<IllegalArgumentException> {
+                studentSaveService.save(duplicateStudent)
+            }
+
+            then("'IllegalArgumentException' 예외 발생 정상 확인한다") {
+                exception.message shouldBe "Student with 김중복, 01012340001, 19900309 already exists."
+            }
+        }
+
         val name = "김모건"
-        var domain = studentFixture.make(name = name)
-        studentSaveService.save(domain)
+        var student = studentFixture.make(name = name)
+        studentSaveService.save(student)
 
         `when`("이미 동일한 'name' 학생 정보 등록인 경우'") {
-            domain = studentFixture.make(name = name, phone = "01012341234")
+            student = studentFixture.make(name = name, phone = "01012341234")
 
-            val result = studentSaveService.save(domain)
+            val result = studentSaveService.save(student)
 
             then("학샘 이름 index '2' 저장 정상 확인한다") {
                 result.name shouldBe "김모건"
@@ -27,9 +43,9 @@ class StudentSaveServiceImplTest : CustomBehaviorSpec({
         }
 
         `when`("신규 학생 정보 등록인 경우") {
-            domain = studentFixture.make(name = "NEW_김모아", phone = "01012341234")
+            student = studentFixture.make(name = "NEW_김모아", phone = "01012341234")
 
-            val result = studentSaveService.save(domain)
+            val result = studentSaveService.save(student)
 
             then("학생 정보를 저장 정상 확인한다") {
                 result.name shouldBe "NEW_김모아"
