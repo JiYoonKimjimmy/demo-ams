@@ -48,21 +48,22 @@ class StudentManagementControllerTest(
 
     given("학생 정보 생성 API 요청하여") {
         val createStudentUrl = "/api/v1/student"
-        val student = StudentModel(
-            name = "김모건",
-            phone = "01012341234",
-            birth = "19900309",
-            gender = Gender.MALE,
-            zipCode = "12345",
-            baseAddress = "baseAddress",
-            detailAddress = "detailAddress",
-            schoolName = "신길초",
-            schoolType = SchoolType.PRIMARY,
-            grade = 6
-        )
-        val request = CreateStudentRequest(student)
 
         `when`("신규 학생 정보 입력인 경우") {
+            val student = StudentModel(
+                name = "김모건",
+                phone = "01012341234",
+                birth = "19900309",
+                gender = Gender.MALE,
+                zipCode = "12345",
+                baseAddress = "baseAddress",
+                detailAddress = "detailAddress",
+                schoolName = "신길초",
+                schoolType = SchoolType.PRIMARY,
+                grade = 6
+            )
+            val request = CreateStudentRequest(student)
+
             then("'201 CREATED' 정상 응답 확인한다") {
                 val result = mockMvc
                     .post(createStudentUrl) {
@@ -110,9 +111,65 @@ class StudentManagementControllerTest(
                                     PayloadDocumentation.fieldWithPath("student.schoolType").type(JsonFieldType.STRING).description("학교 종류"),
                                     PayloadDocumentation.fieldWithPath("student.grade").type(JsonFieldType.NUMBER).description("학년"),
                                     PayloadDocumentation.fieldWithPath("student.status").type(JsonFieldType.STRING).description("학생 상태"),
-                                    PayloadDocumentation.fieldWithPath("result.result").type(JsonFieldType.STRING).description("응답 결과"),
+                                    PayloadDocumentation.fieldWithPath("result.status").type(JsonFieldType.STRING).description("응답 결과"),
                                     PayloadDocumentation.fieldWithPath("result.code").type(JsonFieldType.STRING).description("응답 코드").optional(),
                                     PayloadDocumentation.fieldWithPath("result.message").type(JsonFieldType.STRING).description("응답 메시지").optional()
+                                )
+                            )
+                        )
+                    }
+            }
+        }
+
+        `when`("중복된 학생 정보 입력인 경우") {
+            val student = StudentModel(
+                name = "김모아",
+                phone = "01012341235",
+                birth = "19900202",
+                gender = Gender.MALE,
+                zipCode = "12345",
+                baseAddress = "baseAddress",
+                detailAddress = "detailAddress",
+                schoolName = "신길초",
+                schoolType = SchoolType.PRIMARY,
+                grade = 6
+            )
+            val request = CreateStudentRequest(student)
+
+            then("'400 BAD_REQUEST' 에러 응답 확인한다") {
+                // 첫 번째 학생 생성
+                mockMvc
+                    .post(createStudentUrl) {
+                        contentType = MediaType.APPLICATION_JSON
+                        content = objectMapper.writeValueAsString(request)
+                    }
+                    .andExpect { status { isCreated() } }
+
+                // 동일한 정보로 두 번째 학생 생성 시도 (중복 에러 발생)
+                val result = mockMvc
+                    .post(createStudentUrl) {
+                        contentType = MediaType.APPLICATION_JSON
+                        content = objectMapper.writeValueAsString(request)
+                    }
+                    .andDo { print() }
+
+                result
+                    .andExpect {
+                        status { isBadRequest() }
+                        content {
+                            jsonPath("result.status", Matchers.equalTo("FAILED"))
+                            jsonPath("result.code", Matchers.equalTo("1000_002"))
+                            jsonPath("result.message", Matchers.equalTo("Student Management Service is failed: Student with same name, phone, and birth already exists."))
+                        }
+                    }
+                    .andDo {
+                        handle(
+                            MockMvcRestDocumentation.document(
+                                "student/create-duplicate-error",
+                                PayloadDocumentation.responseFields(
+                                    PayloadDocumentation.fieldWithPath("result.status").type(JsonFieldType.STRING).description("응답 결과 (FAILED)"),
+                                    PayloadDocumentation.fieldWithPath("result.code").type(JsonFieldType.STRING).description("에러 코드 (1000_002)"),
+                                    PayloadDocumentation.fieldWithPath("result.message").type(JsonFieldType.STRING).description("에러 메시지")
                                 )
                             )
                         )
