@@ -3,6 +3,7 @@ package me.jimmyberg.ams.domain.service
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus.REGISTER_WAITING
+import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 
 class StudentSaveServiceImplTest : CustomBehaviorSpec({
@@ -18,12 +19,12 @@ class StudentSaveServiceImplTest : CustomBehaviorSpec({
 
         `when`("이미 동일한 'name', 'phone', 'birth' 학생 정보 등록되어 있는 경우") {
             val duplicateStudent = studentFixture.make(name = duplicateStudentName)
-            val exception = shouldThrow<IllegalArgumentException> {
+            val exception = shouldThrow<InvalidRequestException> {
                 studentSaveService.save(duplicateStudent)
             }
 
-            then("'IllegalArgumentException' 예외 발생 정상 확인한다") {
-                exception.message shouldBe "Student with 김중복, 01012340001, 19900309 already exists."
+            then("'InvalidRequestException' 예외 발생 정상 확인한다") {
+                exception.errorCode.message shouldBe "Student with same name, phone, and birth already exists"
             }
         }
 

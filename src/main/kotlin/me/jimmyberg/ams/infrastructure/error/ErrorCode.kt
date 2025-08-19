@@ -5,10 +5,11 @@ import org.springframework.http.HttpStatus
 enum class ErrorCode(
     val status: HttpStatus,
     val code: String,
-    var message: String
+    val message: String
 ) {
 
     STUDENT_NOT_FOUND(HttpStatus.NOT_FOUND, "001", "Student not found"),
+    STUDENT_INFO_DUPLICATED(HttpStatus.BAD_REQUEST, "002", "Student with same name, phone, and birth already exists"),
 
     REQUIRED_NAME(HttpStatus.BAD_REQUEST, "801", "Name is required"),
     REQUIRED_PHONE(HttpStatus.BAD_REQUEST, "802", "Phone is required"),

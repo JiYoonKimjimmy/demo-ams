@@ -3,6 +3,8 @@ package me.jimmyberg.ams.domain.service
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.port.inbound.StudentSaveService
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
+import me.jimmyberg.ams.infrastructure.error.ErrorCode
+import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import org.springframework.stereotype.Service
 
@@ -13,14 +15,14 @@ class StudentSaveServiceImpl(
 
     override fun save(student: Student): Student {
         return student
-            .validateStudent()           // 검증 추가
+            .validateStudent()
             .assignNextNameLabel()
             .saveStudent()
     }
 
     private fun Student.validateStudent(): Student {
         if (isExistSameStudentInfo()) {
-            throw IllegalArgumentException("Student with ${this.name}, ${this.phone}, ${this.birth} already exists.")
+            throw InvalidRequestException(ErrorCode.STUDENT_INFO_DUPLICATED)
         }
         return this
     }

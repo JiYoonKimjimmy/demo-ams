@@ -7,7 +7,7 @@ import me.jimmyberg.ams.infrastructure.error.FeatureCode
 data class BaseResult(
     val result: Result = Result.SUCCESS,
     val code: String? = null,
-    var message: String? = null
+    val message: String? = null
 ) {
 
     constructor(featureCode: FeatureCode, errorCode: ErrorCode): this(
@@ -16,9 +16,8 @@ data class BaseResult(
         message = "${featureCode.message} is failed: ${errorCode.message}."
     )
 
-    fun append(message: String?): BaseResult {
-        this.message += message?.let { " $message." }
-        return this
+    fun append(msg: String?): BaseResult {
+        return copy(message = "${this.message}${msg?.let { " $it." }}")
     }
 
 }
