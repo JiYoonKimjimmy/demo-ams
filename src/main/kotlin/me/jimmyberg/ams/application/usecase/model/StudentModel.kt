@@ -8,7 +8,7 @@ import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
 
 data class StudentModel(
-    val id: String? = null,
+    val id: Long? = null,
     val name: String? = null,
     val phone: String? = null,
     val birth: String? = null,
@@ -23,15 +23,13 @@ data class StudentModel(
 ) {
 
     @get:JsonIgnore
-    val address: Address? by lazy {
-        takeIf { zipCode != null && baseAddress != null && detailAddress != null }
+    val address: Address?
+        get() = takeIf { zipCode != null && baseAddress != null && detailAddress != null }
             ?.let { Address(zipCode!!, baseAddress!!, detailAddress!!) }
-    }
 
     @get:JsonIgnore
-    val school: School? by lazy {
-        takeIf { schoolName != null && schoolType != null && grade != null }
+    val school: School?
+        get() = takeIf { schoolName != null && schoolType != null && grade != null }
             ?.let { School(schoolName!!, schoolType!!, grade!!) }
-    }
 
 }

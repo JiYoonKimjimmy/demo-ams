@@ -5,7 +5,7 @@ import com.navercorp.fixturemonkey.kotlin.into
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
-import me.jimmyberg.ams.testsupport.TestExtensionFunctions
+import me.jimmyberg.ams.testsupport.TestExtensionFunctions.fixtureMonkey
 import net.jqwik.api.Arbitraries
 
 class StudentFixture {
@@ -20,7 +20,7 @@ class StudentFixture {
         school: School = School("신길초", SchoolType.PRIMARY, 6),
         status: ActivationStatus = ActivationStatus.REGISTER_WAITING,
     ): Student {
-        return TestExtensionFunctions.fixtureMonkey.giveMeKotlinBuilder<Student>()
+        return fixtureMonkey.giveMeKotlinBuilder<Student>()
             .setExp(Student::name, name)
             .setExp(Student::nameLabel, indexOfName)
             .setExp(Student::phone, phone)
@@ -33,7 +33,7 @@ class StudentFixture {
     }
 
     fun make(): Student {
-        return TestExtensionFunctions.fixtureMonkey.giveMeKotlinBuilder<Student>()
+        return fixtureMonkey.giveMeKotlinBuilder<Student>()
             .setExp(Student::phone, Arbitraries.strings().ofMaxLength(32))
             .setExp(Student::birth, Arbitraries.strings().ofMaxLength(8))
             .setExp(Student::gender, Arbitraries.of(*Gender.entries.toTypedArray()))

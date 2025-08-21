@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.and
 
 data class StudentPredicate(
-    val id: String? = null,
+    val id: Long? = null,
     val name: String? = null,
     val phone: String? = null,
     val birth: String? = null,
@@ -27,7 +27,7 @@ data class StudentPredicate(
         return Op.build {
             val conditions = ArrayList<Op<Boolean>>()
 
-            this@StudentPredicate.id?.let { conditions.add(StudentTable.id eq it.toLong()) }
+            this@StudentPredicate.id?.let { conditions.add(StudentTable.id eq it) }
             this@StudentPredicate.name?.let { conditions.add(StudentTable.name eq it) }
             this@StudentPredicate.phone?.let { conditions.add(StudentTable.phone eq it) }
             this@StudentPredicate.birth?.let { conditions.add(StudentTable.birth eq it) }

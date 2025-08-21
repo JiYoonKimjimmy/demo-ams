@@ -2,6 +2,7 @@ package me.jimmyberg.ams.presentation.controller
 
 import io.kotest.core.test.TestType
 import me.jimmyberg.ams.application.usecase.model.StudentModel
+import me.jimmyberg.ams.application.usecase.model.StudentModelFixture
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
 import me.jimmyberg.ams.presentation.dto.CreateStudentRequest
@@ -27,6 +28,8 @@ class StudentManagementControllerTest(
     lateinit var mockMvc: MockMvc
     val objectMapper = dependencies.objectMapper
 
+    val studentModelFixture = StudentModelFixture()
+
     val restDocumentation = ManualRestDocumentation()
 
     aroundTest { (testCase, execute) ->
@@ -50,18 +53,7 @@ class StudentManagementControllerTest(
         val createStudentUrl = "/api/v1/student"
 
         `when`("신규 학생 정보 입력인 경우") {
-            val student = StudentModel(
-                name = "김모건",
-                phone = "01012341234",
-                birth = "19900309",
-                gender = Gender.MALE,
-                zipCode = "12345",
-                baseAddress = "baseAddress",
-                detailAddress = "detailAddress",
-                schoolName = "신길초",
-                schoolType = SchoolType.PRIMARY,
-                grade = 6
-            )
+            val student = studentModelFixture.make()
             val request = CreateStudentRequest(student)
 
             then("'201 CREATED' 정상 응답 확인한다") {
@@ -85,7 +77,7 @@ class StudentManagementControllerTest(
                             MockMvcRestDocumentation.document(
                                 "student/create",
                                 PayloadDocumentation.requestFields(
-                                    PayloadDocumentation.fieldWithPath("student.id").type(JsonFieldType.STRING).description("학생 ID").optional(),
+                                    PayloadDocumentation.fieldWithPath("student.id").type(JsonFieldType.NUMBER).description("학생 ID").optional(),
                                     PayloadDocumentation.fieldWithPath("student.name").type(JsonFieldType.STRING).description("이름"),
                                     PayloadDocumentation.fieldWithPath("student.phone").type(JsonFieldType.STRING).description("연락처"),
                                     PayloadDocumentation.fieldWithPath("student.birth").type(JsonFieldType.STRING).description("생년월일"),
@@ -99,7 +91,7 @@ class StudentManagementControllerTest(
                                     PayloadDocumentation.fieldWithPath("student.status").type(JsonFieldType.STRING).description("상태").optional(),
                                 ),
                                 PayloadDocumentation.responseFields(
-                                    PayloadDocumentation.fieldWithPath("student.id").type(JsonFieldType.STRING).description("학생 ID"),
+                                    PayloadDocumentation.fieldWithPath("student.id").type(JsonFieldType.NUMBER).description("학생 ID"),
                                     PayloadDocumentation.fieldWithPath("student.name").type(JsonFieldType.STRING).description("이름"),
                                     PayloadDocumentation.fieldWithPath("student.phone").type(JsonFieldType.STRING).description("연락처"),
                                     PayloadDocumentation.fieldWithPath("student.birth").type(JsonFieldType.STRING).description("생년월일"),

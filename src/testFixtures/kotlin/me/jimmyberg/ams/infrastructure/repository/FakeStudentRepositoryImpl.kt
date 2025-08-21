@@ -62,7 +62,7 @@ class FakeStudentRepositoryImpl : StudentRepository {
     }
 
     private fun matchesPredicate(student: Student, predicate: StudentPredicate): Boolean {
-        return (predicate.id == null || student.id?.toString() == predicate.id) &&
+        return (predicate.id == null || student.id == predicate.id) &&
                 (predicate.name == null || student.name == predicate.name) &&
                 (predicate.phone == null || student.phone == predicate.phone) &&
                 (predicate.birth == null || student.birth == predicate.birth) &&

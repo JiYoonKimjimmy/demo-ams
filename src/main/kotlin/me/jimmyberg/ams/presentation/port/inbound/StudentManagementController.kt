@@ -18,7 +18,7 @@ class StudentManagementController(
     }
 
     @GetMapping("/api/v1/student/{id}")
-    fun findOne(@PathVariable id: String): ResponseEntity<FindStudentResponse> {
+    fun findOne(@PathVariable id: Long): ResponseEntity<FindStudentResponse> {
         return FindStudentResponse(student = studentManagementUseCase.findStudent(id))
             .success(HttpStatus.OK)
     }
