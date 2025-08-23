@@ -9,6 +9,6 @@ interface StudentFindService {
 
     fun findOne(predicate: StudentPredicate): Student
 
-    fun scroll(predicate: StudentPredicate, pageable: PageableRequest): ScrollResult<Student>
+    fun scroll(predicate: StudentPredicate): ScrollResult<Student>
 
 }

@@ -19,8 +19,8 @@ class StudentFindServiceImpl(
             ?: throw EntityNotFoundException("Student not found")
     }
 
-    override fun scroll(predicate: StudentPredicate, pageable: PageableRequest): ScrollResult<Student> {
-        return studentRepository.scrollByPredicate(predicate, pageable)
+    override fun scroll(predicate: StudentPredicate): ScrollResult<Student> {
+        return studentRepository.scrollByPredicate(predicate)
     }
 
 }

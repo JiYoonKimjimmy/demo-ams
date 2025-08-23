@@ -124,11 +124,10 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 scroll 조회 성공 정상 확인한다" {
         transaction {
             // given
-            val predicate = StudentPredicate()
-            val pageable = PageableRequest()
+            val predicate = StudentPredicate(pageable = PageableRequest())
 
             // when
-            val result = studentExposedRepository.scrollByPredicate(predicate, pageable)
+            val result = studentExposedRepository.scrollByPredicate(predicate)
 
             // then
             result.first.shouldNotBeEmpty()

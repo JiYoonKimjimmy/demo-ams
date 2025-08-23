@@ -32,17 +32,14 @@ class StudentManagementUseCase(
     }
 
     fun scrollStudents(model: StudentModel, pageable: PageableRequest): ScrollResult<StudentModel> {
-        val predicate = studentModelMapper.modelToPredicate(model)
-        return ScrollResult.from(
-            result = studentFindService.scroll(predicate, pageable),
-            mapper = studentModelMapper::domainToModel
-        )
+        return studentModelMapper.modelToPredicate(model, pageable)
+            .let { studentFindService.scroll(predicate = it) }
+            .let { ScrollResult.from(result = it, mapper = studentModelMapper::domainToModel) }
     }
 
     @Transactional
     fun updateStudent(model: StudentModel): StudentModel {
-        return StudentPredicate(id = model.id)
-            .let { studentFindService.findOne(predicate = it) }
+        return studentFindService.findOne(predicate = StudentPredicate(id = model.id))
             .update(model = model)
             .let { studentSaveService.save(student = it) }
             .let { studentModelMapper.domainToModel(domain = it) }

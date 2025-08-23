@@ -7,6 +7,7 @@ import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate.SchoolPredicate
+import me.jimmyberg.ams.presentation.common.PageableRequest
 import org.springframework.stereotype.Component
 
 @Component
@@ -47,7 +48,7 @@ class StudentModelMapper {
         )
     }
 
-    fun modelToPredicate(model: StudentModel): StudentPredicate {
+    fun modelToPredicate(model: StudentModel, pageable: PageableRequest): StudentPredicate {
         return StudentPredicate(
             id = model.id,
             name = model.name,
@@ -55,7 +56,8 @@ class StudentModelMapper {
             birth = model.birth,
             gender = model.gender,
             school = SchoolPredicate(model.schoolName, model.schoolType, model.grade),
-            status = model.status
+            status = model.status,
+            pageable = pageable
         )
     }
 

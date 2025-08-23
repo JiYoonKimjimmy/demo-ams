@@ -22,12 +22,12 @@ class StudentRepositoryImpl(
         return studentExposedRepository.findByPredicate(predicate)?.toDomain()
     }
 
-    override fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest): List<Student> {
+    override fun findAllByPredicate(predicate: StudentPredicate): List<Student> {
         return studentExposedRepository.findAllByPredicate(predicate).map { it.toDomain() }
     }
 
-    override fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest): ScrollResult<Student> {
-        return studentExposedRepository.scrollByPredicate(predicate, pageable)
+    override fun scrollByPredicate(predicate: StudentPredicate): ScrollResult<Student> {
+        return studentExposedRepository.scrollByPredicate(predicate)
             .let {
                 ScrollResult(
                     content = it.first.map(transform = StudentEntity::toDomain),

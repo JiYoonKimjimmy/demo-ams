@@ -11,9 +11,9 @@ interface StudentRepository {
 
     fun findByPredicate(predicate: StudentPredicate): Student?
 
-    fun findAllByPredicate(predicate: StudentPredicate, pageable: PageableRequest = PageableRequest()): List<Student>
+    fun findAllByPredicate(predicate: StudentPredicate): List<Student>
 
-    fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest = PageableRequest()): ScrollResult<Student>
+    fun scrollByPredicate(predicate: StudentPredicate): ScrollResult<Student>
 
     fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean
 

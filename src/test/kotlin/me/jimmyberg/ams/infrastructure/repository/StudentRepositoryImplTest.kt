@@ -3,9 +3,9 @@ package me.jimmyberg.ams.infrastructure.repository
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
+import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -102,11 +102,10 @@ class StudentRepositoryImplTest : CustomBehaviorSpec({
     }
 
     given("Student 'size: 1' scroll 조회 요청하여") {
-        val predicate = StudentPredicate()
-        val pageable = PageableRequest(size = 1)
+        val predicate = StudentPredicate(pageable = PageableRequest(size = 1))
 
         `when`("'1'건 조회 결과 성공인 경우") {
-            val result = transaction { studentRepository.scrollByPredicate(predicate, pageable) }
+            val result = transaction { studentRepository.scrollByPredicate(predicate) }
 
             then("'content', 'hasNext : false' DB 조 결과 정상 확인한다") {
                 result.content.shouldNotBeEmpty()

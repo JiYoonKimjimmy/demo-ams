@@ -1,11 +1,10 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed
 
-import me.jimmyberg.ams.presentation.common.PageableRequest
+import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.ResourceNotFoundException
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
-import me.jimmyberg.ams.domain.model.Student
 import org.jetbrains.exposed.sql.Op
 import org.springframework.stereotype.Repository
 
@@ -41,7 +40,8 @@ class StudentExposedRepository {
         return StudentEntity.find(predicate.conditions()).toList()
     }
 
-    fun scrollByPredicate(predicate: StudentPredicate, pageable: PageableRequest): Pair<List<StudentEntity>, Boolean> {
+    fun scrollByPredicate(predicate: StudentPredicate): Pair<List<StudentEntity>, Boolean> {
+        val pageable = predicate.pageable
         val sortOrder = when (pageable.sortBy) {
             "id" -> StudentTable.id
             else -> StudentTable.id

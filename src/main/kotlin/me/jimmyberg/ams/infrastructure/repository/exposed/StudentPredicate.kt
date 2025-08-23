@@ -4,6 +4,7 @@ import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
+import me.jimmyberg.ams.presentation.common.PageableRequest
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.and
 
@@ -15,6 +16,7 @@ data class StudentPredicate(
     val gender: Gender? = null,
     val school: SchoolPredicate? = null,
     val status: ActivationStatus? = null,
+    val pageable: PageableRequest = PageableRequest(),
 ) {
 
     data class SchoolPredicate(
