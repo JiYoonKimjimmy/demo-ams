@@ -3,8 +3,6 @@ package me.jimmyberg.ams.domain.model
 import me.jimmyberg.ams.application.usecase.model.StudentModel
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
-import me.jimmyberg.ams.infrastructure.error.ErrorCode
-import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
 
 data class Student(
     val id: Long? = null,
@@ -17,26 +15,6 @@ data class Student(
     val school: School? = null,
     val status: ActivationStatus = ActivationStatus.REGISTER_WAITING
 ) {
-
-    companion object {
-        fun create(model: StudentModel): Student {
-            requireNotNull(model.name) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'name' is required") }
-            requireNotNull(model.phone) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'phone' is required") }
-            requireNotNull(model.birth) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'birth' is required") }
-            requireNotNull(model.gender) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'gender' is required") }
-
-            return Student(
-                id = model.id,
-                name = model.name,
-                phone = model.phone,
-                birth = model.birth,
-                gender = model.gender,
-                address = model.address,
-                school = model.school,
-                status = model.status ?: ActivationStatus.REGISTER_WAITING
-            )
-        }
-    }
 
     fun update(model: StudentModel): Student {
         return copy(
