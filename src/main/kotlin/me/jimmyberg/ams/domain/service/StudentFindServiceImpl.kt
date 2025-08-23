@@ -6,7 +6,6 @@ import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.port.inbound.StudentFindService
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
-import me.jimmyberg.ams.presentation.common.PageableRequest
 import org.springframework.stereotype.Service
 
 @Service

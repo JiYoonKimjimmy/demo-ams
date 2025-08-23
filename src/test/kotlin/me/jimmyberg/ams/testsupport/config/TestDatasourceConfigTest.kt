@@ -1,14 +1,14 @@
 package me.jimmyberg.ams.testsupport.config
 
 import io.kotest.matchers.shouldBe
-import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
-import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
-import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
+import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.ParentTable
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentParentTable
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
+import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
+import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction

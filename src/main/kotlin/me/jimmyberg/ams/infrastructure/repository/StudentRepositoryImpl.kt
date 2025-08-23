@@ -1,9 +1,8 @@
 package me.jimmyberg.ams.infrastructure.repository
 
+import me.jimmyberg.ams.domain.common.ScrollResult
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
-import me.jimmyberg.ams.domain.common.ScrollResult
-import me.jimmyberg.ams.presentation.common.PageableRequest
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
