@@ -17,20 +17,17 @@ data class BaseResult(
     )
 
     private companion object {
-        fun buildFailureMessage(
-            featureCode: FeatureCode,
-            errorCode: ErrorCode,
-            detailMessage: String?
-        ): String = buildString {
-            append(featureCode.message)
-            append(" is failed: ")
-            append(errorCode.message)
-            append(".")
-            if (detailMessage != null) {
-                append(" ")
-                append(detailMessage)
+        fun buildFailureMessage(featureCode: FeatureCode, errorCode: ErrorCode, detailMessage: String?): String =
+            buildString {
+                append(featureCode.message)
+                append(" is failed: ")
+                append(errorCode.message)
                 append(".")
+                if (detailMessage != null) {
+                    append(" ")
+                    append(detailMessage)
+                    append(".")
+                }
             }
-        }
     }
 }
