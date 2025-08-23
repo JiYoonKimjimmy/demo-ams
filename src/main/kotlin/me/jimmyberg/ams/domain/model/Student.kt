@@ -26,7 +26,7 @@ data class Student(
             requireNotNull(model.gender) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'gender' is required") }
 
             return Student(
-                id = model.id?.toLong(),
+                id = model.id,
                 name = model.name,
                 phone = model.phone,
                 birth = model.birth,
