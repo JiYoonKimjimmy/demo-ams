@@ -9,9 +9,11 @@ import me.jimmyberg.ams.testsupport.annotation.CustomSpringBootTest
 import me.jimmyberg.ams.testsupport.restdocs.RestDocsBehaviorSpec
 import org.hamcrest.Matchers
 import org.springframework.http.MediaType
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation
+import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.post
 import org.springframework.web.context.WebApplicationContext
 
@@ -32,7 +34,7 @@ class StudentManagementControllerTest(
                 val student = studentModelFixture.make()
                 val request = CreateStudentRequest(student)
 
-                then("'201 CREATED' 정상 응답 확인한다") {
+                then("'201 Created' 정상 응답 확인한다") {
                     val result = mockMvc
                         .post(createStudentUrl) {
                             contentType = MediaType.APPLICATION_JSON
@@ -50,38 +52,38 @@ class StudentManagementControllerTest(
                         }
                         .andDo {
                             handle(
-                                MockMvcRestDocumentation.document(
+                                document(
                                     "student/create",
                                     PayloadDocumentation.requestFields(
-                                        PayloadDocumentation.fieldWithPath("student.id").type(JsonFieldType.NUMBER).description("학생 ID").optional(),
-                                        PayloadDocumentation.fieldWithPath("student.name").type(JsonFieldType.STRING).description("이름"),
-                                        PayloadDocumentation.fieldWithPath("student.phone").type(JsonFieldType.STRING).description("연락처"),
-                                        PayloadDocumentation.fieldWithPath("student.birth").type(JsonFieldType.STRING).description("생년월일"),
-                                        PayloadDocumentation.fieldWithPath("student.gender").type(JsonFieldType.STRING).description("성별"),
-                                        PayloadDocumentation.fieldWithPath("student.zipCode").type(JsonFieldType.STRING).description("우편번호"),
-                                        PayloadDocumentation.fieldWithPath("student.baseAddress").type(JsonFieldType.STRING).description("기본 주소"),
-                                        PayloadDocumentation.fieldWithPath("student.detailAddress").type(JsonFieldType.STRING).description("상세 주소"),
-                                        PayloadDocumentation.fieldWithPath("student.schoolName").type(JsonFieldType.STRING).description("학교명"),
-                                        PayloadDocumentation.fieldWithPath("student.schoolType").type(JsonFieldType.STRING).description("학교 종류"),
-                                        PayloadDocumentation.fieldWithPath("student.grade").type(JsonFieldType.NUMBER).description("학년"),
-                                        PayloadDocumentation.fieldWithPath("student.status").type(JsonFieldType.STRING).description("상태").optional(),
+                                        fieldWithPath("student.id").type(JsonFieldType.NUMBER).description("학생 ID").optional(),
+                                        fieldWithPath("student.name").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("student.phone").type(JsonFieldType.STRING).description("연락처"),
+                                        fieldWithPath("student.birth").type(JsonFieldType.STRING).description("생년월일"),
+                                        fieldWithPath("student.gender").type(JsonFieldType.STRING).description("성별"),
+                                        fieldWithPath("student.zipCode").type(JsonFieldType.STRING).description("우편번호"),
+                                        fieldWithPath("student.baseAddress").type(JsonFieldType.STRING).description("기본 주소"),
+                                        fieldWithPath("student.detailAddress").type(JsonFieldType.STRING).description("상세 주소"),
+                                        fieldWithPath("student.schoolName").type(JsonFieldType.STRING).description("학교명"),
+                                        fieldWithPath("student.schoolType").type(JsonFieldType.STRING).description("학교 종류"),
+                                        fieldWithPath("student.grade").type(JsonFieldType.NUMBER).description("학년"),
+                                        fieldWithPath("student.status").type(JsonFieldType.STRING).description("상태").optional(),
                                     ),
-                                    PayloadDocumentation.responseFields(
-                                        PayloadDocumentation.fieldWithPath("student.id").type(JsonFieldType.NUMBER).description("학생 ID"),
-                                        PayloadDocumentation.fieldWithPath("student.name").type(JsonFieldType.STRING).description("이름"),
-                                        PayloadDocumentation.fieldWithPath("student.phone").type(JsonFieldType.STRING).description("연락처"),
-                                        PayloadDocumentation.fieldWithPath("student.birth").type(JsonFieldType.STRING).description("생년월일"),
-                                        PayloadDocumentation.fieldWithPath("student.gender").type(JsonFieldType.STRING).description("성별"),
-                                        PayloadDocumentation.fieldWithPath("student.zipCode").type(JsonFieldType.STRING).description("우편번호"),
-                                        PayloadDocumentation.fieldWithPath("student.baseAddress").type(JsonFieldType.STRING).description("기본 주소"),
-                                        PayloadDocumentation.fieldWithPath("student.detailAddress").type(JsonFieldType.STRING).description("상세 주소"),
-                                        PayloadDocumentation.fieldWithPath("student.schoolName").type(JsonFieldType.STRING).description("학교명"),
-                                        PayloadDocumentation.fieldWithPath("student.schoolType").type(JsonFieldType.STRING).description("학교 종류"),
-                                        PayloadDocumentation.fieldWithPath("student.grade").type(JsonFieldType.NUMBER).description("학년"),
-                                        PayloadDocumentation.fieldWithPath("student.status").type(JsonFieldType.STRING).description("학생 상태"),
-                                        PayloadDocumentation.fieldWithPath("result.status").type(JsonFieldType.STRING).description("응답 결과"),
-                                        PayloadDocumentation.fieldWithPath("result.code").type(JsonFieldType.STRING).description("응답 코드").optional(),
-                                        PayloadDocumentation.fieldWithPath("result.message").type(JsonFieldType.STRING).description("응답 메시지").optional()
+                                    responseFields(
+                                        fieldWithPath("student.id").type(JsonFieldType.NUMBER).description("학생 ID"),
+                                        fieldWithPath("student.name").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("student.phone").type(JsonFieldType.STRING).description("연락처"),
+                                        fieldWithPath("student.birth").type(JsonFieldType.STRING).description("생년월일"),
+                                        fieldWithPath("student.gender").type(JsonFieldType.STRING).description("성별"),
+                                        fieldWithPath("student.zipCode").type(JsonFieldType.STRING).description("우편번호"),
+                                        fieldWithPath("student.baseAddress").type(JsonFieldType.STRING).description("기본 주소"),
+                                        fieldWithPath("student.detailAddress").type(JsonFieldType.STRING).description("상세 주소"),
+                                        fieldWithPath("student.schoolName").type(JsonFieldType.STRING).description("학교명"),
+                                        fieldWithPath("student.schoolType").type(JsonFieldType.STRING).description("학교 종류"),
+                                        fieldWithPath("student.grade").type(JsonFieldType.NUMBER).description("학년"),
+                                        fieldWithPath("student.status").type(JsonFieldType.STRING).description("학생 상태"),
+                                        fieldWithPath("result.status").type(JsonFieldType.STRING).description("응답 결과 (SUCCESS/FAILED)"),
+                                        fieldWithPath("result.code").type(JsonFieldType.STRING).description("응답 코드").optional(),
+                                        fieldWithPath("result.message").type(JsonFieldType.STRING).description("응답 메시지").optional()
                                     )
                                 )
                             )
@@ -104,7 +106,7 @@ class StudentManagementControllerTest(
                 )
                 val request = CreateStudentRequest(student)
 
-                then("'400 BAD_REQUEST' 에러 응답 확인한다") {
+                then("'400 Bad Request' 에러 응답 확인한다") {
                     // 첫 번째 학생 생성
                     mockMvc
                         .post(createStudentUrl) {
@@ -132,18 +134,67 @@ class StudentManagementControllerTest(
                         }
                         .andDo {
                             handle(
-                                MockMvcRestDocumentation.document(
+                                document(
                                     "student/create-duplicate-error",
-                                    PayloadDocumentation.responseFields(
-                                        PayloadDocumentation.fieldWithPath("result.status").type(JsonFieldType.STRING).description("응답 결과 (FAILED)"),
-                                        PayloadDocumentation.fieldWithPath("result.code").type(JsonFieldType.STRING).description("에러 코드 (1000_002)"),
-                                        PayloadDocumentation.fieldWithPath("result.message").type(JsonFieldType.STRING).description("에러 메시지")
+                                    responseFields(
+                                        fieldWithPath("result.status").type(JsonFieldType.STRING).description("FAILED"),
+                                        fieldWithPath("result.code").type(JsonFieldType.STRING).description("1000_002"),
+                                        fieldWithPath("result.message").type(JsonFieldType.STRING).description("Student Management Service is failed: Student with same name, phone, and birth already exists.")
                                     )
                                 )
                             )
                         }
                 }
             }
+
+
+
+            `when`("학생 필수 정보 중 'name' 입력 누락된 경우") {
+                val student = StudentModel(
+                    name = null,
+                    phone = "01012341235",
+                    birth = "19900202",
+                    gender = Gender.MALE,
+                    zipCode = "12345",
+                    baseAddress = "baseAddress",
+                    detailAddress = "detailAddress",
+                    schoolName = "신길초",
+                    schoolType = SchoolType.PRIMARY,
+                    grade = 6
+                )
+                val request = CreateStudentRequest(student)
+
+                then("'400 Bad Request' 에러 응답 정상 확인한다") {
+                    val result = mockMvc
+                        .post(createStudentUrl) {
+                            contentType = MediaType.APPLICATION_JSON
+                            content = objectMapper.writeValueAsString(request)
+                        }
+                        .andExpect {
+                            status { isBadRequest() }
+                            content {
+                                jsonPath("result.status", Matchers.equalTo("FAILED"))
+                                jsonPath("result.code", Matchers.equalTo("1000_801"))
+                                jsonPath("result.message", Matchers.equalTo("Student Management Service is failed: Some required data is missing. Student 'name' is required."))
+                            }
+                        }
+
+                    result
+                        .andDo {
+                            handle(
+                                document(
+                                    "student/create-missing-name-error",
+                                    responseFields(
+                                        fieldWithPath("result.status").type(JsonFieldType.STRING).description("FAILED"),
+                                        fieldWithPath("result.code").type(JsonFieldType.STRING).description("1000_801"),
+                                        fieldWithPath("result.message").type(JsonFieldType.STRING).description("Student Management Service is failed: Some required data is missing. Student 'name' is required.")
+                                    )
+                                )
+                            )
+                        }
+                }
+            }
+
         }
     }
 }

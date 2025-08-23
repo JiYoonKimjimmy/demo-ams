@@ -13,12 +13,8 @@ data class ErrorResponse(
             return ResponseEntity(ErrorResponse(result = BaseResult(featureCode, errorCode)), errorCode.status)
         }
 
-        fun toResponseEntity(featureCode: FeatureCode, errorCode: ErrorCode, message: String?): ResponseEntity<ErrorResponse> {
-            return BaseResult(featureCode, errorCode)
-                .takeIf { message != null }
-                ?.append(message)
-                ?.let { ResponseEntity(ErrorResponse(result = it), errorCode.status) }
-                ?: toResponseEntity(featureCode, errorCode)
+        fun toResponseEntity(featureCode: FeatureCode, errorCode: ErrorCode, detailMessage: String?): ResponseEntity<ErrorResponse> {
+            return ResponseEntity(ErrorResponse(result = BaseResult(featureCode, errorCode, detailMessage)), errorCode.status)
         }
 
     }

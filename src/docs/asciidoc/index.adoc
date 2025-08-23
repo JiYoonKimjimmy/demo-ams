@@ -19,7 +19,10 @@ AMS(Academy Management System) API 문서입니다.
 [[student-create]]
 
 === 학생 정보 생성
-operation::student/create[snippets='http-request,request-fields,http-response,response-fields']
 
-==== 학생 정보 중복 생성 요청/응답
+==== 학생 정보 생성 성공 요청/응답
+operation::student/create[snippets='http-request,request-fields,http-response,response-fields']
+==== 학생 정보 중복 생성 에러 요청/응답
 operation::student/create-duplicate-error[snippets='http-response,response-fields']
+==== 학생 정보 필수 입력 누락 에러 요청/응답
+operation::student/create-missing-name-error[snippets='http-response,response-fields']

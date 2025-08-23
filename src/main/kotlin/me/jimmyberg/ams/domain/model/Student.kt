@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.domain.model
 
+import me.jimmyberg.ams.application.usecase.model.StudentModel
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
-import me.jimmyberg.ams.application.usecase.model.StudentModel
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
 
@@ -20,10 +20,10 @@ data class Student(
 
     companion object {
         fun create(model: StudentModel): Student {
-            requireNotNull(model.name) { throw InvalidRequestException(ErrorCode.REQUIRED_NAME) }
-            requireNotNull(model.phone) { throw InvalidRequestException(ErrorCode.REQUIRED_PHONE) }
-            requireNotNull(model.birth) { throw InvalidRequestException(ErrorCode.REQUIRED_BIRTH) }
-            requireNotNull(model.gender) { throw InvalidRequestException(ErrorCode.REQUIRED_GENDER) }
+            requireNotNull(model.name) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'name' is required") }
+            requireNotNull(model.phone) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'phone' is required") }
+            requireNotNull(model.birth) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'birth' is required") }
+            requireNotNull(model.gender) { throw InvalidRequestException(ErrorCode.MISSING_REQUIRED_DATA, detailMessage = "Student 'gender' is required") }
 
             return Student(
                 id = model.id?.toLong(),

@@ -10,14 +10,27 @@ data class BaseResult(
     val message: String? = null
 ) {
 
-    constructor(featureCode: FeatureCode, errorCode: ErrorCode): this(
+    constructor(featureCode: FeatureCode, errorCode: ErrorCode, detailMessage: String? = null): this(
         status = Result.FAILED,
         code = "${featureCode.code}_${errorCode.code}",
-        message = "${featureCode.message} is failed: ${errorCode.message}."
+        message = buildFailureMessage(featureCode, errorCode, detailMessage)
     )
 
-    fun append(msg: String?): BaseResult {
-        return copy(message = "${this.message}${msg?.let { " $it." }}")
+    private companion object {
+        fun buildFailureMessage(
+            featureCode: FeatureCode,
+            errorCode: ErrorCode,
+            detailMessage: String?
+        ): String = buildString {
+            append(featureCode.message)
+            append(" is failed: ")
+            append(errorCode.message)
+            append(".")
+            if (detailMessage != null) {
+                append(" ")
+                append(detailMessage)
+                append(".")
+            }
+        }
     }
-
 }
