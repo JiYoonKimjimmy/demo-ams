@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.application.usecase
 
-import me.jimmyberg.ams.application.usecase.model.StudentModel
-import me.jimmyberg.ams.application.usecase.model.StudentModelMapper
+import me.jimmyberg.ams.application.model.StudentModel
+import me.jimmyberg.ams.application.model.StudentModelMapper
 import me.jimmyberg.ams.domain.common.ScrollResult
 import me.jimmyberg.ams.domain.port.inbound.StudentFindService
 import me.jimmyberg.ams.domain.port.inbound.StudentSaveService

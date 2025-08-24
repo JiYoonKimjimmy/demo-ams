@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.presentation.controller
 
-import me.jimmyberg.ams.application.usecase.model.StudentModel
-import me.jimmyberg.ams.application.usecase.model.StudentModelFixture
+import me.jimmyberg.ams.application.model.StudentModel
+import me.jimmyberg.ams.application.model.StudentModelFixture
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
 import me.jimmyberg.ams.presentation.dto.CreateStudentRequest

@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.application.usecase.model
+package me.jimmyberg.ams.application.model
 
 import com.navercorp.fixturemonkey.kotlin.giveMeKotlinBuilder
 import me.jimmyberg.ams.domain.model.Address

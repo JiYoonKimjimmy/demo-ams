@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.domain.model
 
-import me.jimmyberg.ams.application.usecase.model.StudentModel
+import me.jimmyberg.ams.application.model.StudentModel
 import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
 

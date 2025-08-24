@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.application.usecase.model
+package me.jimmyberg.ams.application.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import me.jimmyberg.ams.domain.model.Address
