@@ -1,6 +1,6 @@
-package me.jimmyberg.ams.presentation.common
+package me.jimmyberg.ams.common.model
 
-import me.jimmyberg.ams.infrastructure.common.enumerate.Result
+import me.jimmyberg.ams.common.enumerate.Result
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.FeatureCode
 

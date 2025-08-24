@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.domain.port.outbound
 
-import me.jimmyberg.ams.domain.common.ScrollResult
+import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 

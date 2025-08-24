@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed.entity
 
-import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
-import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.common.enumerate.Gender
 import org.jetbrains.exposed.dao.id.LongIdTable
 
 object ParentTable : LongIdTable("parents") {

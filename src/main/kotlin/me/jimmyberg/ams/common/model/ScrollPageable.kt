@@ -1,6 +1,4 @@
-package me.jimmyberg.ams.presentation.common
-
-import me.jimmyberg.ams.domain.common.ScrollResult
+package me.jimmyberg.ams.common.model
 
 data class ScrollPageable(
     val size: Int,

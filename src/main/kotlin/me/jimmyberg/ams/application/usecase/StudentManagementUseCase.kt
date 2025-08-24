@@ -2,11 +2,11 @@ package me.jimmyberg.ams.application.usecase
 
 import me.jimmyberg.ams.application.model.StudentModel
 import me.jimmyberg.ams.application.model.StudentModelMapper
-import me.jimmyberg.ams.domain.common.ScrollResult
+import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.port.inbound.StudentFindService
 import me.jimmyberg.ams.domain.port.inbound.StudentSaveService
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
-import me.jimmyberg.ams.presentation.common.PageableRequest
+import me.jimmyberg.ams.common.model.PageableRequest
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 

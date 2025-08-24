@@ -1,7 +1,7 @@
 package me.jimmyberg.ams.domain.service
 
 import jakarta.persistence.EntityNotFoundException
-import me.jimmyberg.ams.domain.common.ScrollResult
+import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.port.inbound.StudentFindService
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository

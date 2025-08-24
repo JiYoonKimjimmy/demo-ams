@@ -1,6 +1,6 @@
 package me.jimmyberg.ams.domain.model
 
-import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
+import me.jimmyberg.ams.common.enumerate.SchoolType
 
 data class School(
     val schoolName: String,

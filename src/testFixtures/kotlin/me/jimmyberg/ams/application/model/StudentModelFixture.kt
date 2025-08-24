@@ -3,10 +3,10 @@ package me.jimmyberg.ams.application.model
 import com.navercorp.fixturemonkey.kotlin.giveMeKotlinBuilder
 import me.jimmyberg.ams.domain.model.Address
 import me.jimmyberg.ams.domain.model.School
-import me.jimmyberg.ams.infrastructure.common.EMPTY
-import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
-import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
-import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
+import me.jimmyberg.ams.common.EMPTY
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.testsupport.TestExtensionFunctions.fixtureMonkey
 
 class StudentModelFixture {

@@ -1,9 +1,9 @@
 package me.jimmyberg.ams.testsupport.config
 
 import io.kotest.matchers.shouldBe
-import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
-import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
-import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.ParentTable
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentParentTable
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable

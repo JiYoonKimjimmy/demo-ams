@@ -2,9 +2,9 @@ package me.jimmyberg.ams.domain.model
 
 import com.navercorp.fixturemonkey.kotlin.giveMeKotlinBuilder
 import com.navercorp.fixturemonkey.kotlin.into
-import me.jimmyberg.ams.infrastructure.common.enumerate.ActivationStatus
-import me.jimmyberg.ams.infrastructure.common.enumerate.Gender
-import me.jimmyberg.ams.infrastructure.common.enumerate.SchoolType
+import me.jimmyberg.ams.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.testsupport.TestExtensionFunctions.fixtureMonkey
 import net.jqwik.api.Arbitraries
 
