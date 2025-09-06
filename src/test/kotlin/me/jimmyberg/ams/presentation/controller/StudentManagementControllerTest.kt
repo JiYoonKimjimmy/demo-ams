@@ -1,10 +1,10 @@
 package me.jimmyberg.ams.presentation.controller
 
-import me.jimmyberg.ams.application.model.StudentModel
-import me.jimmyberg.ams.application.model.StudentModelFixture
+import me.jimmyberg.ams.common.EMPTY
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.presentation.dto.CreateStudentRequest
+import me.jimmyberg.ams.presentation.dto.StudentDTOFixture
 import me.jimmyberg.ams.testsupport.annotation.CustomSpringBootTest
 import me.jimmyberg.ams.testsupport.restdocs.RestDocsBehaviorSpec
 import org.hamcrest.Matchers
@@ -24,15 +24,26 @@ class StudentManagementControllerTest(
 
     val objectMapper = dependencies.objectMapper
 
-    val studentModelFixture = StudentModelFixture()
+    val studentDTOFixture = StudentDTOFixture()
 
     init {
         given("학생 정보 생성 API 요청하여") {
             val createStudentUrl = "/api/v1/student"
 
             `when`("신규 학생 정보 입력인 경우") {
-                val student = studentModelFixture.make()
-                val request = CreateStudentRequest(student)
+                val student = studentDTOFixture.make()
+                val request = CreateStudentRequest(
+                    name = student.name!!,
+                    phone = student.phone!!,
+                    birth = student.birth!!,
+                    gender = student.gender!!,
+                    zipCode = student.zipCode,
+                    baseAddress = student.baseAddress,
+                    detailAddress = student.detailAddress,
+                    schoolName = student.schoolName,
+                    schoolType = student.schoolType,
+                    grade = student.grade
+                )
 
                 then("'201 Created' 정상 응답 확인한다") {
                     val result = mockMvc
@@ -55,18 +66,16 @@ class StudentManagementControllerTest(
                                 document(
                                     "student/create",
                                     PayloadDocumentation.requestFields(
-                                        fieldWithPath("student.id").type(JsonFieldType.NUMBER).description("학생 ID").optional(),
-                                        fieldWithPath("student.name").type(JsonFieldType.STRING).description("이름"),
-                                        fieldWithPath("student.phone").type(JsonFieldType.STRING).description("연락처"),
-                                        fieldWithPath("student.birth").type(JsonFieldType.STRING).description("생년월일"),
-                                        fieldWithPath("student.gender").type(JsonFieldType.STRING).description("성별"),
-                                        fieldWithPath("student.zipCode").type(JsonFieldType.STRING).description("우편번호"),
-                                        fieldWithPath("student.baseAddress").type(JsonFieldType.STRING).description("기본 주소"),
-                                        fieldWithPath("student.detailAddress").type(JsonFieldType.STRING).description("상세 주소"),
-                                        fieldWithPath("student.schoolName").type(JsonFieldType.STRING).description("학교명"),
-                                        fieldWithPath("student.schoolType").type(JsonFieldType.STRING).description("학교 종류"),
-                                        fieldWithPath("student.grade").type(JsonFieldType.NUMBER).description("학년"),
-                                        fieldWithPath("student.status").type(JsonFieldType.STRING).description("상태").optional(),
+                                        fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                        fieldWithPath("phone").type(JsonFieldType.STRING).description("연락처"),
+                                        fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
+                                        fieldWithPath("gender").type(JsonFieldType.STRING).description("성별"),
+                                        fieldWithPath("zipCode").type(JsonFieldType.STRING).description("우편번호").optional(),
+                                        fieldWithPath("baseAddress").type(JsonFieldType.STRING).description("기본 주소").optional(),
+                                        fieldWithPath("detailAddress").type(JsonFieldType.STRING).description("상세 주소").optional(),
+                                        fieldWithPath("schoolName").type(JsonFieldType.STRING).description("학교명").optional(),
+                                        fieldWithPath("schoolType").type(JsonFieldType.STRING).description("학교 종류").optional(),
+                                        fieldWithPath("grade").type(JsonFieldType.NUMBER).description("학년").optional(),
                                     ),
                                     responseFields(
                                         fieldWithPath("student.id").type(JsonFieldType.NUMBER).description("학생 ID"),
@@ -92,7 +101,7 @@ class StudentManagementControllerTest(
             }
 
             `when`("중복된 학생 정보 입력인 경우") {
-                val student = StudentModel(
+                val request = CreateStudentRequest(
                     name = "김모아",
                     phone = "01012341235",
                     birth = "19900202",
@@ -104,7 +113,6 @@ class StudentManagementControllerTest(
                     schoolType = SchoolType.PRIMARY,
                     grade = 6
                 )
-                val request = CreateStudentRequest(student)
 
                 then("'400 Bad Request' 에러 응답 확인한다") {
                     // 첫 번째 학생 생성
@@ -147,11 +155,9 @@ class StudentManagementControllerTest(
                 }
             }
 
-
-
             `when`("학생 필수 정보 중 'name' 입력 누락된 경우") {
-                val student = StudentModel(
-                    name = null,
+                val request = CreateStudentRequest(
+                    name = EMPTY,
                     phone = "01012341235",
                     birth = "19900202",
                     gender = Gender.MALE,
@@ -162,7 +168,6 @@ class StudentManagementControllerTest(
                     schoolType = SchoolType.PRIMARY,
                     grade = 6
                 )
-                val request = CreateStudentRequest(student)
 
                 then("'400 Bad Request' 에러 응답 정상 확인한다") {
                     val result = mockMvc
@@ -170,12 +175,13 @@ class StudentManagementControllerTest(
                             contentType = MediaType.APPLICATION_JSON
                             content = objectMapper.writeValueAsString(request)
                         }
+                        .andDo { print() }
                         .andExpect {
                             status { isBadRequest() }
                             content {
                                 jsonPath("result.status", Matchers.equalTo("FAILED"))
                                 jsonPath("result.code", Matchers.equalTo("1000_801"))
-                                jsonPath("result.message", Matchers.equalTo("Student Management Service is failed: Some required data is missing. Student 'name' is required."))
+                                jsonPath("result.message", Matchers.equalTo("Student Management Service is failed: Some required data is missing. 'name' is required."))
                             }
                         }
 
@@ -187,7 +193,7 @@ class StudentManagementControllerTest(
                                     responseFields(
                                         fieldWithPath("result.status").type(JsonFieldType.STRING).description("FAILED"),
                                         fieldWithPath("result.code").type(JsonFieldType.STRING).description("1000_801"),
-                                        fieldWithPath("result.message").type(JsonFieldType.STRING).description("Student Management Service is failed: Some required data is missing. Student 'name' is required.")
+                                        fieldWithPath("result.message").type(JsonFieldType.STRING).description("Student Management Service is failed: Some required data is missing. 'name' is required.")
                                     )
                                 )
                             )

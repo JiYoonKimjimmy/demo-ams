@@ -1,12 +1,11 @@
 package me.jimmyberg.ams.presentation.dto
 
-import me.jimmyberg.ams.application.model.StudentModel
 import me.jimmyberg.ams.common.model.BaseResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 data class FindStudentResponse(
-    val student: StudentModel
+    val student: StudentDTO
 ) : BaseResponse<FindStudentResponse>() {
     override fun success(httpStatus: HttpStatus): ResponseEntity<FindStudentResponse> {
         return ResponseEntity(this, httpStatus)

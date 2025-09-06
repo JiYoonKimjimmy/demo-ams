@@ -1,24 +1,23 @@
 package me.jimmyberg.ams.presentation.dto
 
-import me.jimmyberg.ams.application.model.StudentModel
-import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.common.model.BaseResponse
 import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.common.model.ScrollPageable
+import me.jimmyberg.ams.common.model.ScrollResult
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 data class ScrollStudentsRequest(
-    val predicate: StudentModel = StudentModel(),
+    val predicate: StudentDTO = StudentDTO(),
     val pageable: PageableRequest = PageableRequest()
 )
 
 data class ScrollStudentsResponse(
     val pageable: ScrollPageable,
-    val content: List<StudentModel>
+    val content: List<StudentDTO>
 ) : BaseResponse<ScrollStudentsResponse>() {
 
-    constructor(scrollResult: ScrollResult<StudentModel>): this(
+    constructor(scrollResult: ScrollResult<StudentDTO>): this(
         pageable = ScrollPageable.from(scrollResult),
         content = scrollResult.content
     )

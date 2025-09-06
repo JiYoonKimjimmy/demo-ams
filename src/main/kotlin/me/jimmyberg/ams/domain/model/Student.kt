@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.domain.model
 
-import me.jimmyberg.ams.application.model.StudentModel
 import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
+import me.jimmyberg.ams.presentation.dto.StudentDTO
 
 data class Student(
     val id: Long? = null,
@@ -16,15 +16,15 @@ data class Student(
     val status: ActivationStatus = ActivationStatus.REGISTER_WAITING
 ) {
 
-    fun update(model: StudentModel): Student {
+    fun update(dto: StudentDTO): Student {
         return copy(
-            name = model.name ?: name,
-            phone = model.phone ?: phone,
-            birth = model.birth ?: birth,
-            gender = model.gender ?: gender,
-            address = model.address ?: address,
-            school = model.school ?: school,
-            status = model.status ?: status
+            name = dto.name ?: name,
+            phone = dto.phone ?: phone,
+            birth = dto.birth ?: birth,
+            gender = dto.gender ?: gender,
+            address = dto.address ?: address,
+            school = dto.school ?: school,
+            status = dto.status ?: status
         )
     }
 }

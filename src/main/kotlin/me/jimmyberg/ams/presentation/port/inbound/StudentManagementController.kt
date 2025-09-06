@@ -1,5 +1,6 @@
 package me.jimmyberg.ams.presentation.port.inbound
 
+import jakarta.validation.Valid
 import me.jimmyberg.ams.application.usecase.StudentManagementUseCase
 import me.jimmyberg.ams.presentation.dto.*
 import org.springframework.http.HttpStatus
@@ -12,8 +13,9 @@ class StudentManagementController(
 ) {
 
     @PostMapping("/api/v1/student")
-    fun create(@RequestBody request: CreateStudentRequest): ResponseEntity<CreateStudentResponse> {
-        return CreateStudentResponse(student = studentManagementUseCase.createStudent(model = request.student))
+    fun create(@Valid @RequestBody request: CreateStudentRequest): ResponseEntity<CreateStudentResponse> {
+        val created = studentManagementUseCase.createStudent(dto = request.toStudentDTO())
+        return CreateStudentResponse(student = created)
             .success(HttpStatus.CREATED)
     }
 
@@ -26,7 +28,7 @@ class StudentManagementController(
     @GetMapping("/api/v1/students/scroll")
     fun scroll(@RequestBody request: ScrollStudentsRequest = ScrollStudentsRequest()): ResponseEntity<ScrollStudentsResponse> {
         return studentManagementUseCase.scrollStudents(
-                model = request.predicate,
+                dto = request.predicate,
                 pageable = request.pageable
             )
             .let { ScrollStudentsResponse(scrollResult = it) }
@@ -35,7 +37,7 @@ class StudentManagementController(
 
     @PutMapping("/api/v1/student")
     fun update(@RequestBody request: UpdateStudentRequest): ResponseEntity<UpdateStudentResponse> {
-        return UpdateStudentResponse(student = studentManagementUseCase.updateStudent(model = request.student))
+        return UpdateStudentResponse(student = studentManagementUseCase.updateStudent(dto = request.student))
             .success(HttpStatus.OK)
     }
 

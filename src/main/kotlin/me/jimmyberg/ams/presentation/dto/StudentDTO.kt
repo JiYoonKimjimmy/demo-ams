@@ -1,13 +1,13 @@
-package me.jimmyberg.ams.application.model
+package me.jimmyberg.ams.presentation.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import me.jimmyberg.ams.domain.model.Address
-import me.jimmyberg.ams.domain.model.School
 import me.jimmyberg.ams.common.enumerate.ActivationStatus
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
+import me.jimmyberg.ams.domain.model.Address
+import me.jimmyberg.ams.domain.model.School
 
-data class StudentModel(
+data class StudentDTO(
     val id: Long? = null,
     val name: String? = null,
     val phone: String? = null,
@@ -21,7 +21,6 @@ data class StudentModel(
     val grade: Int? = null,
     val status: ActivationStatus? = null
 ) {
-
     @get:JsonIgnore
     val address: Address?
         get() = takeIf { zipCode != null && baseAddress != null && detailAddress != null }
@@ -31,5 +30,4 @@ data class StudentModel(
     val school: School?
         get() = takeIf { schoolName != null && schoolType != null && grade != null }
             ?.let { School(schoolName!!, schoolType!!, grade!!) }
-
 }

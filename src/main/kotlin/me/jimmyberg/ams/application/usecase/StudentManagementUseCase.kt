@@ -1,12 +1,12 @@
 package me.jimmyberg.ams.application.usecase
 
-import me.jimmyberg.ams.application.model.StudentModel
-import me.jimmyberg.ams.application.model.StudentModelMapper
+import me.jimmyberg.ams.application.model.StudentMapper
+import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.port.inbound.StudentFindService
 import me.jimmyberg.ams.domain.port.inbound.StudentSaveService
 import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
-import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.presentation.dto.StudentDTO
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,34 +15,33 @@ import org.springframework.transaction.annotation.Transactional
 class StudentManagementUseCase(
     private val studentSaveService: StudentSaveService,
     private val studentFindService: StudentFindService,
-    private val studentModelMapper: StudentModelMapper,
+    private val studentMapper: StudentMapper,
 ) {
 
     @Transactional
-    fun createStudent(model: StudentModel): StudentModel {
-        return studentModelMapper.modelToDomain(model)
+    fun createStudent(dto: StudentDTO): StudentDTO {
+        return studentMapper.dtoToDomain(dto)
             .let { studentSaveService.save(student = it) }
-            .let { studentModelMapper.domainToModel(domain = it) }
+            .let { studentMapper.domainToDTO(domain = it) }
     }
 
-    fun findStudent(id: Long): StudentModel {
-        return StudentPredicate(id)
-            .let { studentFindService.findOne(predicate = it) }
-            .let { studentModelMapper.domainToModel(domain = it) }
+    fun findStudent(id: Long): StudentDTO {
+        return studentFindService.findOne(predicate = StudentPredicate(id))
+            .let { studentMapper.domainToDTO(domain = it) }
     }
 
-    fun scrollStudents(model: StudentModel, pageable: PageableRequest): ScrollResult<StudentModel> {
-        return studentModelMapper.modelToPredicate(model, pageable)
+    fun scrollStudents(dto: StudentDTO, pageable: PageableRequest): ScrollResult<StudentDTO> {
+        return studentMapper.dtoToPredicate(dto, pageable)
             .let { studentFindService.scroll(predicate = it) }
-            .let { ScrollResult.from(result = it, mapper = studentModelMapper::domainToModel) }
+            .let { ScrollResult.from(result = it, mapper = studentMapper::domainToDTO) }
     }
 
     @Transactional
-    fun updateStudent(model: StudentModel): StudentModel {
-        return studentFindService.findOne(predicate = StudentPredicate(id = model.id))
-            .update(model = model)
+    fun updateStudent(dto: StudentDTO): StudentDTO {
+        return studentFindService.findOne(predicate = StudentPredicate(id = dto.id))
+            .update(dto)
             .let { studentSaveService.save(student = it) }
-            .let { studentModelMapper.domainToModel(domain = it) }
+            .let { studentMapper.domainToDTO(domain = it) }
     }
 
 }

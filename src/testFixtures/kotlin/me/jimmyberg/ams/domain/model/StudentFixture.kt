@@ -34,6 +34,7 @@ class StudentFixture {
 
     fun make(): Student {
         return fixtureMonkey.giveMeKotlinBuilder<Student>()
+            .setExp(Student::name, Arbitraries.strings().ofMaxLength(128))
             .setExp(Student::phone, Arbitraries.strings().ofMaxLength(32))
             .setExp(Student::birth, Arbitraries.strings().ofMaxLength(8))
             .setExp(Student::gender, Arbitraries.of(*Gender.entries.toTypedArray()))
