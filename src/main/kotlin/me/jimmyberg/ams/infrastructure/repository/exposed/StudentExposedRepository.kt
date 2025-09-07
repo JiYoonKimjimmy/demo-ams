@@ -4,6 +4,7 @@ import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.ResourceNotFoundException
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
+import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentQuery
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
 import org.jetbrains.exposed.sql.Op
 import org.springframework.stereotype.Repository
@@ -11,20 +12,20 @@ import org.springframework.stereotype.Repository
 @Repository
 class StudentExposedRepository {
 
-    fun save(domain: Student): StudentEntity {
+    fun save(student: Student): StudentEntity {
         return StudentEntity.new {
-            name = domain.name
-            nameLabel = domain.nameLabel?.toString()
-            phone = domain.phone
-            birth = domain.birth
-            gender = domain.gender
-            zipCode = domain.address?.zipCode
-            baseAddress = domain.address?.baseAddress
-            detailAddress = domain.address?.detailAddress
-            schoolName = domain.school?.schoolName
-            schoolType = domain.school?.schoolType
-            grade = domain.school?.grade
-            status = domain.status
+            name = student.name
+            nameLabel = student.nameLabel?.toString()
+            phone = student.phone
+            birth = student.birth
+            gender = student.gender
+            zipCode = student.address?.zipCode
+            baseAddress = student.address?.baseAddress
+            detailAddress = student.address?.detailAddress
+            schoolName = student.school?.schoolName
+            schoolType = student.school?.schoolType
+            grade = student.school?.grade
+            status = student.status
         }
     }
 
@@ -32,22 +33,22 @@ class StudentExposedRepository {
         return StudentEntity.findById(id)
     }
 
-    fun findByPredicate(predicate: StudentPredicate): StudentEntity? {
-        return StudentEntity.find(predicate.conditions()).singleOrNull()
+    fun findBy(query: StudentQuery): StudentEntity? {
+        return StudentEntity.find(query.conditions()).singleOrNull()
     }
 
-    fun findAllByPredicate(predicate: StudentPredicate): List<StudentEntity> {
-        return StudentEntity.find(predicate.conditions()).toList()
+    fun findAllBy(query: StudentQuery): List<StudentEntity> {
+        return StudentEntity.find(query.conditions()).toList()
     }
 
-    fun scrollByPredicate(predicate: StudentPredicate): Pair<List<StudentEntity>, Boolean> {
-        val pageable = predicate.pageable
+    fun scrollBy(query: StudentQuery): Pair<List<StudentEntity>, Boolean> {
+        val pageable = query.pageable
         val sortOrder = when (pageable.sortBy) {
             "id" -> StudentTable.id
             else -> StudentTable.id
         }
 
-        val entities = StudentEntity.find(predicate.conditions(Op.TRUE))
+        val entities = StudentEntity.find(query.conditions(Op.TRUE))
             .orderBy(sortOrder to pageable.sortOrder)
             .limit(pageable.size + 1)
             .offset(pageable.offset)

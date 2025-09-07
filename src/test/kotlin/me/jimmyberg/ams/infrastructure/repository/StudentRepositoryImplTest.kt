@@ -3,9 +3,9 @@ package me.jimmyberg.ams.infrastructure.repository
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import me.jimmyberg.ams.domain.model.Student
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
 import org.jetbrains.exposed.sql.transactions.transaction

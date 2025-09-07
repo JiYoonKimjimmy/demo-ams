@@ -2,8 +2,8 @@ package me.jimmyberg.ams.infrastructure.repository
 
 import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import java.util.concurrent.atomic.AtomicLong
 
 class FakeStudentRepositoryImpl : StudentRepository {
@@ -27,17 +27,13 @@ class FakeStudentRepositoryImpl : StudentRepository {
         return students.values.find { matchesPredicate(it, predicate) }
     }
 
-    override fun findAllByPredicate(
-        predicate: StudentPredicate
-    ): List<Student> {
+    override fun findAllByPredicate(predicate: StudentPredicate): List<Student> {
         return students.values.filter { matchesPredicate(it, predicate) }
             .drop(predicate.pageable.offset.toInt())
             .take(predicate.pageable.size)
     }
 
-    override fun scrollByPredicate(
-        predicate: StudentPredicate
-    ): ScrollResult<Student> {
+    override fun scrollByPredicate(predicate: StudentPredicate): ScrollResult<Student> {
         val filtered = students.values.filter { matchesPredicate(it, predicate) }
         val pageable = predicate.pageable
         val paged = filtered.drop(pageable.offset.toInt()).take(pageable.size + 1)

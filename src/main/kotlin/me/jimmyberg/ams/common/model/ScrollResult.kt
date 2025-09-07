@@ -8,6 +8,17 @@ data class ScrollResult<R>(
 ) {
 
     companion object {
+        fun <E, R> of(pair: Pair<List<E>, Boolean>, mapper: (E) -> R): ScrollResult<R> {
+            val content = pair.first
+            val hasNext = pair.second
+            return ScrollResult(
+                content = content.map(transform = mapper),
+                size = content.size,
+                isEmpty = content.isEmpty(),
+                hasNext = hasNext,
+            )
+        }
+
         fun <T, R> from(result: ScrollResult<T>, mapper: (T) -> R): ScrollResult<R> {
             return ScrollResult(
                 content = result.content.map(mapper),

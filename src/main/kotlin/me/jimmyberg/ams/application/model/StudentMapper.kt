@@ -1,13 +1,13 @@
 package me.jimmyberg.ams.application.model
 
-import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.common.EMPTY
 import me.jimmyberg.ams.common.enumerate.ActivationStatus
+import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.domain.model.predicate.SchoolPredicate
+import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate.SchoolPredicate
-import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.presentation.dto.StudentDTO
 import org.springframework.stereotype.Component
 

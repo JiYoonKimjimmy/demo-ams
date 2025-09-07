@@ -2,10 +2,10 @@ package me.jimmyberg.ams.domain.service
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import me.jimmyberg.ams.domain.model.School
 import me.jimmyberg.ams.common.enumerate.SchoolType
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate.SchoolPredicate
+import me.jimmyberg.ams.domain.model.School
+import me.jimmyberg.ams.domain.model.predicate.SchoolPredicate
+import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 
 class StudentFindServiceImplTest : CustomBehaviorSpec({

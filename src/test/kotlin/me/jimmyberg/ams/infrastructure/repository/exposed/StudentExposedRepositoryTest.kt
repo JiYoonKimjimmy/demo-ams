@@ -3,10 +3,11 @@ package me.jimmyberg.ams.infrastructure.repository.exposed
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.common.enumerate.Gender
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
 import me.jimmyberg.ams.common.model.PageableRequest
+import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
+import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentQuery
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -56,10 +57,10 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 컬럼 조건 없이 DB 조회 결과 'null' 성공 정상 확인한다" {
         transaction {
             // given
-            val predicate = StudentPredicate()
+            val predicate = StudentQuery()
 
             // when
-            val result = studentExposedRepository.findByPredicate(predicate)
+            val result = studentExposedRepository.findBy(predicate)
 
             // then
             result shouldBe null
@@ -69,10 +70,10 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 'name', 'phone', 'birth' 컬럼 조건 DB 조회 성공 정상 확인한다" {
         transaction {
             // given
-            val predicate = StudentPredicate(name = saved.name, phone = saved.phone, birth = saved.birth)
+            val predicate = StudentQuery(name = saved.name, phone = saved.phone, birth = saved.birth)
 
             // when
-            val result = studentExposedRepository.findByPredicate(predicate)
+            val result = studentExposedRepository.findBy(predicate)
 
             // then
             result!! shouldNotBe null
@@ -124,10 +125,10 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 scroll 조회 성공 정상 확인한다" {
         transaction {
             // given
-            val predicate = StudentPredicate(pageable = PageableRequest())
+            val predicate = StudentQuery(pageable = PageableRequest())
 
             // when
-            val result = studentExposedRepository.scrollByPredicate(predicate)
+            val result = studentExposedRepository.scrollBy(predicate)
 
             // then
             result.first.shouldNotBeEmpty()

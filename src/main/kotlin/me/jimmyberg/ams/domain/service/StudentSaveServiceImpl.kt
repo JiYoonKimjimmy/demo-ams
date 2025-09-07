@@ -1,11 +1,11 @@
 package me.jimmyberg.ams.domain.service
 
 import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.domain.port.inbound.StudentSaveService
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
 import me.jimmyberg.ams.infrastructure.error.ErrorCode
 import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentPredicate
 import org.springframework.stereotype.Service
 
 @Service
@@ -34,7 +34,7 @@ class StudentSaveServiceImpl(
 
     private fun Student.assignNextNameLabel(): Student {
         val lastNameLabel = studentRepository
-            .findAllByPredicate(StudentPredicate(name = name))
+            .findAllByPredicate(predicate = StudentPredicate(name = name))
             .maxOfOrNull { it.nameLabel ?: 1 }
 
         return copy(nameLabel = lastNameLabel?.inc())
