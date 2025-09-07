@@ -26,15 +26,13 @@ class StudentRepositoryImpl(
     }
 
     override fun scrollByPredicate(predicate: StudentPredicate): ScrollResult<Student> {
-        return studentExposedRepository.scrollByPredicate(predicate)
-            .let {
-                ScrollResult(
-                    content = it.first.map(transform = StudentEntity::toDomain),
-                    size = it.first.size,
-                    isEmpty = it.first.isEmpty(),
-                    hasNext = it.second,
-                )
-            }
+        val (content, hasNext) = studentExposedRepository.scrollByPredicate(predicate)
+        return ScrollResult(
+            content = content.map(transform = StudentEntity::toDomain),
+            size = content.size,
+            isEmpty = content.isEmpty(),
+            hasNext = hasNext,
+        )
     }
 
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
