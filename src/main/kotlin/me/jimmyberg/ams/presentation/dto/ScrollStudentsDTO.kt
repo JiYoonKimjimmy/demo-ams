@@ -2,7 +2,7 @@ package me.jimmyberg.ams.presentation.dto
 
 import me.jimmyberg.ams.common.model.BaseResponse
 import me.jimmyberg.ams.common.model.PageableRequest
-import me.jimmyberg.ams.common.model.ScrollPageable
+import me.jimmyberg.ams.common.model.PageableResponse
 import me.jimmyberg.ams.common.model.ScrollResult
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,12 +13,12 @@ data class ScrollStudentsRequest(
 )
 
 data class ScrollStudentsResponse(
-    val pageable: ScrollPageable,
+    val pageable: PageableResponse,
     val content: List<StudentDTO>
 ) : BaseResponse<ScrollStudentsResponse>() {
 
     constructor(scrollResult: ScrollResult<StudentDTO>): this(
-        pageable = ScrollPageable.from(scrollResult),
+        pageable = PageableResponse.from(scrollResult),
         content = scrollResult.content
     )
 
