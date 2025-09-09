@@ -3,27 +3,23 @@ package me.jimmyberg.ams.testsupport
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
-import me.jimmyberg.ams.v1.student.repository.FakeStudentRepositoryImpl
-import me.jimmyberg.ams.v1.student.repository.StudentExposedRepository
-import me.jimmyberg.ams.v1.student.repository.StudentRepositoryImpl
-import me.jimmyberg.ams.v1.student.service.FindStudentServiceImpl
-import me.jimmyberg.ams.v1.student.service.SaveStudentServiceImpl
-import me.jimmyberg.ams.v1.student.service.domain.StudentFixture
-import me.jimmyberg.ams.v1.student.service.domain.StudentMapper
+import me.jimmyberg.ams.domain.model.StudentFixture
+import me.jimmyberg.ams.domain.service.StudentFindServiceImpl
+import me.jimmyberg.ams.domain.service.StudentSaveServiceImpl
+import me.jimmyberg.ams.infrastructure.repository.FakeStudentRepositoryImpl
+import me.jimmyberg.ams.infrastructure.repository.StudentRepositoryImpl
+import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
 
 object TestDependencies {
 
-    // mapper
-    val studentMapper = StudentMapper()
-
     // repository
     val studentExposedRepository = StudentExposedRepository()
-    val studentRepository = StudentRepositoryImpl(studentMapper, studentExposedRepository)
+    val studentRepository = StudentRepositoryImpl(studentExposedRepository)
     val fakeStudentRepository = FakeStudentRepositoryImpl()
 
     // service
-    val saveStudentService = SaveStudentServiceImpl(fakeStudentRepository)
-    val findStudentService = FindStudentServiceImpl(fakeStudentRepository)
+    val studentSaveService = StudentSaveServiceImpl(fakeStudentRepository)
+    val studentFindService = StudentFindServiceImpl(fakeStudentRepository)
 
     // fixture
     val studentFixture = StudentFixture()

@@ -1,24 +1,33 @@
 package me.jimmyberg.ams.common.model
 
 import me.jimmyberg.ams.common.enumerate.Result
-import me.jimmyberg.ams.infra.error.ErrorCode
-import me.jimmyberg.ams.infra.error.FeatureCode
+import me.jimmyberg.ams.infrastructure.error.ErrorCode
+import me.jimmyberg.ams.infrastructure.error.FeatureCode
 
 data class BaseResult(
-    val result: Result = Result.SUCCESS,
+    val status: Result = Result.SUCCESS,
     val code: String? = null,
-    var message: String? = null
+    val message: String? = null
 ) {
 
-    constructor(featureCode: FeatureCode, errorCode: ErrorCode): this(
-        result = Result.FAILED,
+    constructor(featureCode: FeatureCode, errorCode: ErrorCode, detailMessage: String? = null): this(
+        status = Result.FAILED,
         code = "${featureCode.code}_${errorCode.code}",
-        message = "${featureCode.message} is failed: ${errorCode.message}."
+        message = buildFailureMessage(featureCode, errorCode, detailMessage)
     )
 
-    fun append(message: String?): BaseResult {
-        this.message += message?.let { " $message." }
-        return this
+    private companion object {
+        fun buildFailureMessage(featureCode: FeatureCode, errorCode: ErrorCode, detailMessage: String?): String =
+            buildString {
+                append(featureCode.message)
+                append(" is failed: ")
+                append(errorCode.message)
+                append(".")
+                if (detailMessage != null) {
+                    append(" ")
+                    append(detailMessage)
+                    append(".")
+                }
+            }
     }
-
 }

@@ -1,3 +1,7 @@
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     val kotlinVersion = "2.1.10"
     kotlin("jvm") version kotlinVersion
@@ -6,6 +10,7 @@ plugins {
 
     val springBootVersion = "3.4.4"
     id("org.springframework.boot") version springBootVersion
+    id("org.asciidoctor.jvm.convert") version "3.3.2"
 
     `java-test-fixtures`
 }
@@ -19,6 +24,10 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
 
+val snippetsDir: File by extra { file("build/generated-snippets") }
+
+val asciidoctorExt: Configuration by configurations.creating
+
 repositories {
     mavenCentral()
 }
@@ -26,7 +35,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
@@ -36,9 +45,14 @@ dependencies {
 
     // exposed
     implementation(libs.exposed.spring.boot.starter)
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.dao)
+    implementation(libs.exposed.kotlin.datetime)
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.14.0")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
@@ -55,15 +69,34 @@ dependencies {
     testFixturesImplementation(libs.fixture.monkey.kotest)
     testFixturesImplementation(libs.fixture.monkey.jackson)
     testFixturesImplementation(libs.fixture.monkey.jakarta.validation)
+
+    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
 
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    outputs.dir(snippetsDir)
+    finalizedBy(tasks.named("asciidoctor"))
+}
+
+tasks.withType<AsciidoctorTask> {
+    inputs.dir(snippetsDir)
+    configurations(asciidoctorExt.name)
+    dependsOn(tasks.withType<Test>())
+}
+
+val asciidoctorTask = tasks.named<AsciidoctorTask>("asciidoctor")
+
+tasks.withType<BootJar> {
+    dependsOn(asciidoctorTask)
+    from(asciidoctorTask.get().outputDir) {
+        into("static/docs")
+    }
 }
