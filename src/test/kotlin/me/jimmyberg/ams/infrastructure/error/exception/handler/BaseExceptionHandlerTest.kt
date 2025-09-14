@@ -1,11 +1,12 @@
 package me.jimmyberg.ams.infrastructure.error.exception.handler
 
 import io.kotest.matchers.shouldBe
-import me.jimmyberg.ams.infrastructure.error.ErrorCode
-import me.jimmyberg.ams.infrastructure.error.ErrorResponse
-import me.jimmyberg.ams.infrastructure.error.FeatureCode
-import me.jimmyberg.ams.infrastructure.error.exception.BaseException
-import me.jimmyberg.ams.infrastructure.error.exception.ResourceNotFoundException
+import me.jimmyberg.ams.common.error.ErrorCode
+import me.jimmyberg.ams.common.error.ErrorResponse
+import me.jimmyberg.ams.common.error.FeatureCode
+import me.jimmyberg.ams.common.error.exception.BaseException
+import me.jimmyberg.ams.common.error.exception.ResourceNotFoundException
+import me.jimmyberg.ams.common.error.exception.handler.BaseExceptionHandler
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity

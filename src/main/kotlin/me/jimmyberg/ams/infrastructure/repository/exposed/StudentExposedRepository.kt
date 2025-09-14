@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.infrastructure.repository.exposed
 
 import me.jimmyberg.ams.domain.model.Student
-import me.jimmyberg.ams.infrastructure.error.ErrorCode
-import me.jimmyberg.ams.infrastructure.error.exception.ResourceNotFoundException
+import me.jimmyberg.ams.common.error.ErrorCode
+import me.jimmyberg.ams.common.error.exception.ResourceNotFoundException
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentQuery
 import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable

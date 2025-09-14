@@ -4,8 +4,8 @@ import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.domain.port.inbound.StudentSaveService
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
-import me.jimmyberg.ams.infrastructure.error.ErrorCode
-import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
+import me.jimmyberg.ams.common.error.ErrorCode
+import me.jimmyberg.ams.common.error.exception.InvalidRequestException
 import org.springframework.stereotype.Service
 
 @Service

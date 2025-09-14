@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.infrastructure.error
+package me.jimmyberg.ams.common.error
 
 import me.jimmyberg.ams.common.model.BaseResult
 import org.springframework.http.ResponseEntity

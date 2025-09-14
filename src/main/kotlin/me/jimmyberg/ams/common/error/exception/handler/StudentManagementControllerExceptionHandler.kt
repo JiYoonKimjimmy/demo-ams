@@ -1,6 +1,6 @@
-package me.jimmyberg.ams.infrastructure.error.exception.handler
+package me.jimmyberg.ams.common.error.exception.handler
 
-import me.jimmyberg.ams.infrastructure.error.FeatureCode
+import me.jimmyberg.ams.common.error.FeatureCode
 import me.jimmyberg.ams.presentation.port.inbound.StudentManagementController
 import org.springframework.core.annotation.Order
 import org.springframework.web.bind.annotation.RestControllerAdvice

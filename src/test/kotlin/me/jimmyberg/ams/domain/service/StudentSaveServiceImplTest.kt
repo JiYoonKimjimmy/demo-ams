@@ -3,7 +3,7 @@ package me.jimmyberg.ams.domain.service
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import me.jimmyberg.ams.common.enumerate.ActivationStatus.REGISTER_WAITING
-import me.jimmyberg.ams.infrastructure.error.exception.InvalidRequestException
+import me.jimmyberg.ams.common.error.exception.InvalidRequestException
 import me.jimmyberg.ams.testsupport.kotest.CustomBehaviorSpec
 
 class StudentSaveServiceImplTest : CustomBehaviorSpec({

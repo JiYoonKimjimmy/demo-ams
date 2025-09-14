@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.infrastructure.error
+package me.jimmyberg.ams.common.error
 
 enum class FeatureCode(
     val code: String,

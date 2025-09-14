@@ -1,8 +1,8 @@
 package me.jimmyberg.ams.common.model
 
 import me.jimmyberg.ams.common.enumerate.Result
-import me.jimmyberg.ams.infrastructure.error.ErrorCode
-import me.jimmyberg.ams.infrastructure.error.FeatureCode
+import me.jimmyberg.ams.common.error.ErrorCode
+import me.jimmyberg.ams.common.error.FeatureCode
 
 data class BaseResult(
     val status: Result = Result.SUCCESS,

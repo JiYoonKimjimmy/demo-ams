@@ -1,9 +1,9 @@
-package me.jimmyberg.ams.infrastructure.error.exception.handler
+package me.jimmyberg.ams.common.error.exception.handler
 
-import me.jimmyberg.ams.infrastructure.error.ErrorCode
-import me.jimmyberg.ams.infrastructure.error.ErrorResponse
-import me.jimmyberg.ams.infrastructure.error.FeatureCode
-import me.jimmyberg.ams.infrastructure.error.exception.BaseException
+import me.jimmyberg.ams.common.error.ErrorCode
+import me.jimmyberg.ams.common.error.ErrorResponse
+import me.jimmyberg.ams.common.error.FeatureCode
+import me.jimmyberg.ams.common.error.exception.BaseException
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
