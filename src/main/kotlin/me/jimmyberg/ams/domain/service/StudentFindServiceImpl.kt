@@ -2,12 +2,12 @@ package me.jimmyberg.ams.domain.service
 
 import me.jimmyberg.ams.common.error.ErrorCode
 import me.jimmyberg.ams.common.error.exception.ResourceNotFoundException
-import org.springframework.stereotype.Service
 import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.domain.port.inbound.StudentFindService
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
+import org.springframework.stereotype.Service
 
 @Service
 class StudentFindServiceImpl(

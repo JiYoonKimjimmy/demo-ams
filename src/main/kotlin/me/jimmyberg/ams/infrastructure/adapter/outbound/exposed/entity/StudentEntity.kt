@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.infrastructure.repository.exposed.entity
+package me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity
 
 import me.jimmyberg.ams.domain.model.Address
 import me.jimmyberg.ams.domain.model.School

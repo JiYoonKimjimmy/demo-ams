@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.presentation.controller
+package me.jimmyberg.ams.presentation.adapter.inbound
 
 import me.jimmyberg.ams.common.EMPTY
 import me.jimmyberg.ams.common.enumerate.Gender

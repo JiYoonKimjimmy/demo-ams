@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.infrastructure.repository.exposed.entity
+package me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity
 
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass

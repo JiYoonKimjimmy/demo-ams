@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.common.error.exception.handler
+package me.jimmyberg.ams.presentation.error.exception.handler
 
 import me.jimmyberg.ams.common.error.ErrorCode
 import me.jimmyberg.ams.common.error.ErrorResponse
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
-class BaseExceptionHandler(
+open class BaseExceptionHandler(
     private val featureCode: FeatureCode = FeatureCode.UNKNOWN
 ) {
     // logger
@@ -50,3 +50,4 @@ class BaseExceptionHandler(
     }
 
 }
+

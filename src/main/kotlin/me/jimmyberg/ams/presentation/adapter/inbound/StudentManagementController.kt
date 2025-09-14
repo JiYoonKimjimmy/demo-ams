@@ -2,13 +2,7 @@ package me.jimmyberg.ams.presentation.adapter.inbound
 
 import jakarta.validation.Valid
 import me.jimmyberg.ams.application.usecase.StudentManagementUseCase
-import me.jimmyberg.ams.presentation.dto.CreateStudentRequest
-import me.jimmyberg.ams.presentation.dto.CreateStudentResponse
-import me.jimmyberg.ams.presentation.dto.FindStudentResponse
-import me.jimmyberg.ams.presentation.dto.ScrollStudentsRequest
-import me.jimmyberg.ams.presentation.dto.ScrollStudentsResponse
-import me.jimmyberg.ams.presentation.dto.UpdateStudentRequest
-import me.jimmyberg.ams.presentation.dto.UpdateStudentResponse
+import me.jimmyberg.ams.presentation.dto.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

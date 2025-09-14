@@ -1,12 +1,12 @@
-package me.jimmyberg.ams.infrastructure.repository
+package me.jimmyberg.ams.infrastructure.adapter.outbound
 
 import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentQuery
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.StudentExposedRepository
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentEntity
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentQuery
 import org.springframework.stereotype.Repository
 
 @Repository

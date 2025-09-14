@@ -2,9 +2,9 @@ package me.jimmyberg.ams.testsupport.config
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.ParentTable
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentParentTable
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.ParentTable
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentParentTable
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction

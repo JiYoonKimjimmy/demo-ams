@@ -6,9 +6,9 @@ import com.fasterxml.jackson.module.kotlin.kotlinModule
 import me.jimmyberg.ams.domain.model.StudentFixture
 import me.jimmyberg.ams.domain.service.StudentFindServiceImpl
 import me.jimmyberg.ams.domain.service.StudentSaveServiceImpl
-import me.jimmyberg.ams.infrastructure.repository.FakeStudentRepositoryImpl
-import me.jimmyberg.ams.infrastructure.repository.StudentRepositoryImpl
-import me.jimmyberg.ams.infrastructure.repository.exposed.StudentExposedRepository
+import me.jimmyberg.ams.infrastructure.adapter.outbound.FakeStudentRepositoryImpl
+import me.jimmyberg.ams.infrastructure.adapter.outbound.StudentRepositoryImpl
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.StudentExposedRepository
 
 object TestDependencies {
 

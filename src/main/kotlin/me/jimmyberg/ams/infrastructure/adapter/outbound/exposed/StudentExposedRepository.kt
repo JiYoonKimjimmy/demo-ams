@@ -1,11 +1,11 @@
-package me.jimmyberg.ams.infrastructure.repository.exposed
+package me.jimmyberg.ams.infrastructure.adapter.outbound.exposed
 
-import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.common.error.ErrorCode
 import me.jimmyberg.ams.common.error.exception.ResourceNotFoundException
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentEntity
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentQuery
-import me.jimmyberg.ams.infrastructure.repository.exposed.entity.StudentTable
+import me.jimmyberg.ams.domain.model.Student
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentEntity
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentQuery
+import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentTable
 import org.jetbrains.exposed.sql.Op
 import org.springframework.stereotype.Repository
 

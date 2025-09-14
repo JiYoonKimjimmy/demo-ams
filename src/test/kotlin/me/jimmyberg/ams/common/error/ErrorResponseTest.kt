@@ -1,9 +1,6 @@
-package me.jimmyberg.ams.infrastructure.error
+package me.jimmyberg.ams.common.error
 
 import io.kotest.matchers.shouldBe
-import me.jimmyberg.ams.common.error.ErrorCode
-import me.jimmyberg.ams.common.error.ErrorResponse
-import me.jimmyberg.ams.common.error.FeatureCode
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import org.springframework.http.HttpStatusCode
 

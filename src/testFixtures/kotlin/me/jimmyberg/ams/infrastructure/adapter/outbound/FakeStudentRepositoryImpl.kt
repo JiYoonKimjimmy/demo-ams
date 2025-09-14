@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.infrastructure.repository
+package me.jimmyberg.ams.infrastructure.adapter.outbound
 
 import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.model.Student

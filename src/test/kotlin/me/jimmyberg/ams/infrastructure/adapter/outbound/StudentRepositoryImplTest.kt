@@ -1,4 +1,4 @@
-package me.jimmyberg.ams.infrastructure.repository
+package me.jimmyberg.ams.infrastructure.adapter.outbound
 
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
