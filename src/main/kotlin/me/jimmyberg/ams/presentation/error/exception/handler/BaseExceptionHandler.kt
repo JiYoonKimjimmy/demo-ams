@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
-open class BaseExceptionHandler(
+class BaseExceptionHandler(
     private val featureCode: FeatureCode = FeatureCode.UNKNOWN
 ) {
     // logger
