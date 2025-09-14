@@ -1,12 +1,13 @@
 package me.jimmyberg.ams.domain.service
 
-import jakarta.persistence.EntityNotFoundException
+import me.jimmyberg.ams.common.error.ErrorCode
+import me.jimmyberg.ams.common.error.exception.ResourceNotFoundException
+import org.springframework.stereotype.Service
 import me.jimmyberg.ams.common.model.ScrollResult
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.domain.model.predicate.StudentPredicate
 import me.jimmyberg.ams.domain.port.inbound.StudentFindService
 import me.jimmyberg.ams.domain.port.outbound.StudentRepository
-import org.springframework.stereotype.Service
 
 @Service
 class StudentFindServiceImpl(
@@ -15,7 +16,7 @@ class StudentFindServiceImpl(
 
     override fun findOne(predicate: StudentPredicate): Student {
         return studentRepository.findByPredicate(predicate)
-            ?: throw EntityNotFoundException("Student not found")
+            ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
     }
 
     override fun scroll(predicate: StudentPredicate): ScrollResult<Student> {
