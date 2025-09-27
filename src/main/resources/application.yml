@@ -3,7 +3,7 @@ spring:
     active: local-h2
   threads:
     virtual:
-      enabled: true
+      enabled: false
 
 ---
 

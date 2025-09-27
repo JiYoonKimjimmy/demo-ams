@@ -6,7 +6,6 @@ plugins {
     val kotlinVersion = "2.1.10"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.jpa") version kotlinVersion
 
     val springBootVersion = "3.4.4"
     id("org.springframework.boot") version springBootVersion
@@ -34,12 +33,17 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
+    implementation("io.projectreactor:reactor-core")
 
     runtimeOnly("com.h2database:h2")
 
