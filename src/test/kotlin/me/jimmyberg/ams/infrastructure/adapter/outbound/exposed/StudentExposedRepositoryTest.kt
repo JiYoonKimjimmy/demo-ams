@@ -6,7 +6,6 @@ import io.kotest.matchers.shouldNotBe
 import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.model.PageableRequest
 import me.jimmyberg.ams.domain.model.Student
-import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentEntity
 import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentQuery
 import me.jimmyberg.ams.testsupport.kotest.CustomStringSpec
 import me.jimmyberg.ams.testsupport.kotest.listener.H2DatasourceTestListener
@@ -19,7 +18,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     val studentExposedRepository = dependencies.studentExposedRepository
     val studentFixture = dependencies.studentFixture
 
-    lateinit var saved: StudentEntity
+    lateinit var saved: Student
 
     beforeSpec {
         val student = studentFixture.make()
@@ -43,7 +42,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 'id' 컬럼 조건 DB 조회 성공 정상 확인한다" {
         transaction {
             // given
-            val studentId = saved.id.value
+            val studentId = saved.id!!
 
             // when
             val result = studentExposedRepository.findById(studentId)
@@ -88,7 +87,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
         transaction {
             // given
             val student = Student(
-                id = saved.id.value,
+                id = saved.id,
                 name = saved.name,
                 phone = saved.phone,
                 birth = saved.birth,
@@ -112,7 +111,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
         transaction {
             // given
             val student = studentExposedRepository.save(studentFixture.make())
-            val studentId = student.id.value
+            val studentId = student.id!!
 
             // when
             studentExposedRepository.delete(studentId)
