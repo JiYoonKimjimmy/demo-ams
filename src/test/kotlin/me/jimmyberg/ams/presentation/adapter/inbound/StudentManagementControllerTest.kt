@@ -5,7 +5,7 @@ import me.jimmyberg.ams.common.enumerate.Gender
 import me.jimmyberg.ams.common.enumerate.SchoolType
 import me.jimmyberg.ams.presentation.dto.CreateStudentRequest
 import me.jimmyberg.ams.presentation.dto.StudentDTOFixture
-import me.jimmyberg.ams.testsupport.annotation.CustomSpringBootTest
+import me.jimmyberg.ams.testsupport.annotation.CustomMockMvcTest
 import me.jimmyberg.ams.testsupport.restdocs.RestDocsBehaviorSpec
 import org.hamcrest.Matchers
 import org.springframework.http.MediaType
@@ -16,13 +16,12 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.request
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 
-@CustomSpringBootTest
+@CustomMockMvcTest
 class StudentManagementControllerTest(
     webApplicationContext: WebApplicationContext
 ) : RestDocsBehaviorSpec(webApplicationContext) {
