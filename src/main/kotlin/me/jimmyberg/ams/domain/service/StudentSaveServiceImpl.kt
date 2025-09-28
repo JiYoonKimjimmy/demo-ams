@@ -21,22 +21,15 @@ class StudentSaveServiceImpl(
     }
 
     private fun Student.validateStudent(): Student {
-        if (isExistSameStudentInfo()) {
+        if (studentRepository.isExistByNameAndPhoneAndBirth(name, phone, birth)) {
+            // 동일한 학생 `name`, `phone`, `birth` 이미 등록 여부 확인
             throw InvalidRequestException(ErrorCode.STUDENT_INFO_DUPLICATED)
         }
         return this
     }
 
-    private fun Student.isExistSameStudentInfo(): Boolean {
-        // 동일한 학생 `name`, `phone`, `birth` 이미 등록 여부 확인
-        return studentRepository.isExistByNameAndPhoneAndBirth(this.name, this.phone, this.birth)
-    }
-
     private fun Student.assignNextNameLabel(): Student {
-        val lastNameLabel = studentRepository
-            .findAllByPredicate(predicate = StudentPredicate(name = name))
-            .maxOfOrNull { it.nameLabel ?: 1 }
-
+        val lastNameLabel = studentRepository.findMaxNameLabelByName(name)
         return copy(nameLabel = lastNameLabel?.inc())
     }
 

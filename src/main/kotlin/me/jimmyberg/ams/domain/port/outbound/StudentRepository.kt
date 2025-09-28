@@ -16,4 +16,6 @@ interface StudentRepository {
 
     fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean
 
+    fun findMaxNameLabelByName(name: String): Int?
+
 }

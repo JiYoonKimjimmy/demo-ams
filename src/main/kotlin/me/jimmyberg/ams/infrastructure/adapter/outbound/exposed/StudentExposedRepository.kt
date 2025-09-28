@@ -92,6 +92,23 @@ class StudentExposedRepository {
             .map { it.toDomain() }
     }
 
+    fun existsByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
+        return StudentTable
+            .selectAll()
+            .andWhere { (StudentTable.name eq name) and (StudentTable.phone eq phone) and (StudentTable.birth eq birth) }
+            .limit(1)
+            .empty()
+            .not()
+    }
+
+    fun findMaxNameLabelByName(name: String): Int? {
+        return StudentTable
+            .selectAll()
+            .andWhere { StudentTable.name eq name }
+            .mapNotNull { it[StudentTable.nameLabel]?.toIntOrNull() ?: 1 }
+            .maxOrNull()
+    }
+
     fun update(domain: Student): Student {
         val id = domain.id ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
         val updated = StudentTable.update({ StudentTable.id eq id }) {

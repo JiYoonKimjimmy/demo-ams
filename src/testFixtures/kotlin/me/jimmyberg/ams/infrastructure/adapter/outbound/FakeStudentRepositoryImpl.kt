@@ -55,6 +55,13 @@ class FakeStudentRepositoryImpl : StudentRepository {
         return students.values.any { it.name == name && it.phone == phone && it.birth == birth }
     }
 
+    override fun findMaxNameLabelByName(name: String): Int? {
+        return students.values
+            .filter { it.name == name }
+            .map { it.nameLabel ?: 1 }
+            .maxOrNull()
+    }
+
     private fun matchesPredicate(student: Student, predicate: StudentPredicate): Boolean {
         return (predicate.id == null || student.id == predicate.id) &&
                 (predicate.name == null || student.name == predicate.name) &&

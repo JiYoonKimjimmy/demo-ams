@@ -31,7 +31,11 @@ class StudentRepositoryImpl(
     }
 
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
-        return studentExposedRepository.findAllByNameAndPhoneAndBirth(name, phone, birth).isNotEmpty()
+        return studentExposedRepository.existsByNameAndPhoneAndBirth(name, phone, birth)
+    }
+
+    override fun findMaxNameLabelByName(name: String): Int? {
+        return studentExposedRepository.findMaxNameLabelByName(name)
     }
 
 }

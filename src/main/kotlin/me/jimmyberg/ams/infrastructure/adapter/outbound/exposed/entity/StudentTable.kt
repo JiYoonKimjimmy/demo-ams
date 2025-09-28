@@ -22,6 +22,7 @@ object StudentTable : LongIdTable("students") {
     init {
         index("idx_student_name", true, name, nameLabel)
         index("idx_student_name_phone", false, name, phone)
+        index("idx_student_name_phone_birth", false, name, phone, birth)
         index("idx_student_name_school", false, name, schoolName, schoolType, grade)
     }
 }
