@@ -16,6 +16,10 @@ data class Student(
     val status: ActivationStatus = ActivationStatus.REGISTER_WAITING
 ) {
 
+    fun isNew(): Boolean {
+        return id == null || id == 0L
+    }
+
     fun update(dto: StudentDTO): Student {
         return copy(
             name = dto.name ?: name,

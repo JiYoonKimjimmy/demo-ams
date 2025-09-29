@@ -14,7 +14,11 @@ class StudentRepositoryImpl(
 ) : StudentRepository {
 
     override fun save(student: Student): Student {
-        return studentExposedRepository.save(student)
+        return if (student.isNew()) {
+            studentExposedRepository.save(student)
+        } else {
+            studentExposedRepository.update(student)
+        }
     }
 
     override fun findByPredicate(predicate: StudentPredicate): Student? {
@@ -36,6 +40,10 @@ class StudentRepositoryImpl(
 
     override fun findMaxNameLabelByName(name: String): Int? {
         return studentExposedRepository.findMaxNameLabelByName(name)
+    }
+
+    override fun isExistByNameAndPhoneAndBirthExceptId(name: String, phone: String, birth: String, excludeId: Long): Boolean {
+        return studentExposedRepository.existsByNameAndPhoneAndBirthExceptId(name, phone, birth, excludeId)
     }
 
 }

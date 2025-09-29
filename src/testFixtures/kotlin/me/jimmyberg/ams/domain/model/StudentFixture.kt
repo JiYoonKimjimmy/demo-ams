@@ -21,6 +21,7 @@ class StudentFixture {
         status: ActivationStatus = ActivationStatus.REGISTER_WAITING,
     ): Student {
         return fixtureMonkey.giveMeKotlinBuilder<Student>()
+            .setExp(Student::id, null)
             .setExp(Student::name, name)
             .setExp(Student::nameLabel, indexOfName)
             .setExp(Student::phone, phone)
@@ -34,6 +35,7 @@ class StudentFixture {
 
     fun make(): Student {
         return fixtureMonkey.giveMeKotlinBuilder<Student>()
+            .setExp(Student::id, null)
             .setExp(Student::name, Arbitraries.strings().ofMaxLength(128))
             .setExp(Student::phone, Arbitraries.strings().ofMaxLength(32))
             .setExp(Student::birth, Arbitraries.strings().ofMaxLength(8))

@@ -11,13 +11,13 @@ class FakeStudentRepositoryImpl : StudentRepository {
     private val idSequence = AtomicLong(1L)
 
     override fun save(student: Student): Student {
-        val saved = if (student.id == null) {
+        val saved = if (student.isNew()) {
             val newId = idSequence.getAndIncrement()
             val newStudent = student.copy(id = newId)
             students[newId] = newStudent
             newStudent
         } else {
-            students[student.id] = student
+            students[student.id!!] = student
             student
         }
         return saved
@@ -53,6 +53,15 @@ class FakeStudentRepositoryImpl : StudentRepository {
         birth: String
     ): Boolean {
         return students.values.any { it.name == name && it.phone == phone && it.birth == birth }
+    }
+
+    override fun isExistByNameAndPhoneAndBirthExceptId(
+        name: String,
+        phone: String,
+        birth: String,
+        excludeId: Long
+    ): Boolean {
+        return students.values.any { it.id != excludeId && it.name == name && it.phone == phone && it.birth == birth }
     }
 
     override fun findMaxNameLabelByName(name: String): Int? {

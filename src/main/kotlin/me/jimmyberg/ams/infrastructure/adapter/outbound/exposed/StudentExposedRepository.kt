@@ -12,32 +12,18 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.Op
+import org.jetbrains.exposed.sql.statements.UpdateBuilder
 import org.springframework.stereotype.Repository
 
 @Repository
 class StudentExposedRepository {
 
     fun save(student: Student): Student {
-        val insertedId = StudentTable.insert {
-            it[name] = student.name
-            it[nameLabel] = student.nameLabel?.toString()
-            it[phone] = student.phone
-            it[birth] = student.birth
-            it[gender] = student.gender
-            it[zipCode] = student.address?.zipCode
-            it[baseAddress] = student.address?.baseAddress
-            it[detailAddress] = student.address?.detailAddress
-            it[schoolName] = student.school?.schoolName
-            it[schoolType] = student.school?.schoolType
-            it[grade] = student.school?.grade
-            it[status] = student.status
-        }[StudentTable.id].value
-
+        val insertedId = StudentTable.insert { it.mapStudent(student) }[StudentTable.id].value
         return findById(insertedId)!!
     }
 
@@ -85,17 +71,19 @@ class StudentExposedRepository {
         return Pair(result.map { it.toDomain() }, hasNext)
     }
 
-    fun findAllByNameAndPhoneAndBirth(name: String, phone: String, birth: String): List<Student> {
-        return StudentTable
-            .selectAll()
-            .andWhere { (StudentTable.name eq name) and (StudentTable.phone eq phone) and (StudentTable.birth eq birth) }
-            .map { it.toDomain() }
-    }
-
     fun existsByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
         return StudentTable
             .selectAll()
             .andWhere { (StudentTable.name eq name) and (StudentTable.phone eq phone) and (StudentTable.birth eq birth) }
+            .limit(1)
+            .empty()
+            .not()
+    }
+
+    fun existsByNameAndPhoneAndBirthExceptId(name: String, phone: String, birth: String, excludeId: Long): Boolean {
+        return StudentTable
+            .selectAll()
+            .andWhere { (StudentTable.name eq name) and (StudentTable.phone eq phone) and (StudentTable.birth eq birth) and (StudentTable.id neq excludeId) }
             .limit(1)
             .empty()
             .not()
@@ -109,25 +97,25 @@ class StudentExposedRepository {
             .maxOrNull()
     }
 
-    fun update(domain: Student): Student {
-        val id = domain.id ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
-        val updated = StudentTable.update({ StudentTable.id eq id }) {
-            it[name] = domain.name
-            it[nameLabel] = domain.nameLabel?.toString()
-            it[phone] = domain.phone
-            it[birth] = domain.birth
-            it[gender] = domain.gender
-            it[zipCode] = domain.address?.zipCode
-            it[baseAddress] = domain.address?.baseAddress
-            it[detailAddress] = domain.address?.detailAddress
-            it[schoolName] = domain.school?.schoolName
-            it[schoolType] = domain.school?.schoolType
-            it[grade] = domain.school?.grade
-            it[status] = domain.status
-        }
+    fun update(student: Student): Student {
+        val studentId = student.id!!
+        StudentTable.update({ StudentTable.id eq studentId }) { it.mapStudent(student) }
+        return findById(studentId)!!
+    }
 
-        if (updated == 0) throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
-        return findById(id) ?: throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
+    private fun UpdateBuilder<*>.mapStudent(student: Student) {
+        this[StudentTable.name] = student.name
+        this[StudentTable.nameLabel] = student.nameLabel?.toString()
+        this[StudentTable.phone] = student.phone
+        this[StudentTable.birth] = student.birth
+        this[StudentTable.gender] = student.gender
+        this[StudentTable.zipCode] = student.address?.zipCode
+        this[StudentTable.baseAddress] = student.address?.baseAddress
+        this[StudentTable.detailAddress] = student.address?.detailAddress
+        this[StudentTable.schoolName] = student.school?.schoolName
+        this[StudentTable.schoolType] = student.school?.schoolType
+        this[StudentTable.grade] = student.school?.grade
+        this[StudentTable.status] = student.status
     }
 
     fun delete(id: Long) {
