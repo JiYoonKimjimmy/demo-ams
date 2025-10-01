@@ -1,30 +1,33 @@
 package me.jimmyberg.ams.infrastructure.adapter.outbound.exposed
 
 import me.jimmyberg.ams.common.error.ErrorCode
+import me.jimmyberg.ams.common.error.exception.InternalServiceException
 import me.jimmyberg.ams.common.error.exception.ResourceNotFoundException
+import me.jimmyberg.ams.domain.model.Address
+import me.jimmyberg.ams.domain.model.School
 import me.jimmyberg.ams.domain.model.Student
 import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentQuery
 import me.jimmyberg.ams.infrastructure.adapter.outbound.exposed.entity.StudentTable
-import me.jimmyberg.ams.domain.model.Address
-import me.jimmyberg.ams.domain.model.School
-import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
-import org.jetbrains.exposed.sql.andWhere
-import org.jetbrains.exposed.sql.update
-import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
 import org.springframework.stereotype.Repository
 
 @Repository
 class StudentExposedRepository {
 
-    fun save(student: Student): Student {
-        val insertedId = StudentTable.insert { it.mapStudent(student) }[StudentTable.id].value
-        return findById(insertedId)!!
+    fun insert(student: Student): Student {
+        return StudentTable.insert { it.mapStudent(student) }
+            .resultedValues?.singleOrNull()?.toDomain()
+            ?: findById(id = student.id!!)
+            ?: throw InternalServiceException(ErrorCode.STUDENT_SAVE_FAILED)
+    }
+
+    fun update(student: Student): Student {
+        return StudentTable.update(where = { StudentTable.id eq student.id }) { it.mapStudent(student) }
+            .takeIf { it != 0 }
+            ?.let { findById(id = student.id!!) }
+            ?: throw InternalServiceException(ErrorCode.STUDENT_UPDATE_FAILED)
     }
 
     fun findById(id: Long): Student? {
@@ -97,10 +100,9 @@ class StudentExposedRepository {
             .maxOrNull()
     }
 
-    fun update(student: Student): Student {
-        val studentId = student.id!!
-        StudentTable.update({ StudentTable.id eq studentId }) { it.mapStudent(student) }
-        return findById(studentId)!!
+    fun delete(id: Long) {
+        val deleted = StudentTable.deleteWhere { StudentTable.id eq id }
+        if (deleted == 0) throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
     }
 
     private fun UpdateBuilder<*>.mapStudent(student: Student) {
@@ -116,11 +118,6 @@ class StudentExposedRepository {
         this[StudentTable.schoolType] = student.school?.schoolType
         this[StudentTable.grade] = student.school?.grade
         this[StudentTable.status] = student.status
-    }
-
-    fun delete(id: Long) {
-        val deleted = StudentTable.deleteWhere { StudentTable.id eq id }
-        if (deleted == 0) throw ResourceNotFoundException(ErrorCode.STUDENT_NOT_FOUND)
     }
 
     private fun ResultRow.toDomain(): Student {

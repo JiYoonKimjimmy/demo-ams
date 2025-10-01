@@ -22,7 +22,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
 
     beforeSpec {
         val student = studentFixture.make()
-        saved = transaction { studentExposedRepository.save(student) }
+        saved = transaction { studentExposedRepository.insert(student) }
     }
 
     "Student 학생 정보 DB 저장 성공 정상 확인한다" {
@@ -31,7 +31,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
             val student = studentFixture.make()
 
             // when
-            val result = studentExposedRepository.save(student)
+            val result = studentExposedRepository.insert(student)
 
             // then
             result.id shouldNotBe null
@@ -110,7 +110,7 @@ class StudentExposedRepositoryTest : CustomStringSpec({
     "Student 학생 정보 DB 삭제 성공 정상 확인한다" {
         transaction {
             // given
-            val student = studentExposedRepository.save(studentFixture.make())
+            val student = studentExposedRepository.insert(studentFixture.make())
             val studentId = student.id!!
 
             // when

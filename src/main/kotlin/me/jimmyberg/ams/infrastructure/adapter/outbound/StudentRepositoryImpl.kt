@@ -15,7 +15,7 @@ class StudentRepositoryImpl(
 
     override fun save(student: Student): Student {
         return if (student.isNew()) {
-            studentExposedRepository.save(student)
+            studentExposedRepository.insert(student)
         } else {
             studentExposedRepository.update(student)
         }
