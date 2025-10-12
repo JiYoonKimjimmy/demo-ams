@@ -14,10 +14,8 @@ interface StudentRepository {
 
     fun scrollByPredicate(predicate: StudentPredicate): ScrollResult<Student>
 
-    fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean
+    fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String, excludeId: Long? = null): Boolean
 
     fun findMaxNameLabelByName(name: String): Int?
-
-    fun isExistByNameAndPhoneAndBirthExceptId(name: String, phone: String, birth: String, excludeId: Long): Boolean
 
 }

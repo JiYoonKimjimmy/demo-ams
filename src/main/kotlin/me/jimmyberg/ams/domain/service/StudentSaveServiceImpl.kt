@@ -34,7 +34,7 @@ class StudentSaveServiceImpl(
 
     private fun Student.validateOnUpdate(): Student {
         val currentId = id ?: return this
-        if (studentRepository.isExistByNameAndPhoneAndBirthExceptId(name, phone, birth, currentId)) {
+        if (studentRepository.isExistByNameAndPhoneAndBirth(name, phone, birth, excludeId = currentId)) {
             // 동일한 학생 `name`, `phone`, `birth` 이미 등록 여부 확인
             throw InvalidRequestException(ErrorCode.STUDENT_INFO_DUPLICATED)
         }

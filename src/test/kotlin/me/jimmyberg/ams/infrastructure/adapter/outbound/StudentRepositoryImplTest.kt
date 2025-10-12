@@ -55,6 +55,52 @@ class StudentRepositoryImplTest : CustomBehaviorSpec({
                 result shouldBe true
             }
         }
+
+        `when`("excludeId 적용 시 동일 레코드는 제외되어 false 인 경우") {
+            val result = transaction {
+                studentRepository.isExistByNameAndPhoneAndBirth(
+                    name = saved.name,
+                    phone = saved.phone,
+                    birth = saved.birth,
+                    excludeId = saved.id!!
+                )
+            }
+
+            then("'false' 결과 정상 확인한다") {
+                result shouldBe false
+            }
+        }
+
+        `when`("excludeId 가 다른 레코드면 true 인 경우") {
+            val result = transaction {
+                studentRepository.isExistByNameAndPhoneAndBirth(
+                    name = saved.name,
+                    phone = saved.phone,
+                    birth = saved.birth,
+                    excludeId = saved.id!! + 9999L
+                )
+            }
+
+            then("'true' 결과 정상 확인한다") {
+                result shouldBe true
+            }
+        }
+
+        `when`("다른 name/phone/birth 에 excludeId 전달해도 false 인 경우") {
+            val other = studentFixture.make()
+            val result = transaction {
+                studentRepository.isExistByNameAndPhoneAndBirth(
+                    name = other.name,
+                    phone = other.phone,
+                    birth = other.birth,
+                    excludeId = saved.id!! + 9999L
+                )
+            }
+
+            then("'false' 결과 정상 확인한다") {
+                result shouldBe false
+            }
+        }
     }
 
     given("Student 단건 조회 요청하여") {

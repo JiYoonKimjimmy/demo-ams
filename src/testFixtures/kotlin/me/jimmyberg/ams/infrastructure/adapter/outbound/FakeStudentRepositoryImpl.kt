@@ -50,25 +50,16 @@ class FakeStudentRepositoryImpl : StudentRepository {
     override fun isExistByNameAndPhoneAndBirth(
         name: String,
         phone: String,
-        birth: String
-    ): Boolean {
-        return students.values.any { it.name == name && it.phone == phone && it.birth == birth }
-    }
-
-    override fun isExistByNameAndPhoneAndBirthExceptId(
-        name: String,
-        phone: String,
         birth: String,
-        excludeId: Long
+        excludeId: Long?
     ): Boolean {
-        return students.values.any { it.id != excludeId && it.name == name && it.phone == phone && it.birth == birth }
+        return students.values.any { it.name == name && it.phone == phone && it.birth == birth && it.id != excludeId }
     }
 
     override fun findMaxNameLabelByName(name: String): Int? {
         return students.values
             .filter { it.name == name }
-            .map { it.nameLabel ?: 1 }
-            .maxOrNull()
+            .maxOfOrNull { it.nameLabel ?: 1 }
     }
 
     private fun matchesPredicate(student: Student, predicate: StudentPredicate): Boolean {

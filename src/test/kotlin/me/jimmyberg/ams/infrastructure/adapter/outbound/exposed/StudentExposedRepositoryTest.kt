@@ -135,4 +135,18 @@ class StudentExposedRepositoryTest : CustomStringSpec({
         }
     }
 
+    "Student 존재 여부 조회 - 쿼리 수행 성공" {
+        transaction {
+            // when
+            val exists = studentExposedRepository.existsByNameAndPhoneAndBirth(
+                name = saved.name,
+                phone = saved.phone,
+                birth = saved.birth
+            )
+
+            // then
+            exists shouldBe true
+        }
+    }
+
 })

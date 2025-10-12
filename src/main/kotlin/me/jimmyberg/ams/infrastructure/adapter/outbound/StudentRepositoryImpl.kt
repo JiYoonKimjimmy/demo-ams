@@ -34,16 +34,12 @@ class StudentRepositoryImpl(
             .let { ScrollResult.of(pair = it, mapper = { it }) }
     }
 
-    override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
-        return studentExposedRepository.existsByNameAndPhoneAndBirth(name, phone, birth)
+    override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String, excludeId: Long?): Boolean {
+        return studentExposedRepository.existsByNameAndPhoneAndBirth(name, phone, birth, excludeId)
     }
 
     override fun findMaxNameLabelByName(name: String): Int? {
         return studentExposedRepository.findMaxNameLabelByName(name)
-    }
-
-    override fun isExistByNameAndPhoneAndBirthExceptId(name: String, phone: String, birth: String, excludeId: Long): Boolean {
-        return studentExposedRepository.existsByNameAndPhoneAndBirthExceptId(name, phone, birth, excludeId)
     }
 
 }

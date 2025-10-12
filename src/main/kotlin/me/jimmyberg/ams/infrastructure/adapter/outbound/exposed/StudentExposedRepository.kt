@@ -74,19 +74,16 @@ class StudentExposedRepository {
         return Pair(result.map { it.toDomain() }, hasNext)
     }
 
-    fun existsByNameAndPhoneAndBirth(name: String, phone: String, birth: String): Boolean {
+    fun existsByNameAndPhoneAndBirth(name: String, phone: String, birth: String, excludeId: Long? = null): Boolean {
         return StudentTable
             .selectAll()
-            .andWhere { (StudentTable.name eq name) and (StudentTable.phone eq phone) and (StudentTable.birth eq birth) }
-            .limit(1)
-            .empty()
-            .not()
-    }
-
-    fun existsByNameAndPhoneAndBirthExceptId(name: String, phone: String, birth: String, excludeId: Long): Boolean {
-        return StudentTable
-            .selectAll()
-            .andWhere { (StudentTable.name eq name) and (StudentTable.phone eq phone) and (StudentTable.birth eq birth) and (StudentTable.id neq excludeId) }
+            .andWhere {
+                var condition: Op<Boolean> = (StudentTable.name eq name) and (StudentTable.phone eq phone) and (StudentTable.birth eq birth)
+                if (excludeId != null) {
+                    condition = condition and (StudentTable.id neq excludeId)
+                }
+                condition
+            }
             .limit(1)
             .empty()
             .not()
