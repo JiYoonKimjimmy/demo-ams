@@ -13,13 +13,23 @@ class StudentSaveServiceImplTest : CustomBehaviorSpec({
 
     val studentSaveService = dependencies.studentSaveService
 
-    given("학생 정보 저장 요청되어") {
-        val duplicateStudentName = "김중복"
-        val duplicateStudent = studentFixture.make(name = duplicateStudentName)
-        studentSaveService.save(duplicateStudent)
+    given("신규 학생 정보 저장 요청되어") {
+        fun saveStudent(name: String, phone: String, birth: String) =
+            studentSaveService.save(studentFixture.make(name = name, phone = phone, birth = birth))
+
+        val duplicateName = "김중복"
+        val baseName = "김모건"
+        val newName = "NEW_김모아"
+        val phoneDefault = "01012340001"
+        val phoneOther = "01012341234"
+        val birthDefault = "19900309"
 
         `when`("신규 학생 정보 저장 요청이나, 동일한 학생 정보 이미 등록되어 있는 경우") {
-            val duplicateStudent = studentFixture.make(name = duplicateStudentName)
+            // given: 동일한 학생 정보가 이미 저장됨
+            saveStudent(duplicateName, phoneDefault, birthDefault)
+
+            // when: 동일한 정보로 재저장 요청
+            val duplicateStudent = studentFixture.make(name = duplicateName, phone = phoneDefault, birth = birthDefault)
             val exception = shouldThrow<InvalidRequestException> {
                 studentSaveService.save(duplicateStudent)
             }
@@ -29,14 +39,12 @@ class StudentSaveServiceImplTest : CustomBehaviorSpec({
             }
         }
 
-        val name = "김모건"
-        var student = studentFixture.make(name = name)
-        studentSaveService.save(student)
-
         `when`("이미 동일한 'name' 학생 정보 등록인 경우'") {
-            student = studentFixture.make(name = name, phone = "01012341234")
+            // given: 동일한 이름의 학생이 존재
+            saveStudent(baseName, phoneDefault, birthDefault)
 
-            val result = studentSaveService.save(student)
+            // when: 동일 이름으로 신규 저장(중복 아님)
+            val result = saveStudent(baseName, phoneOther, birthDefault)
 
             then("학생 `nameLabel` 정보 '2' 저장 정상 확인한다") {
                 result.name shouldBe "김모건"
@@ -45,9 +53,7 @@ class StudentSaveServiceImplTest : CustomBehaviorSpec({
         }
 
         `when`("신규 학생 정보 등록인 경우") {
-            student = studentFixture.make(name = "NEW_김모아", phone = "01012341234")
-
-            val result = studentSaveService.save(student)
+            val result = saveStudent(newName, phoneOther, birthDefault)
 
             then("학생 정보를 저장 정상 확인한다") {
                 result.name shouldBe "NEW_김모아"
@@ -55,22 +61,39 @@ class StudentSaveServiceImplTest : CustomBehaviorSpec({
                 result.status shouldBe REGISTER_WAITING
             }
         }
+    }
+
+    given("기존 학생 정보 수정 요청되어") {
+        fun saveStudent(name: String, phone: String, birth: String) =
+            studentSaveService.save(studentFixture.make(name = name, phone = phone, birth = birth))
+
+        fun updateAndSave(
+            base: me.jimmyberg.ams.domain.model.Student,
+            name: String? = null,
+            phone: String? = null,
+            birth: String? = null
+        ) = studentSaveService.save(
+            base.copy(
+                name = name ?: base.name,
+                phone = phone ?: base.phone,
+                birth = birth ?: base.birth
+            )
+        )
+
+        val duplicateName = "중복이름"
+        val newName = "새로운이름"
 
         `when`("기존 학생 정보 수정 요청이나, 동일한 학생 정보가 다른 `id` 로 이미 존재하는 경우") {
-            val existing = studentFixture.make(name = "업데이트중복", phone = "01000000001", birth = "19900101")
-            val savedExisting = studentSaveService.save(existing)
-
-            val target = studentFixture.make(name = "다른이름", phone = "01000000002", birth = "19900202")
-            val savedTarget = studentSaveService.save(target)
-
-            val duplicateUpdating = savedTarget.copy(
-                name = savedExisting.name,
-                phone = savedExisting.phone,
-                birth = savedExisting.birth
-            )
+            val savedExisting = saveStudent(duplicateName, "01000000001", "19900101")
+            val savedTarget = saveStudent(newName, "01000000002", "19900202")
 
             val exception = shouldThrow<InvalidRequestException> {
-                studentSaveService.save(duplicateUpdating)
+                updateAndSave(
+                    base = savedTarget,
+                    name = savedExisting.name,
+                    phone = savedExisting.phone,
+                    birth = savedExisting.birth
+                )
             }
 
             then("'STUDENT_INFO_DUPLICATED' 예외 발생 정상 확인한다 (update)") {
@@ -79,34 +102,25 @@ class StudentSaveServiceImplTest : CustomBehaviorSpec({
         }
 
         `when`("기존 학생 정보 수정 요청이며, 동일 정보 중복이 아닌 경우") {
-            val existing = studentFixture.make(name = "업데이트정상", phone = "01010000000", birth = "19990101")
-            val saved = studentSaveService.save(existing)
-
-            val updating = saved.copy(phone = "01020000000")
-
-            val result = studentSaveService.save(updating)
+            val saved = saveStudent(newName, "01010000000", "19990101")
+            val result = updateAndSave(saved, phone = "01020000000")
 
             then("학생 정보 수정 저장 정상 확인한다 (update)") {
                 result.id shouldBe saved.id
-                result.name shouldBe "업데이트정상"
+                result.name shouldBe "새로운이름"
                 result.phone shouldBe "01020000000"
             }
         }
 
         `when`("기존 학생 정보 수정 요청이며, 이미 동일한 'name' 학생 정보 등록인 경우'") {
-            val existingSameName = studentFixture.make(name = "업데이트이름중복", phone = "01030000000", birth = "19930101")
-            val savedSameName = studentSaveService.save(existingSameName)
+            val savedSameName = saveStudent("업데이트이름", "01030000000", "19930101")
+            val savedTarget = saveStudent(newName, "01040000000", "19940101")
 
-            val target = studentFixture.make(name = "업데이트이름대상", phone = "01040000000", birth = "19940101")
-            val savedTarget = studentSaveService.save(target)
-
-            val updatingToSameName = savedTarget.copy(name = savedSameName.name)
-
-            val result = studentSaveService.save(updatingToSameName)
+            val result = updateAndSave(savedTarget, name = savedSameName.name)
 
             then("학생 `nameLabel` 정보 '2' 저장 정상 확인한다") {
                 result.id shouldBe savedTarget.id
-                result.name shouldBe "업데이트이름중복"
+                result.name shouldBe "업데이트이름"
                 result.nameLabel shouldBe 2
             }
         }
