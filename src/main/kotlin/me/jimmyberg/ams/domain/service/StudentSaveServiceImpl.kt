@@ -13,15 +13,18 @@ class StudentSaveServiceImpl(
 ) : StudentSaveService {
 
     override fun save(student: Student): Student {
-        val save = if (student.isNew()) {
-            student.validateOnCreate()
-        } else {
-            student.validateOnUpdate()
-        }
-
-        return save
+        return student
+            .validate()
             .assignNextNameLabel()
             .saveStudent()
+    }
+
+    private fun Student.validate(): Student {
+        if (studentRepository.isExistByNameAndPhoneAndBirth(name = name, phone = phone, birth = birth, excludeId = id)) {
+            // 동일한 학생 `name`, `phone`, `birth` 이미 등록 여부 확인
+            throw InvalidRequestException(ErrorCode.STUDENT_INFO_DUPLICATED)
+        }
+        return this
     }
 
     private fun Student.validateOnCreate(): Student {
