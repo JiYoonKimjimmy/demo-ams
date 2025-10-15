@@ -30,8 +30,8 @@ class StudentRepositoryImpl(
     }
 
     override fun scrollByPredicate(predicate: StudentPredicate): ScrollResult<Student> {
-        return studentExposedRepository.scrollBy(query = StudentQuery.of(predicate))
-            .let { ScrollResult.of(pair = it, mapper = { it }) }
+        val result = studentExposedRepository.scrollBy(query = StudentQuery.of(predicate))
+        return ScrollResult.of(result = result)
     }
 
     override fun isExistByNameAndPhoneAndBirth(name: String, phone: String, birth: String, excludeId: Long?): Boolean {

@@ -32,7 +32,7 @@ class StudentManagementUseCase(
     suspend fun scrollStudents(dto: StudentDTO, pageable: PageableRequest): ScrollResult<StudentDTO> {
         val predicate = studentMapper.dtoToPredicate(dto, pageable)
         val result = tx { studentFindService.scroll(predicate = predicate) }
-        return ScrollResult.from(result = result, mapper = studentMapper::domainToDTO)
+        return result.convert(mapper = studentMapper::domainToDTO)
     }
 
     suspend fun updateStudent(dto: StudentDTO): StudentDTO {

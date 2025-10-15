@@ -1,32 +1,32 @@
 package me.jimmyberg.ams.common.model
 
-data class ScrollResult<R>(
-    val content: List<R>,
+data class ScrollResult<T>(
+    val content: List<T>,
     val size: Int,
     val isEmpty: Boolean,
     val hasNext: Boolean,
 ) {
 
     companion object {
-        fun <E, R> of(pair: Pair<List<E>, Boolean>, mapper: (E) -> R): ScrollResult<R> {
-            val content = pair.first
-            val hasNext = pair.second
+        fun <T> of(result: Pair<List<T>, Boolean>): ScrollResult<T> {
+            val content = result.first
+            val hasNext = result.second
             return ScrollResult(
-                content = content.map(transform = mapper),
+                content = content,
                 size = content.size,
                 isEmpty = content.isEmpty(),
                 hasNext = hasNext,
             )
         }
+    }
 
-        fun <T, R> from(result: ScrollResult<T>, mapper: (T) -> R): ScrollResult<R> {
-            return ScrollResult(
-                content = result.content.map(mapper),
-                size = result.size,
-                isEmpty = result.isEmpty,
-                hasNext = result.hasNext,
-            )
-        }
+    fun <R> convert(mapper: (T) -> R): ScrollResult<R> {
+        return ScrollResult(
+            content = content.map(transform = mapper),
+            size = size,
+            isEmpty = isEmpty,
+            hasNext = hasNext,
+        )
     }
 
 }
