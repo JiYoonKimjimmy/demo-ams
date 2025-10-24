@@ -27,23 +27,6 @@ class StudentSaveServiceImpl(
         return this
     }
 
-    private fun Student.validateOnCreate(): Student {
-        if (studentRepository.isExistByNameAndPhoneAndBirth(name, phone, birth)) {
-            // 동일한 학생 `name`, `phone`, `birth` 이미 등록 여부 확인
-            throw InvalidRequestException(ErrorCode.STUDENT_INFO_DUPLICATED)
-        }
-        return this
-    }
-
-    private fun Student.validateOnUpdate(): Student {
-        val currentId = id ?: return this
-        if (studentRepository.isExistByNameAndPhoneAndBirth(name, phone, birth, excludeId = currentId)) {
-            // 동일한 학생 `name`, `phone`, `birth` 이미 등록 여부 확인
-            throw InvalidRequestException(ErrorCode.STUDENT_INFO_DUPLICATED)
-        }
-        return this
-    }
-
     private fun Student.assignNextNameLabel(): Student {
         val lastNameLabel = studentRepository.findMaxNameLabelByName(name)
         return copy(nameLabel = lastNameLabel?.inc())
