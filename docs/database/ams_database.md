@@ -26,7 +26,6 @@
 | Column | Name | Type | 비고 |
 | --- | --- | --- | --- |
 | ID | 학생 부모 ID | INT | `PK` - Auto increment sequence |
-| STUDENT_ID | 학생 ID | INT | `FK` - `STUDENTS`.`ID` |
 | NAME | 성명 | VARCHAR |
 | MOBILE_NUMBER | 휴대폰 번호 | VARCHAR |
 | GENDER | 성별 | CHAR | `M`: 남성, `F`: 여성 |
