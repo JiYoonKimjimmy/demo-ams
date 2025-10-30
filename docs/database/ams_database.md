@@ -22,14 +22,7 @@
 | GRADE | 학년 | CHAR |
 | STATUS | 상태 | VARCHAR | `ACTIVE`: 정상, `DELETED`: 탈퇴 |
 
-### `PARENTS` 학생 부모 정보 Table
-| Column | Name | Type | 비고 |
-| --- | --- | --- | --- |
-| ID | 학생 부모 ID | INT | `PK` - Auto increment sequence |
-| NAME | 성명 | VARCHAR |
-| MOBILE_NUMBER | 휴대폰 번호 | VARCHAR |
-| GENDER | 성별 | CHAR | `M`: 남성, `F`: 여성 |
-| STATUS | 상태 | VARCHAR | `ACTIVE`: 정상, `DELETED`: 탈퇴 |
+<!-- PARENTS table removed -->
 
 ---
 
