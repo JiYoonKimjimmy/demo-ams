@@ -1442,7 +1442,7 @@ Client
 graph LR
     subgraph "Command 처리 경로"
         C1[Client] --> C2[Controller]
-        C2 --> C3[UseCase<br/>tx() / transaction]
+        C2 --> C3[UseCase<br/>tx 또는 transaction]
         C3 --> C4[Domain Service]
         C4 --> C5[PostgreSQL Repository]
         C5 --> C6[(PostgreSQL<br/>ACID 트랜잭션)]
@@ -1998,7 +1998,7 @@ graph TB
     subgraph "Command 처리 흐름"
         C1[Client]
         C2[Controller]
-        C3[UseCase<br/>tx() / transaction]
+        C3[UseCase<br/>tx 또는 transaction]
         C4[Domain Service]
         C5[PostgreSQL Repository]
         C6[(PostgreSQL<br/>ACID 트랜잭션)]
