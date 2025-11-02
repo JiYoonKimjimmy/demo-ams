@@ -38,11 +38,11 @@
 - [x] 트랜잭션 관리 방식 (분산 트랜잭션 처리 전략)
 
 ### 6. 비동기 처리 전략
-- [ ] Coroutine 사용 영역 및 사용 이유
-- [ ] Application 내부 Thread 처리 방식 (Coroutine 기반 Non-Blocking)
-- [ ] Application 외부 연동 방식 (Async + Non-Blocking)
-- [ ] 이벤트 처리 방식
-- [ ] 알림 발송 인터페이스 설계
+- [x] Coroutine 사용 영역 및 사용 이유
+- [x] Application 내부 Thread 처리 방식 (Coroutine 기반 Non-Blocking)
+- [x] Application 외부 연동 방식 (Async + Non-Blocking)
+- [x] 이벤트 처리 방식
+- [x] 알림 발송 인터페이스 설계
 
 ### 7. 보안 아키텍처
 - [ ] 인증/인가 전략
@@ -122,6 +122,5 @@
 
 ## ✅ 진행 상태
 
-- **전체 진행률**: 38.5% (5/13 섹션 완료)
-- **마지막 업데이트**: 2025-01-XX
-
+- **전체 진행률**: 46.2% (6/13 섹션 완료)
+- **마지막 업데이트**: 2025-11-02
