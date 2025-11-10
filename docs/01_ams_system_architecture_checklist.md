@@ -54,10 +54,10 @@
 - [x] API 보안 정책
 
 ### 8. 통신 및 연동
-- [ ] RESTful API 설계 원칙
-- [ ] 외부 시스템 연동 방식 상세 (Async + Non-Blocking)
-- [ ] API Gateway 사용 여부
-- [ ] API 버전 관리 전략
+- [x] RESTful API 설계 원칙
+- [x] 외부 시스템 연동 방식 상세 (Async + Non-Blocking)
+- [x] API Gateway 사용 여부
+- [x] API 버전 관리 전략
 
 ### 9. 확장성 및 성능
 - [ ] 수평 확장 전략 (멀티 서버 & 멀티 인스턴스)
