@@ -74,11 +74,11 @@
 - [x] 에러 추적 및 알림 시스템
 
 ### 11. 배포 및 운영
-- [ ] 배포 전략 (Blue-Green, Canary, Rolling 등)
-- [ ] CI/CD 파이프라인 개요
-- [ ] 무중단 배포 방안
-- [ ] 설정 관리 (Configuration Management)
-- [ ] 환경별 설정 전략 (Dev, Staging, Prod)
+- [x] 배포 전략 (Blue-Green, Canary, Rolling 등)
+- [x] CI/CD 파이프라인 개요
+- [x] 무중단 배포 방안
+- [x] 설정 관리 (Configuration Management)
+- [x] 환경별 설정 전략 (Dev, Staging, Prod)
 
 ### 12. 에러 처리
 - [ ] 글로벌 예외 처리 전략
