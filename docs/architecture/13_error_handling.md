@@ -191,3 +191,7 @@ stateDiagram-v2
 
 ---
 
+## 다음 문서
+
+→ [14. 테스트 전략](14_test_strategy.md)
+

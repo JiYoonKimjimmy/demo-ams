@@ -390,3 +390,7 @@ NotificationPort 구현체 선택
 
 ---
 
+## 다음 문서
+
+→ [8. 보안 아키텍처](08_security_architecture.md)
+

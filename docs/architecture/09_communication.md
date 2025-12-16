@@ -65,3 +65,7 @@
 
 ---
 
+## 다음 문서
+
+→ [10. 확장성 및 성능](10_scalability_performance.md)
+

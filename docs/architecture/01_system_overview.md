@@ -145,3 +145,7 @@ AMS는 RESTful API를 통해 클라이언트와 통신하며, 비동기 방식�
 
 ---
 
+## 다음 문서
+
+→ [2. 아키텍처 다이어그램](02_architecture_diagrams.md)
+
