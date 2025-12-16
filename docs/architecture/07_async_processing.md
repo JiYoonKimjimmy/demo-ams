@@ -1,10 +1,10 @@
-# 6. 비동기 처리 전략
+# 7. 비동기 처리 전략
 
 [← 메인 문서로 돌아가기](../01_ams_system_architecture.md)
 
 ---
 
-### 6.1 Coroutine 사용 영역 및 사용 이유
+### 7.1 Coroutine 사용 영역 및 사용 이유
 
 #### Coroutine 선택 이유
 
@@ -51,7 +51,7 @@ AMS는 **Kotlin Coroutine**을 비동기 처리의 핵심 기술로 사용합니
 - 코루틴 스코프를 통해 안전한 동시성 처리 보장
 - 부모 코루틴이 취소되면 자식 코루틴도 자동 취소되어 리소스 누수 방지
 
-### 6.2 Application 내부 Thread 처리 방식
+### 7.2 Application 내부 Thread 처리 방식
 
 #### Coroutine 기반 Non-Blocking 처리
 
@@ -133,7 +133,7 @@ PostgreSQL/MongoDB (Non-Blocking I/O)
 - 높은 동시성과 처리량 확보
 - 시스템 리소스 효율적 활용
 
-### 6.3 Application 외부 연동 방식
+### 7.3 Application 외부 연동 방식
 
 #### Async + Non-Blocking 패턴
 
@@ -212,7 +212,7 @@ suspend fun sendNotification(event: NotificationEvent) {
 재시도 불가능 → 오류 처리
 ```
 
-### 6.4 이벤트 처리 방식
+### 7.4 이벤트 처리 방식
 
 #### 이벤트 기반 비동기 처리
 
@@ -287,7 +287,7 @@ Command 처리 완료
 - **Kafka**: 대용량 이벤트 스트림 처리 및 고성능 이벤트 브로커
 - **RabbitMQ**: 유연한 메시징 패턴 지원 및 관리 도구 제공
 
-### 6.5 알림 발송 인터페이스 설계
+### 7.5 알림 발송 인터페이스 설계
 
 #### 알림 발송 인터페이스 설계 원칙
 

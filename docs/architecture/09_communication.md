@@ -1,14 +1,14 @@
-# 8. 통신 및 연동
+# 9. 통신 및 연동
 
 [← 메인 문서로 돌아가기](../01_ams_system_architecture.md)
 
 ---
 
-### 8.1 RESTful API 설계 원칙
+### 9.1 RESTful API 설계 원칙
 
 - **리소스 지향 URL**: 모든 엔드포인트는 복수형 명사 기반으로 `/api/v1/members/{memberId}/classes` 형태를 사용합니다. 중첩 리소스는 부모-자식 관계를 명시하고, 컬렉션 조회 엔드포인트에는 필터와 정렬을 위한 쿼리 파라미터(`?page=0&size=20&sort=createdAt,desc`)를 제공합니다.
 - **HTTP 메서드 의미 부여**: `GET`은 멱등 조회, `POST`는 리소스 생성, `PUT`은 전체 갱신, `PATCH`는 부분 갱신, `DELETE`는 소프트/하드 삭제에 사용합니다. 도메인 이벤트 발행 시 멱등성을 확보하기 위해 멱등 요청에는 `Idempotency-Key` 헤더 적용을 검토합니다.
-- **표준화된 응답 구조**: 성공 응답은 `data`와 `meta` 블록으로 구성된 JSON 포맷을 유지하며, 실패 응답은 [7.4 API 보안 정책](07_security_architecture.md#74-api-보안-정책)에서 정의한 에러 응답 규격을 재사용합니다. 날짜/시간 값은 UTC 기준 ISO 8601 문자열(`2025-11-10T09:00:00Z`)을 사용합니다.
+- **표준화된 응답 구조**: 성공 응답은 `data`와 `meta` 블록으로 구성된 JSON 포맷을 유지하며, 실패 응답은 [8.4 API 보안 정책](08_security_architecture.md#84-api-보안-정책)에서 정의한 에러 응답 규격을 재사용합니다. 날짜/시간 값은 UTC 기준 ISO 8601 문자열(`2025-11-10T09:00:00Z`)을 사용합니다.
 - **쿼리·페이징 규칙**: 검색 조건은 명시적 키(`status`, `role`, `dateFrom/dateTo`)로 노출하고, 대량 조회 시 `page/size` 기반 페이지네이션을 기본으로 제공합니다. 대량 처리용 스트리밍 API는 추후 `/api/v1/exports` 하위로 분리하여 별도 문서화합니다.
 - **HTTP 상태코드 매핑**: 공통 상태코드와 의미는 아래 표를 기준으로 통합 관리합니다.
 
@@ -26,11 +26,11 @@
 | `429 Too Many Requests` | Rate Limit 초과 | Gateway/Interceptor에서 제어 |
 | `500 Internal Server Error` | 서버 오류 | 내부 장애, 추적 ID 포함 |
 
-### 8.2 외부 시스템 연동 방식 (Async + Non-Blocking)
+### 9.2 외부 시스템 연동 방식 (Async + Non-Blocking)
 
 - **연동 대상 요약**: 현재는 휴대폰 인증 서비스와 알림 발송 서비스를 비동기 HTTP API로 연동하며, [1.3 시스템 경계](01_system_overview.md#13-시스템-경계-및-외부-시스템과의-관계)에 정의된 OAuth 2.0, 결제, 위치 기반 서비스는 후속 단계에 추가됩니다.
-- **아키텍처 패턴**: Hexagonal Architecture의 Outbound Port를 통해 외부 연동을 추상화하고, [6. 비동기 처리 전략](06_async_processing.md)에서 정의한 Coroutine + Non-Blocking I/O로 구현합니다. 모든 어댑터는 `suspend` 기반 WebClient 또는 Ktor Client를 사용하며, Circuit Breaker와 재시도 로직은 공통 DSL로 캡슐화합니다.
-- **통신 흐름**: UseCase가 Outbound Port를 호출하면 비동기 HTTP 요청을 전송하고, 응답 결과를 도메인 이벤트(`MemberCreated`, `AttendanceConfirmed`) 처리 흐름에 반영합니다. 실패 시 재시도와 백오프 정책을 적용하며, 연동별 모니터링 메트릭(성공률, 지연시간, 오류 코드)을 [10. 모니터링 및 로깅](10_monitoring_logging.md)에서 수집합니다.
+- **아키텍처 패턴**: Hexagonal Architecture의 Outbound Port를 통해 외부 연동을 추상화하고, [7. 비동기 처리 전략](07_async_processing.md)에서 정의한 Coroutine + Non-Blocking I/O로 구현합니다. 모든 어댑터는 `suspend` 기반 WebClient 또는 Ktor Client를 사용하며, Circuit Breaker와 재시도 로직은 공통 DSL로 캡슐화합니다.
+- **통신 흐름**: UseCase가 Outbound Port를 호출하면 비동기 HTTP 요청을 전송하고, 응답 결과를 도메인 이벤트(`MemberCreated`, `AttendanceConfirmed`) 처리 흐름에 반영합니다. 실패 시 재시도와 백오프 정책을 적용하며, 연동별 모니터링 메트릭(성공률, 지연시간, 오류 코드)을 [11. 모니터링 및 로깅](11_monitoring_logging.md)에서 수집합니다.
 - **재시도 및 타임아웃 정책**:
 
 | 구분 | 기본 타임아웃 | 재시도 횟수 | 백오프 전략 | 비고 |
@@ -39,12 +39,12 @@
 | 알림 발송 API | 5초 | 3회 | 500ms, 1.5s, 3s | 실패 시 보류 큐에 적재 |
 | 향후 결제 API | 10초 | 1회 | 1s | 결제는 멱등 키 필수 |
 
-- **관측성 및 폴백**: 모든 외부 호출에는 요청/응답 로그와 Trace ID가 포함되며, 연속 실패 시 운영 알림을 트리거합니다. 알림 발송 실패는 메시지 큐(재시도 대기열)에 저장하여 수동 재처리 경로를 제공합니다. 장기적으로는 [12. 에러 처리](12_error_handling.md) 섹션의 글로벌 재시도 정책과 연계합니다.
+- **관측성 및 폴백**: 모든 외부 호출에는 요청/응답 로그와 Trace ID가 포함되며, 연속 실패 시 운영 알림을 트리거합니다. 알림 발송 실패는 메시지 큐(재시도 대기열)에 저장하여 수동 재처리 경로를 제공합니다. 장기적으로는 [13. 에러 처리](13_error_handling.md) 섹션의 글로벌 재시도 정책과 연계합니다.
 
-### 8.3 API Gateway 사용 전략
+### 9.3 API Gateway 사용 전략
 
 - **현재 운영 상태**: [2.1 고수준 아키텍처 다이어그램](02_architecture_diagrams.md#21-고수준-아키텍처-다이어그램-시스템-전체-구성도)과 같이 로드 밸런서를 통해 AMS 애플리케이션으로 직접 트래픽이 유입됩니다. 초기 버전(v1.0)에서는 애플리케이션 내 인터셉터로 인증/인가, Rate Limiting을 처리합니다.
-- **도입 기대 효과**: API Gateway를 적용할 경우 공통 보안 정책(인증 토큰 선제 검증, [7.4.1 Rate Limiting](07_security_architecture.md#742-api-요청-보안)), 멀티 테넌트 헤더 주입, 요청/응답 변환, Canary 배포 라우팅([11. 배포 및 운영](11_deployment_operations.md)과 연계) 등을 게이트웨이 계층에서 위임할 수 있습니다.
+- **도입 기대 효과**: API Gateway를 적용할 경우 공통 보안 정책(인증 토큰 선제 검증, [8.4.1 Rate Limiting](08_security_architecture.md#842-api-요청-보안)), 멀티 테넌트 헤더 주입, 요청/응답 변환, Canary 배포 라우팅([12. 배포 및 운영](12_deployment_operations.md)과 연계) 등을 게이트웨이 계층에서 위임할 수 있습니다.
 - **기술 후보 평가**:
   - Spring Cloud Gateway: JVM 내 배포, 기존 Spring 생태계와의 통합이 용이하며, 서비스 메시나 Config Server와 연계 가능.
   - Kong / NGINX / Kong Gateway: 플러그인 생태계가 풍부하고, 관측성 도구와 통합이 쉬움.
@@ -55,12 +55,12 @@
   3. **v1.2 이후**: 모든 트래픽을 게이트웨이로 전환, 플러그인 기반 A/B 테스트와 Canary 릴리스 지원.
   4. **장기**: 매니지드 게이트웨이 또는 서비스 메시(Istio 등) 도입 여부를 인프라 팀과 검토.
 
-### 8.4 API 버전 관리 전략
+### 9.4 API 버전 관리 전략
 
 - **버전 부여 원칙**: URL 경로 기반 버전(`/api/v1`)을 기본으로 하며, 계약을 깨뜨리는 변경(스키마 필드 삭제, 의미 변경)이 발생하면 메이저 버전을 증가시킵니다. 호환 가능한 변경(필드 추가, 선택적 파라미터)은 마이너/패치 릴리스 노트로 안내합니다.
 - **수명주기 관리**: 각 메이저 버전은 Beta → GA(6개월) → Deprecated(6개월) → Sunset 순서로 운영합니다. Deprecation 단계에서는 `Deprecation`, `Sunset` HTTP 헤더와 공지 메일/슬랙 알림을 통해 전환 일정을 안내합니다.
 - **지원 정책**: 최소 두 개의 메이저 버전을 동시에 지원하며, 멀티 테넌트 고객의 마이그레이션 일정에 따라 유예 기간을 조정할 수 있습니다. 인증 토큰에는 `X-AMS-Api-Version` 응답 헤더를 포함하여 클라이언트가 사용 중인 버전을 확인할 수 있도록 합니다.
-- **문서화 및 자동화**: OpenAPI 스펙은 버전별로 분리하여 저장하고, CI/CD 파이프라인([11. 배포 및 운영](11_deployment_operations.md))에서 스키마 변경 diff를 자동 검증합니다. Breaking change가 감지되면 PR 리뷰 체크리스트에 추가하고, 변경 로그를 `docs/change-log.md`에 기록합니다.
+- **문서화 및 자동화**: OpenAPI 스펙은 버전별로 분리하여 저장하고, CI/CD 파이프라인([12. 배포 및 운영](12_deployment_operations.md))에서 스키마 변경 diff를 자동 검증합니다. Breaking change가 감지되면 PR 리뷰 체크리스트에 추가하고, 변경 로그를 `docs/change-log.md`에 기록합니다.
 - **클라이언트 전환 가이드**: SDK/프런트엔드 클라이언트는 최신 버전과 하위 호환 어댑터를 제공하며, 종료 예정 버전에 대한 샘플 요청/응답, 마이그레이션 체크리스트를 함께 배포합니다. 신규 기능은 항상 최신 버전에서만 제공하여 자연스러운 전환을 유도합니다.
 
 ---

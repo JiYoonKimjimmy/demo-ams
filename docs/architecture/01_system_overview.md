@@ -6,7 +6,7 @@
 
 ### 1.1 시스템 목적 및 범위
 
-**AMS(Academy Management Service)**는 학원 운영과 수강 관리를 효율적으로 지원하기 위한 RESTful 기반의 백엔드 서비스입니다.
+**AMS(Academy Management Service)** 는 학원 운영과 수강 관리를 효율적으로 지원하기 위한 RESTful 기반의 백엔드 서비스입니다.
 
 #### 시스템 목적
 

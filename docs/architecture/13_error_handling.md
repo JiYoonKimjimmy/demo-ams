@@ -1,12 +1,12 @@
-# 12. 에러 처리
+# 13. 에러 처리
 
 [← 메인 문서로 돌아가기](../01_ams_system_architecture.md)
 
 ---
 
-AMS는 안정적인 사용자 경험과 운영 효율성을 위해 체계적인 에러 처리 전략을 적용합니다. 본 절은 [6. 비동기 처리 전략](06_async_processing.md)의 재시도 흐름, [8. 통신 및 연동](08_communication.md)의 외부 연동 정책, [10. 모니터링 및 로깅](10_monitoring_logging.md)의 에러 추적 시스템과 긴밀히 연계됩니다.
+AMS는 안정적인 사용자 경험과 운영 효율성을 위해 체계적인 에러 처리 전략을 적용합니다. 본 절은 [7. 비동기 처리 전략](07_async_processing.md)의 재시도 흐름, [9. 통신 및 연동](09_communication.md)의 외부 연동 정책, [11. 모니터링 및 로깅](11_monitoring_logging.md)의 에러 추적 시스템과 긴밀히 연계됩니다.
 
-### 12.1 글로벌 예외 처리 전략
+### 13.1 글로벌 예외 처리 전략
 
 #### 예외 계층 구조
 
@@ -27,7 +27,7 @@ AMS는 예외를 **도메인 예외**, **인프라 예외**, **시스템 예외*
 
 - Spring `@RestControllerAdvice`를 통해 모든 예외를 중앙에서 처리합니다.
 - 인프라 예외는 내부 상세를 숨기고 일반화된 메시지를 반환합니다.
-- 모든 에러 응답에 `traceId`를 포함하여 [10. 모니터링 및 로깅](10_monitoring_logging.md)과 연계합니다.
+- 모든 에러 응답에 `traceId`를 포함하여 [11. 모니터링 및 로깅](11_monitoring_logging.md)과 연계합니다.
 
 #### Coroutine 예외 처리
 
@@ -47,7 +47,7 @@ AMS는 예외를 **도메인 예외**, **인프라 예외**, **시스템 예외*
 | `InfrastructureException` | 503 Service Unavailable | 외부 의존성 장애 |
 | `Exception` (기타) | 500 Internal Server Error | 예상치 못한 서버 오류 |
 
-### 12.2 에러 응답 형식 표준화
+### 13.2 에러 응답 형식 표준화
 
 #### RFC 7807 Problem Details 채택
 
@@ -100,7 +100,7 @@ AMS는 **RFC 7807 Problem Details for HTTP APIs** 표준을 채택하여 일관�
 - 에러 메시지는 `Accept-Language` 헤더를 기반으로 다국어를 지원합니다.
 - Spring `MessageSource`를 통해 메시지 번들(`messages_ko.properties`, `messages_en.properties`)을 관리합니다.
 
-### 12.3 재시도 메커니즘
+### 13.3 재시도 메커니즘
 
 #### 재시도 대상 판별 기준
 
@@ -115,7 +115,7 @@ AMS는 **RFC 7807 Problem Details for HTTP APIs** 표준을 채택하여 일관�
 
 - **기본 전략**: 초기 지연 → 배수 증가 → 최대 지연 제한
 - **지터(Jitter)**: ±10% 랜덤 변동으로 Thundering Herd 방지
-- **연동별 정책** ([8.2 외부 시스템 연동](08_communication.md#82-외부-시스템-연동-방식-async--non-blocking) 연계):
+- **연동별 정책** ([9.2 외부 시스템 연동](09_communication.md#92-외부-시스템-연동-방식-async--non-blocking) 연계):
 
 | 연동 대상 | 최대 재시도 | 초기 지연 | 최대 지연 | 비고 |
 |-----------|-------------|-----------|-----------|------|
@@ -131,11 +131,11 @@ AMS는 **RFC 7807 Problem Details for HTTP APIs** 표준을 채택하여 일관�
 
 #### Dead Letter Queue (DLQ) 연계
 
-- 최대 재시도 횟수 초과 시 [6. 비동기 처리 전략](06_async_processing.md)에서 정의한 Failed Event Store로 이관합니다.
-- DLQ 적재 시 [10.3 에러 추적 및 알림 시스템](10_monitoring_logging.md#103-에러-추적-및-알림-시스템)을 통해 운영자에게 알림을 발송합니다.
+- 최대 재시도 횟수 초과 시 [7. 비동기 처리 전략](07_async_processing.md)에서 정의한 Failed Event Store로 이관합니다.
+- DLQ 적재 시 [11.3 에러 추적 및 알림 시스템](11_monitoring_logging.md#113-에러-추적-및-알림-시스템)을 통해 운영자에게 알림을 발송합니다.
 - 운영자는 수동으로 재처리하거나 폐기할 수 있습니다.
 
-### 12.4 Circuit Breaker 패턴 적용
+### 13.4 Circuit Breaker 패턴 적용
 
 #### Circuit Breaker 상태 머신
 
@@ -185,9 +185,9 @@ stateDiagram-v2
 
 #### 모니터링 및 알림 연계
 
-- Circuit Breaker 상태 변화(특히 Open 전환)를 [10. 모니터링 및 로깅](10_monitoring_logging.md) 시스템과 연계하여 알림을 발송합니다.
+- Circuit Breaker 상태 변화(특히 Open 전환)를 [11. 모니터링 및 로깅](11_monitoring_logging.md) 시스템과 연계하여 알림을 발송합니다.
 - 상태 변화와 에러 발생을 메트릭으로 수집하여 대시보드에서 모니터링합니다.
-- 헬스체크 엔드포인트에 Circuit Breaker 상태를 반영하여 [9.3 로드 밸런싱](09_scalability_performance.md#93-로드-밸런싱-전략)과 연동합니다.
+- 헬스체크 엔드포인트에 Circuit Breaker 상태를 반영하여 [10.3 로드 밸런싱](10_scalability_performance.md#103-로드-밸런싱-전략)과 연동합니다.
 
 ---
 
