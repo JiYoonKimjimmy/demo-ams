@@ -36,6 +36,7 @@
 | 12 | 배포 및 운영 | 배포 전략, CI/CD 파이프라인, 무중단 배포, 설정 관리 | [바로가기](architecture/12_deployment_operations.md) |
 | 13 | 에러 처리 | 글로벌 예외 처리, 에러 응답 표준화, 재시도, Circuit Breaker | [바로가기](architecture/13_error_handling.md) |
 | 14 | 테스트 전략 | 단위 테스트, 통합 테스트, Fixtures, 커버리지 목표 | [바로가기](architecture/14_test_strategy.md) |
+| 15 | API 문서화 전략 | Spring RestDocs, Kotest 통합, AsciiDoc 템플릿, 배포 | [바로가기](architecture/15_api_documentation.md) |
 
 ---
 
@@ -48,5 +49,5 @@
 
 ## 문서 버전
 
-- **최종 업데이트**: 2025-12-16
-- **문서 상태**: 완료 (14/14 섹션)
+- **최종 업데이트**: 2025-12-22
+- **문서 상태**: 완료 (15/15 섹션)

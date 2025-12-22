@@ -111,7 +111,7 @@ erDiagram
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 역할 고유 식별자 |
 | member_id | BIGINT | FK, NOT NULL | 회원 ID |
-| role_type | VARCHAR(20) | NOT NULL | 역할 유형 (STUDENT, PARENT, TEACHER, MANAGER, SUPER_ADMIN) |
+| role_type | VARCHAR(20) | NOT NULL | 역할 유형 (STUDENT, PARENT, TEACHER, MANAGER, ADMINISTRATOR) |
 | is_primary | BOOLEAN | NOT NULL, DEFAULT FALSE | 주 역할 여부 |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
 
@@ -119,15 +119,15 @@ erDiagram
 
 ##### STUDENT_INFO (학생 상세 정보)
 
-| 컬럼명 | 타입 | 제약조건 | 설명 |
-|--------|------|----------|------|
-| id | BIGSERIAL | PK | 학생정보 고유 식별자 |
-| member_id | BIGINT | FK, UNIQUE, NOT NULL | 회원 ID |
-| school_name | VARCHAR(100) | | 학교명 |
-| grade | VARCHAR(20) | | 학년 |
-| class_name | VARCHAR(20) | | 반 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
+| 컬럼명         | 타입           | 제약조건 | 설명                             |
+|-------------|--------------|----------|--------------------------------|
+| id          | BIGSERIAL    | PK | 학생정보 고유 식별자                    |
+| member_id   | BIGINT       | FK, UNIQUE, NOT NULL | 회원 ID                          |
+| school_name | VARCHAR(100) | | 학교명                            |
+| school_type | VARCHAR(20)   | | 학교구분 (PRIMARY, MIDDLE, HIGH, UNIVERSITY) |
+| grade       | VARCHAR(20)  | | 학년                             |
+| created_at  | TIMESTAMP    | NOT NULL, DEFAULT NOW() | 생성일시                           |
+| updated_at  | TIMESTAMP    | NOT NULL, DEFAULT NOW() | 수정일시                           |
 
 ##### TEACHER_INFO (강사 상세 정보)
 
@@ -150,8 +150,8 @@ erDiagram
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 관리자정보 고유 식별자 |
 | member_id | BIGINT | FK, UNIQUE, NOT NULL | 회원 ID |
-| permission_level | VARCHAR(20) | NOT NULL | 권한 레벨 (MANAGER, SUPER_ADMIN) |
-| managed_academy_id | BIGINT | FK | 담당 학원 ID (SUPER_ADMIN은 NULL) |
+| permission_level | VARCHAR(20) | NOT NULL | 권한 레벨 (MANAGER, ADMINISTRATOR) |
+| managed_academy_id | BIGINT | FK | 담당 학원 ID (ADMINISTRATOR은 NULL) |
 | permission_scope | VARCHAR(500) | | 권한 범위 (JSON) |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
 | updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |

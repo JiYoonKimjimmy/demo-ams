@@ -141,7 +141,7 @@ AMS는 현대적이고 확장 가능한 백엔드 서비스를 구축하기 위�
 
 ### 3.5 테스트 프레임워크
 
-#### Kotest
+#### 3.5.1 Kotest
 
 **선택 이유:**
 - Kotlin 네이티브 테스트 프레임워크로 Kotlin 특성을 최대한 활용
@@ -158,6 +158,28 @@ AMS는 현대적이고 확장 가능한 백엔드 서비스를 구축하기 위�
 - **직관적인 어설션**: 읽기 쉬운 테스트 코드 작성
 - **Coroutine 테스트**: 비동기 코드 테스트 지원
 - **통합 테스트**: Spring Boot 테스트 통합 지원
+
+#### 3.5.2 Spring RestDocs
+
+**선택 이유:**
+- 테스트 코드 기반 문서 자동 생성으로 API 문서 정확성 보장
+- 프로덕션 코드에 문서화 어노테이션 추가 불필요
+- Kotest 통합을 통한 일관된 테스트 경험
+- 빌드 파이프라인에 통합되어 문서-코드 불일치 방지
+
+**역할:**
+- RESTful API 문서 자동화
+- 통합 테스트 스니펫 생성 및 HTML 문서 변환
+- JAR 내부 정적 문서 배포
+
+**주요 특징:**
+- **테스트 기반 문서화**: WebTestClient 테스트 결과를 AsciiDoc 스니펫으로 변환
+- **빌드 자동화**: Gradle 태스크 체인(`test` → `asciidoctor` → `bootJar`)으로 문서 생성
+- **Kotest 통합**: `RestDocsBehaviorSpec` 커스텀 클래스로 BehaviorSpec과 통합
+- **정적 배포**: HTML 문서가 JAR에 포함되어 `/docs/` 경로로 제공
+
+**참고 문서:**
+- [15. API 문서화 전략](15_api_documentation.md) - RestDocs 상세 구현 및 운영 가이드
 
 ---
 
@@ -351,5 +373,5 @@ AMS는 현대적이고 확장 가능한 백엔드 서비스를 구축하기 위�
 
 ## 다음 문서
 
-→ [4. 아키텍처 패턴 및 원칙](04_architecture_patterns.md)
+[→ 4. 아키텍처 패턴 및 원칙](04_architecture_patterns.md)
 

@@ -290,7 +290,7 @@ sequenceDiagram
 
 ---
 
-## 다음 문서
+## 이전/다음 문서
 
-→ [3. 기술 스택 상세](03_tech_stack.md)
+[→ 3. 기술 스택 상세](03_tech_stack.md)
 

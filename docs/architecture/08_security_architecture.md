@@ -473,12 +473,12 @@ val memberId = payload.subject
 ```kotlin
 // 엔드포인트 권한 매핑 예시
 val endpointPermissions = mapOf(
-    "POST /api/v1/member/student" to setOf("MANAGER", "SUPER_ADMIN"),
-    "PUT /api/v1/member/student/{id}" to setOf("MANAGER", "SUPER_ADMIN"),
-    "DELETE /api/v1/member/student/{id}" to setOf("MANAGER", "SUPER_ADMIN"),
-    "POST /api/v1/class" to setOf("MANAGER", "SUPER_ADMIN"),
+    "POST /api/v1/member/student" to setOf("MANAGER", "ADMINISTRATOR"),
+    "PUT /api/v1/member/student/{id}" to setOf("MANAGER", "ADMINISTRATOR"),
+    "DELETE /api/v1/member/student/{id}" to setOf("MANAGER", "ADMINISTRATOR"),
+    "POST /api/v1/class" to setOf("MANAGER", "ADMINISTRATOR"),
     "POST /api/v1/attendance/request" to setOf("STUDENT"),
-    "PUT /api/v1/attendance/confirm/{id}" to setOf("TEACHER", "MANAGER", "SUPER_ADMIN")
+    "PUT /api/v1/attendance/confirm/{id}" to setOf("TEACHER", "MANAGER", "ADMINISTRATOR")
 )
 ```
 
@@ -495,7 +495,7 @@ class StudentManagementUseCase(
     private val studentSaveService: StudentSaveService,
     private val currentUserService: CurrentUserService
 ) {
-    @PreAuthorize("hasRole('MANAGER') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMINISTRATOR')")
     suspend fun createStudent(dto: StudentDTO): StudentDTO {
         // 운영 관리자 또는 슈퍼 관리자만 접근 가능
     }

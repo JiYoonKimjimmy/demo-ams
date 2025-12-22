@@ -124,8 +124,71 @@ AMS는 코드 품질과 시스템 안정성을 보장하기 위해 체계적인 
 | **Flaky 테스트 비율** | 1% 미만 | 테스트 재실행 통계 |
 | **테스트 유지보수 비용** | 코드 변경 대비 테스트 변경 최소화 | PR 리뷰 |
 
+### 14.5 API 문서화 테스트
+
+#### 문서화 전략 개요
+
+AMS는 **Spring RestDocs**를 통해 통합 테스트와 API 문서를 일체화합니다. 모든 RESTful API는 `RestDocsBehaviorSpec` 기반 테스트를 통과해야만 문서가 생성되며, 이는 [15. API 문서화 전략](15_api_documentation.md)에서 상세히 다룹니다.
+
+#### RestDocs 통합 테스트 범위
+
+| 테스트 대상 | 생성 스니펫 | 검증 항목 |
+|-------------|-------------|-----------|
+| **Controller 엔드포인트** | `http-request`, `http-response` | HTTP 메서드, 상태 코드, URL 경로 |
+| **Request DTO** | `request-fields`, `path-parameters` | 필드명, 타입, 필수/선택, 설명 |
+| **Response DTO** | `response-fields` | 응답 구조, 중첩 객체, 에러 응답 포맷 |
+| **에러 케이스** | 별도 스니펫 (예: `create-duplicate-error`) | 에러 코드, 메시지, HTTP 상태 |
+
+#### RestDocsBehaviorSpec 활용
+
+**기본 구조:**
+
+```kotlin
+@CustomWebTestClientTest
+class StudentManagementControllerTest(
+    webApplicationContext: WebApplicationContext
+) : RestDocsBehaviorSpec(webApplicationContext) {
+
+    init {
+        given("학생 정보 생성 API 요청하여") {
+            `when`("신규 학생 정보 입력인 경우") {
+                then("'201 Created' 정상 응답 확인한다") {
+                    webTestClient
+                        .post()
+                        .uri("/api/v1/student")
+                        .bodyValue(request)
+                        .exchange()
+                        .expectStatus().isCreated
+                        .consumeWith(document("student/create", ...))
+                }
+            }
+        }
+    }
+}
+```
+
+**특징:**
+- Kotest BehaviorSpec의 Given-When-Then 구조 유지
+- `webTestClient`가 자동으로 RestDocs 필터 적용
+- 테스트 실패 시 문서 생성 중단 → 빌드 실패
+
+#### 문서화 품질 원칙
+
+- **정확성 우선**: 테스트를 통과한 API만 문서화하여 코드-문서 불일치 방지
+- **에러 케이스 포함**: 모든 HTTP 4xx/5xx 응답은 별도 스니펫으로 문서화
+- **필드 설명 필수**: `description()` 누락 시 빌드 실패 처리 권장
+- **CI 파이프라인 통합**: [12.2 CI/CD 파이프라인](12_deployment_operations.md#122-cicd-파이프라인-개요)에서 `test` → `asciidoctor` 자동 실행
+
+#### 커버리지와의 관계
+
+RestDocs 테스트는 **Presentation Layer 통합 테스트**에 해당하며, [14.4 테스트 커버리지 목표](#144-테스트-커버리지-목표)의 Presentation 계층 커버리지(60% 이상)에 기여합니다. Controller → UseCase → Repository 전체 흐름을 검증하므로 통합 테스트 범위를 동시에 확보합니다.
+
+**참고 문서:**
+- [15. API 문서화 전략](15_api_documentation.md) - RestDocs 구현 상세, AsciiDoc 템플릿, 배포 가이드
+- [3.5.2 Spring RestDocs](03_tech_stack.md#352-spring-restdocs) - 기술 스택 개요
+
 ---
 
-## 문서 목차로 돌아가기
+## 다음 문서
 
-← [메인 문서로 돌아가기](../01_ams_system_architecture.md)
+→ [15. API 문서화 전략](15_api_documentation.md)
