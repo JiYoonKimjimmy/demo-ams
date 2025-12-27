@@ -181,6 +181,8 @@ erDiagram
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 수업 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | academy_id | BIGINT | FK, NOT NULL | 소속 학원 ID |
 | name | VARCHAR(100) | NOT NULL | 수업 명칭 |
 | subject | VARCHAR(50) | NOT NULL | 수업 과목 |
@@ -194,34 +196,32 @@ erDiagram
 | curriculum | TEXT | | 교육 과정 |
 | fee | DECIMAL(10,2) | | 수강료 |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'ACTIVE' | 상태 (ACTIVE, INACTIVE, COMPLETED) |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 ##### CLASS_SCHEDULES (수업 일정)
 
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 일정 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | class_id | BIGINT | FK, NOT NULL | 수업 ID |
 | day_of_week | VARCHAR(10) | NOT NULL | 요일 (MON, TUE, WED, THU, FRI, SAT, SUN) |
 | start_time | TIME | NOT NULL | 시작 시간 |
 | end_time | TIME | NOT NULL | 종료 시간 |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'ACTIVE' | 상태 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 ##### CLASS_ENROLLMENTS (수강 신청)
 
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 수강 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | class_id | BIGINT | FK, NOT NULL | 수업 ID |
 | student_id | BIGINT | FK, NOT NULL | 학생 회원 ID |
 | enrolled_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수강 신청일시 |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'ACTIVE' | 상태 (ACTIVE, CANCELLED, COMPLETED) |
 | cancelled_at | TIMESTAMP | | 취소 일시 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 **UNIQUE 제약**: (class_id, student_id)
 
@@ -230,6 +230,8 @@ erDiagram
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 출석 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | schedule_id | BIGINT | FK, NOT NULL | 수업 일정 ID |
 | student_id | BIGINT | FK, NOT NULL | 학생 회원 ID |
 | attendance_date | DATE | NOT NULL | 출석 일자 |
@@ -238,8 +240,6 @@ erDiagram
 | confirmed_at | TIMESTAMP | | 출석 확인 일시 |
 | confirmed_by | BIGINT | FK | 확인자 ID (강사) |
 | note | VARCHAR(500) | | 비고 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 **UNIQUE 제약**: (schedule_id, student_id, attendance_date)
 
@@ -250,14 +250,14 @@ erDiagram
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 평가 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | class_id | BIGINT | FK, NOT NULL | 수업 ID |
 | writer_id | BIGINT | FK, NOT NULL | 작성자 회원 ID |
 | writer_type | VARCHAR(20) | NOT NULL | 작성자 유형 (STUDENT, PARENT) |
 | rating | INTEGER | NOT NULL, CHECK (1-5) | 평점 (1~5) |
 | content | TEXT | | 평가 내용 |
 | is_visible | BOOLEAN | NOT NULL, DEFAULT TRUE | 공개 여부 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 #### 6.2.5 운영 도메인
 
@@ -266,6 +266,8 @@ erDiagram
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 수납 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | academy_id | BIGINT | FK, NOT NULL | 학원 ID |
 | member_id | BIGINT | FK, NOT NULL | 납부자 회원 ID |
 | class_id | BIGINT | FK | 수업 ID (수강료인 경우) |
@@ -275,18 +277,17 @@ erDiagram
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'COMPLETED' | 상태 (COMPLETED, REFUNDED, PENDING) |
 | paid_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 결제 일시 |
 | note | VARCHAR(500) | | 비고 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 ##### RECEIPTS (영수증)
 
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 영수증 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | payment_id | BIGINT | FK, UNIQUE, NOT NULL | 수납 ID |
 | receipt_number | VARCHAR(50) | UNIQUE, NOT NULL | 영수증 번호 |
 | issued_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 발급 일시 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
 
 ---
 
