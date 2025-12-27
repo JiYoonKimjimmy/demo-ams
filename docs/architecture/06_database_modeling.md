@@ -60,6 +60,8 @@ erDiagram
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 학원 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | name | VARCHAR(100) | NOT NULL | 학원 명칭 |
 | phone | VARCHAR(20) | NOT NULL | 학원 연락처 |
 | address | VARCHAR(500) | NOT NULL | 학원 주소 |
@@ -72,21 +74,19 @@ erDiagram
 | target_audience | VARCHAR(200) | | 대상 범위 |
 | registration_number | VARCHAR(50) | UNIQUE | 교육청 등록번호 |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'ACTIVE' | 상태 (ACTIVE, INACTIVE, SUSPENDED) |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 ##### CLASSROOMS (강의실)
 
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 강의실 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | academy_id | BIGINT | FK, NOT NULL | 소속 학원 ID |
 | name | VARCHAR(50) | NOT NULL | 강의실 명칭 |
 | location | VARCHAR(100) | | 강의실 위치 |
 | capacity | INTEGER | | 수용 인원 |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'ACTIVE' | 상태 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 #### 6.2.2 회원 도메인
 
@@ -95,6 +95,8 @@ erDiagram
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 회원 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | academy_id | BIGINT | FK, NOT NULL | 소속 학원 ID |
 | name | VARCHAR(50) | NOT NULL | 이름 |
 | mobile_number | VARCHAR(20) | NOT NULL | 휴대폰 번호 |
@@ -105,18 +107,17 @@ erDiagram
 | password_hash | VARCHAR(255) | | 비밀번호 해시 |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'ACTIVE' | 상태 (ACTIVE, INACTIVE, PENDING) |
 | last_login_at | TIMESTAMP | | 마지막 로그인 일시 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 ##### MEMBER_ROLES (회원 역할)
 
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 역할 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | member_id | BIGINT | FK, NOT NULL | 회원 ID |
 | role_type | VARCHAR(20) | NOT NULL | 역할 유형 (STUDENT, PARENT, TEACHER, MANAGER, ADMINISTRATOR) |
 | is_primary | BOOLEAN | NOT NULL, DEFAULT FALSE | 주 역할 여부 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
 
 **UNIQUE 제약**: (member_id, role_type)
 
@@ -125,18 +126,20 @@ erDiagram
 | 컬럼명         | 타입           | 제약조건 | 설명                             |
 |-------------|--------------|----------|--------------------------------|
 | id          | BIGSERIAL    | PK | 학생정보 고유 식별자                    |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | member_id   | BIGINT       | FK, UNIQUE, NOT NULL | 회원 ID                          |
 | school_name | VARCHAR(100) | | 학교명                            |
 | school_type | VARCHAR(20)   | | 학교구분 (PRIMARY, MIDDLE, HIGH, UNIVERSITY) |
 | grade       | VARCHAR(20)  | | 학년                             |
-| created_at  | TIMESTAMP    | NOT NULL, DEFAULT NOW() | 생성일시                           |
-| updated_at  | TIMESTAMP    | NOT NULL, DEFAULT NOW() | 수정일시                           |
 
 ##### TEACHER_INFO (강사 상세 정보)
 
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 강사정보 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | member_id | BIGINT | FK, UNIQUE, NOT NULL | 회원 ID |
 | specialty | VARCHAR(200) | | 전문 분야 |
 | career_years | INTEGER | | 경력 연수 |
@@ -144,8 +147,6 @@ erDiagram
 | approval_status | VARCHAR(20) | NOT NULL, DEFAULT 'PENDING' | 승인 상태 (PENDING, APPROVED, REJECTED) |
 | approved_by | BIGINT | FK | 승인자 ID |
 | approved_at | TIMESTAMP | | 승인 일시 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 ##### MANAGER_INFO (관리자 상세 정보)
 
@@ -153,22 +154,23 @@ erDiagram
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 관리자정보 고유 식별자 |
 | member_id | BIGINT | FK, UNIQUE, NOT NULL | 회원 ID |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | permission_level | VARCHAR(20) | NOT NULL | 권한 레벨 (MANAGER, ADMINISTRATOR) |
 | managed_academy_id | BIGINT | FK | 담당 학원 ID (ADMINISTRATOR은 NULL) |
 | permission_scope | VARCHAR(500) | | 권한 범위 (JSON) |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 
 ##### STUDENT_PARENTS (학생-학부모 관계)
 
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 관계 고유 식별자 |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
 | student_id | BIGINT | FK, NOT NULL | 학생 회원 ID |
 | parent_id | BIGINT | FK, NOT NULL | 학부모 회원 ID |
 | relationship | VARCHAR(20) | | 관계 (FATHER, MOTHER, GUARDIAN) |
 | is_primary | BOOLEAN | NOT NULL, DEFAULT FALSE | 주 보호자 여부 |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
 
 **UNIQUE 제약**: (student_id, parent_id)
 
