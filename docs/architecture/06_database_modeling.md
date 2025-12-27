@@ -65,7 +65,10 @@ erDiagram
 | address | VARCHAR(500) | NOT NULL | 학원 주소 |
 | detail_address | VARCHAR(200) | | 상세 주소 |
 | zip_code | VARCHAR(10) | | 우편번호 |
-| business_hours | VARCHAR(100) | | 운영 시간 |
+| business_days | VARCHAR(50) | | 운영 요일 (콤마 구분: 'MON,TUE,WED,THU,FRI' 또는 'WEEKDAY') |
+| business_start_time | TIME | | 운영 시작 시간 (HH:MM:SS) |
+| business_end_time | TIME | | 운영 종료 시간 (HH:MM:SS) |
+| business_hours_note | VARCHAR(200) | | 운영 시간 비고 (요일별 다른 시간 등 상세 정보) |
 | target_audience | VARCHAR(200) | | 대상 범위 |
 | registration_number | VARCHAR(50) | UNIQUE | 교육청 등록번호 |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'ACTIVE' | 상태 (ACTIVE, INACTIVE, SUSPENDED) |
@@ -465,6 +468,7 @@ MongoDB는 조회 성능 최적화를 위해 비정규화된 문서 구조를 �
 
 | 테이블 | 인덱스명 | 컬럼 | 유형 | 목적 |
 |--------|----------|------|------|------|
+| ACADEMIES | idx_academies_business_time | (business_start_time, business_end_time) | B-Tree | 운영 시간대별 학원 검색 |
 | MEMBERS | idx_members_academy_id | academy_id | B-Tree | 학원별 회원 조회 |
 | MEMBERS | idx_members_mobile | mobile_number | B-Tree | 휴대폰 번호 검색 |
 | MEMBERS | idx_members_login_id | login_id | Unique | 로그인 ID 조회 |
