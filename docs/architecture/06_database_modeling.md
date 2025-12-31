@@ -153,9 +153,9 @@ erDiagram
 | 컬럼명 | 타입 | 제약조건 | 설명 |
 |--------|------|----------|------|
 | id | BIGSERIAL | PK | 관리자정보 고유 식별자 |
-| member_id | BIGINT | FK, UNIQUE, NOT NULL | 회원 ID |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 생성일시 |
 | updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | 수정일시 |
+| member_id | BIGINT | FK, UNIQUE, NOT NULL | 회원 ID |
 | permission_level | VARCHAR(20) | NOT NULL | 권한 레벨 (MANAGER, ADMINISTRATOR) |
 | managed_academy_id | BIGINT | FK | 담당 학원 ID (ADMINISTRATOR은 NULL) |
 | permission_scope | VARCHAR(500) | | 권한 범위 (JSON) |
@@ -541,5 +541,5 @@ src/main/resources/
 
 ## 다음 문서
 
-→ [7. 비동기 처리 전략](07_async_processing.md)
+[→ 7. 비동기 처리 전략](07_async_processing.md)
 
