@@ -10,15 +10,15 @@ AMS는 테스트 기반의 정확한 API 문서 자동화를 위해 **Spring Res
 
 #### 문서화 도구 비교
 
-| 항목 | Spring RestDocs | Swagger/OpenAPI |
-|------|----------------|-----------------|
-| **생성 방식** | 테스트 기반 (Test-Driven) | 어노테이션 기반 (Annotation-Driven) |
-| **문서 정확성** | 높음 (테스트 실패 시 빌드 실패) | 중간 (코드와 문서 불일치 가능) |
-| **코드 침투성** | 낮음 (프로덕션 코드 무영향) | 높음 (Controller에 어노테이션 추가) |
-| **테스트 필수 여부** | 필수 | 선택 |
-| **UI 제공** | 정적 HTML | 대화형 Swagger UI |
-| **커스터마이징** | 높음 (AsciiDoc 템플릿) | 중간 |
-| **API 실행 테스트** | 불가 | 가능 (Try it out) |
+| 항목             | Spring RestDocs      | Swagger/OpenAPI              |
+|----------------|----------------------|------------------------------|
+| **생성 방식**      | 테스트 기반 (Test-Driven) | 어노테이션 기반 (Annotation-Driven) |
+| **문서 정확성**     | 높음 (테스트 실패 시 빌드 실패)  | 중간 (코드와 문서 불일치 가능)           |
+| **코드 침투성**     | 낮음 (프로덕션 코드 무영향)     | 높음 (Controller에 어노테이션 추가)    |
+| **테스트 필수 여부**  | 필수                   | 선택                           |
+| **UI 제공**      | 정적 HTML              | 대화형 Swagger UI               |
+| **커스터마이징**     | 높음 (AsciiDoc 템플릿)    | 중간                           |
+| **API 실행 테스트** | 불가                   | 가능 (Try it out)              |
 
 #### 선택 이유
 
@@ -33,11 +33,11 @@ AMS는 테스트 기반의 정확한 API 문서 자동화를 위해 **Spring Res
 
 #### 의존성 구성
 
-| 라이브러리 | 버전 | 역할 |
-|----------|------|------|
+| 라이브러리                             | 버전                   | 역할                      |
+|-----------------------------------|----------------------|-------------------------|
 | **spring-restdocs-webtestclient** | Spring Boot 3.4.4 포함 | WebTestClient 기반 스니펫 생성 |
-| **asciidoctor-gradle-plugin** | 3.3.2 | AsciiDoc → HTML 변환 |
-| **spring-restdocs-asciidoctor** | Spring Boot 포함 | 스니펫 자동 포함 확장 |
+| **asciidoctor-gradle-plugin**     | 3.3.2                | AsciiDoc → HTML 변환      |
+| **spring-restdocs-asciidoctor**   | Spring Boot 포함       | 스니펫 자동 포함 확장            |
 
 #### 빌드 파이프라인 통합
 
