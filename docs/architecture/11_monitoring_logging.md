@@ -10,16 +10,16 @@ AMS는 다중 테넌트 환경에서 발생하는 애플리케이션·인프라 
 
 - **구조화 로그(JSON) 채택**: Spring Boot 기본 로거를 Logback + Logstash 인코더로 확장하여 JSON 포맷을 출력합니다. 모든 로그에는 공통 필드가 포함됩니다.
 
-  | 필드 | 설명 |
-  |------|------|
-  | `timestamp` | ISO-8601 UTC 기준 발생 시각 |
-  | `level` | TRACE/DEBUG/INFO/WARN/ERROR |
-  | `traceId` / `spanId` | OpenTelemetry 연계 분산 추적 식별자 |
-  | `tenantId` | 멀티 테넌트 식별자 (요청 헤더 `X-AMS-Tenant`) |
-  | `actor` | 최종 사용자 또는 시스템 계정 ID |
-  | `useCase` | 실행 중인 UseCase/핸들러 명칭 |
-  | `elapsedMs` | 처리 시간(ms) |
-  | `message` / `detail` | 로그 메시지 및 추가 데이터(Map) |
+  | 필드                   | 설명                                |
+  |----------------------|-----------------------------------|
+  | `timestamp`          | ISO-8601 UTC 기준 발생 시각             |
+  | `level`              | TRACE/DEBUG/INFO/WARN/ERROR       |
+  | `traceId` / `spanId` | OpenTelemetry 연계 분산 추적 식별자        |
+  | `tenantId`           | 멀티 테넌트 식별자 (요청 헤더 `X-AMS-Tenant`) |
+  | `actor`              | 최종 사용자 또는 시스템 계정 ID               |
+  | `useCase`            | 실행 중인 UseCase/핸들러 명칭              |
+  | `elapsedMs`          | 처리 시간(ms)                         |
+  | `message` / `detail` | 로그 메시지 및 추가 데이터(Map)              |
 
 - **로그 레벨 및 포인트**:
   - `INFO`: 주요 비즈니스 단계(UseCase 입·출력, 외부 연동 성공) 기록.
@@ -63,5 +63,5 @@ AMS는 다중 테넌트 환경에서 발생하는 애플리케이션·인프라 
 
 ## 다음 문서
 
-→ [12. 배포 및 운영](12_deployment_operations.md)
+[→ 12. 배포 및 운영](12_deployment_operations.md)
 
